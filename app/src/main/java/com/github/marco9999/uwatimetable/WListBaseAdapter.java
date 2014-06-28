@@ -2,7 +2,6 @@ package com.github.marco9999.uwatimetable;
 
 import java.util.ArrayList;
 
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,5 +108,5 @@ public class WListBaseAdapter extends BaseAdapter
 	void setDataListAndNotify(ArrayList<String[]> list) {
 		classeslist = list;
 		this.notifyDataSetChanged();
-	}
+    }
 }
