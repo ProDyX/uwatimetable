@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="placeholder">Placeholder Text</string>
+    
+    <string name="title_actions_import_classes">Import Classes</string>
+    <string name="title_action_read_from_olcr">Read from OLCR</string>
+    <string name="summary_action_read_from_olcr">Read classes directly from the UWA OLCR website (recommended for first time use).</string>
+	<string name="title_action_read_from_file">Read classes from file</string>
+    <string name="summary_action_read_from_file">Read classes.txt from the root of the sd card.</string>
+	<string name="title_action_manual_entry">Create manual class entry</string>
+    <string name="summary_action_manual_entry">Create a class entry manually by specifying data.</string>
+    
+    <string name="title_actions_adv_db_options">Advanced Database Options</string>
+    <string name="title_action_delete_database">Wipe the database</string>
+    <string name="summary_action_delete_database">Wipe the database of all data. This process is not reversible!</string>
+    <string name="title_action_delete_selected_entries">Delete selected entries</string>
+    <string name="summary_action_delete_selected_entries">Delete selected entries from a list of all classes.</string>
+    
+    <string name="title_actions_debug">Debug and Developer Options</string>
+    <string name="title_action_test_entry">Create test entry</string>
+    <string name="summary_action_test_entry">Create a test entry with predefined values.</string>
+    <string name="title_option_display_id">Display class ID\'s</string>
+    <string name="summary_option_display_id">Display unique class ID as stored in the database.</string>
+    
+    <string name="action_readfromolcr">Read classes from OLCR</string>
+    
+    <string name="hint_day">\"Monday\"</string>
+    <string name="hint_time">\"9\" or \"12\"</string>
+    <string name="hint_unit">\"ENSC3004\"</string>
+    <string name="hint_type">\"Lecture\", \"Tutorial\", etc.</string>
+    <string name="hint_stream">\"1\" or \"10\"</string>
+    <string name="hint_weeks">\"Sem1\", \"Sem2w2\" or \"25,27–29\"</string>
+    <string name="hint_venue">\"Physics: Ross Lecture Theatre\"</string>
+    <string name="addclass">Add Class</string>
+    <string name="action_clear">Clear fields</string>
+    
+    <string name="cancel">Cancel</string>
+    <string name="click_at_allocs_page">Click here at \"Allocs\" page</string>
+    <string name="action_back">Back</string>
+    
+    <string name="action_deletebyid">Delete by ID</string>
+    <string name="enterid">Enter ID of class to delete:</string>
+    <string name="hint_enterid">Enter ID</string>
+        
+</resources>

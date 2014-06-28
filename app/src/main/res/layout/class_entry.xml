@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:layout_marginTop="7dp"
+    android:layout_marginLeft="7dp"
+    android:layout_marginRight="7dp" >
+    
+    <LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:baselineAligned="false" >
+    
+	    <LinearLayout
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical"
+	        android:layout_weight="25" >
+	
+		    <TextView
+		        android:id="@+id/time"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:padding="5dp"
+		        android:text="@string/time"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+		    
+		    <TextView
+		        android:id="@+id/type"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:padding="5dp"
+		        android:text="@string/type"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+		    
+		</LinearLayout>
+		
+	    <LinearLayout
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical"
+	        android:layout_weight="75" >
+		    
+	        <TextView
+		        android:id="@+id/unit"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/unit"
+		        android:padding="5dp"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+	        
+	        <LinearLayout
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal"
+		        android:padding="5dp" >
+		        
+	            <TextView
+			        android:id="@+id/stream"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="@string/stream"
+			        android:textAppearance="?android:attr/textAppearanceSmall" />
+	            
+	            <TextView
+			        android:id="@+id/venue"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:text="@string/venue"
+			        android:textAppearance="?android:attr/textAppearanceSmall" />
+	            
+	        </LinearLayout>
+	        
+	    </LinearLayout>
+    
+    </LinearLayout>
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="2dp" >
+	    
+        <LinearLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true" >
+        	    
+		    <TextView 
+		        android:id="@+id/title_weeks"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/title_weeks"
+		        android:textColor="#FF0000"
+		        android:layout_marginRight="5dp"
+		        android:visibility="gone" />
+		    
+		    <TextView 
+		        android:id="@+id/weeks"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/weeks" 
+		        android:textColor="#FF0000"
+		        android:visibility="gone" />
+		    
+	    </LinearLayout>
+	    
+        <LinearLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="7dp">
+            
+            <TextView 
+		        android:id="@+id/title_id"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/title_id"
+		        android:textColor="#FF0000"
+		        android:layout_marginRight="5dp"
+		        android:visibility="gone" />
+            
+		    <TextView
+		        android:id="@+id/id_number"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/id"
+		        android:textColor="#FF0000"
+		        android:visibility="gone" />
+
+	   	</LinearLayout>
+	    
+    </RelativeLayout>
+
+</LinearLayout>

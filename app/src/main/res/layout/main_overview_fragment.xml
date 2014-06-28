@@ -1,0 +1,54 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <LinearLayout
+        android:id="@+id/main_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center" > 
+
+	    <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:padding="10dp"
+	        android:text="@string/title_day"
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	    
+	    <Spinner
+	        android:id="@+id/today"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" />
+	    
+	    <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:padding="10dp"
+	        android:text="@string/title_week"
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	    
+	    <Button
+	        android:id="@+id/week"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/null_"
+			style="?android:attr/spinnerStyle"
+	        android:minHeight="35dp"
+	        android:minWidth="50dp"
+	        android:gravity="center"  />
+	    
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/main_classeslist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#D0D0D0" >
+
+    </ListView>
+
+</LinearLayout>
