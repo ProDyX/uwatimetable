@@ -4,11 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <TextView 
+    <ListView
+        android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center" 
-        android:text="@string/placeholder"/>
-    
+        android:layout_height="match_parent" />
+
+    <include layout="@layout/empty_classes_list"
+        android:id="@android:id/empty"/>
 
 </LinearLayout>

@@ -1,12 +1,12 @@
 package com.github.marco9999.uwatimetable;
 
-import java.util.ArrayList;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class WListBaseAdapter extends BaseAdapter
 {
@@ -59,13 +59,6 @@ public class WListBaseAdapter extends BaseAdapter
 		ViewGroup classview = null;
 		if (convertView == null) {
 			// inflate a new view
-			
-			// TODO: unfortunately this is a fairly slow operation with many entries, and the only way to fix this is 
-			// to rewrite a bit of the program -- however there would not be too many people with a lot of classes on a day,
-			// so not really important to look at for now.
-			//
-			// currently this is inflating the same views for each entry repeatedly and not recycling the old ones (which
-			// are exactly the same in contents).  
 			if (singleclass != null) {
 				classview = (ViewGroup) li.inflate(R.layout.class_entry, parent, false);
 			}

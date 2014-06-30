@@ -1,13 +1,13 @@
 package com.github.marco9999.uwatimetable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ClassesDBHelperUI {
 
@@ -44,11 +44,7 @@ public class ClassesDBHelperUI {
 			if (semester.equals("1")) {
 				if (currentweek >= START_SEM1 && currentweek <= END_SEM1) {
 					if (weektochecklc.contains("w2")) {
-						if (currentweek == START_SEM1) {
-							return false;
-						} else {
-							return true;
-						}
+                        return !(currentweek == START_SEM1);
 					} else {
 						return true;
 					}
@@ -58,11 +54,7 @@ public class ClassesDBHelperUI {
 			} else if (semester.equals("2")) {
 				if (currentweek >= START_SEM2 && currentweek <= END_SEM2) {
 					if (weektochecklc.contains("w2")) {
-						if (currentweek == START_SEM2) {
-							return false;
-						} else {
-							return true;
-						}
+						return !(currentweek == START_SEM2);
 					} else {
 						return true;
 					}
@@ -99,7 +91,7 @@ public class ClassesDBHelperUI {
 
 	boolean writeClassToDB(ContentValues[] values) {
 		// Insert the new rows, db must be writable (assumed)
-		long retcode = 0;
+		long retcode;
 		for (int i = 0; i < values.length; i++) {
 			if (values[i] != null) {
 				retcode = db.insert(ClassesFields.TABLE_NAME, ClassesFields.COLUMN_NULLABLE, values[i]);
@@ -164,6 +156,31 @@ public class ClassesDBHelperUI {
 
 		return returnedlist;
 	}
+
+    ArrayList<String[]> readAllEntries() {
+        ArrayList<String[]> returnedlist = new ArrayList<String[]>();
+        Cursor dbcursor = db.query(ClassesFields.TABLE_NAME, null, null, null, null, null, ClassesFields._ID);
+        if (!dbcursor.moveToFirst()) {
+            Log.i(ERRTAG, "Cursor from DB query is empty. Returning empty ArrayList.");
+            return returnedlist;
+        }
+
+        String[] tempstr;
+        for (int i = 0; i < dbcursor.getCount(); i++) {
+            tempstr = new String[ClassesFields.NUM_INFO_COLS];
+            tempstr[0] = Integer.toString(dbcursor.getInt(dbcursor.getColumnIndex(ClassesFields._ID)));
+            tempstr[1] = dbcursor.getString(dbcursor.getColumnIndex(ClassesFields.COLUMN_DAY));
+            tempstr[2] = Integer.toString(dbcursor.getInt(dbcursor.getColumnIndex(ClassesFields.COLUMN_TIME))) + ":00";
+            tempstr[3] = dbcursor.getString(dbcursor.getColumnIndex(ClassesFields.COLUMN_UNIT));
+            tempstr[4] = dbcursor.getString(dbcursor.getColumnIndex(ClassesFields.COLUMN_TYPE));
+            tempstr[5] = "(0" + Integer.toString(dbcursor.getInt(dbcursor.getColumnIndex(ClassesFields.COLUMN_STREAM))) + ") - ";
+            tempstr[6] = dbcursor.getString(dbcursor.getColumnIndex(ClassesFields.COLUMN_WEEKS));
+            tempstr[7] = dbcursor.getString(dbcursor.getColumnIndex(ClassesFields.COLUMN_VENUE));
+            returnedlist.add(tempstr);
+            dbcursor.moveToNext();
+        }
+        return returnedlist;
+    }
 
 	ContentValues createClassesCV(String[] svalues) {
 		// values is an array containing the fields listed in ClassesFields

@@ -33,7 +33,8 @@
     <string name="venue">Venue</string>
     <string name="id">ID</string>
     
-    <string name="noclasses">No classes found.\nTry turning on \&quot;Display all classes\&quot;.</string>
+    <string name="noclasses">No classes found.</string>
+    <string name="noclasses_displayall">Try turning on \&quot;Display all classes\&quot;.</string>
     <string name="resetweek">Reset to\ncurrent week</string>
     <string name="firstuse"><b>First time using?\nHead over to settings to start importing your classes.\nConsult help for more information.</b></string>
     
