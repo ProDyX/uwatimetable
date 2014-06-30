@@ -87,7 +87,7 @@ public class MainOverviewFragment extends Fragment
 		// initial week setup
 		weekdialog = new WWeekButtonDialog(week, this);
 		week.setText(Integer.toString(StaticHelper.getWeekOfYear()));
-		week.setTextAppearance(mainactivity, android.R.layout.simple_spinner_item);
+		week.setTextAppearance(mainactivity, android.R.style.TextAppearance_DeviceDefault_Widget_TextView_SpinnerItem);
 		week.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

@@ -1,13 +1,14 @@
 package com.github.marco9999.uwatimetable;
 
+import android.os.Environment;
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import android.os.Environment;
-import android.util.Log;
 
 public class ClassesFileHelper {
 	
@@ -50,13 +51,9 @@ public class ClassesFileHelper {
 			// TODO Auto-generated catch block
 			ex.printStackTrace();
 		}
-		
-		if (line == null || line.isEmpty()) {
-			return false;
-		}
-		
-		return true;
-	}
+
+        return !(line == null || line.isEmpty());
+    }
 	
 	void closeFile() {
 		try {

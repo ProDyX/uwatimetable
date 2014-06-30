@@ -1,13 +1,14 @@
 package com.github.marco9999.htmlparserolcr;
 
-import java.util.ArrayList;
+import android.util.Log;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.safety.Whitelist;
 
-import android.util.Log;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class HtmlParserOlcr {
 	
@@ -20,15 +21,8 @@ public class HtmlParserOlcr {
 	}
 
 	public ArrayList<String> getClassList() {
-		// Should be the only funtion you need.
-		// Parse html string
-		String[][] finaltable = parseHtmlString();
-		
-		// Get list from table
-		ArrayList<String> finallist = makeListFromTable(finaltable);
-
-		return finallist;
-		
+        // parse html and put into ArrayList
+		return makeListFromTable(parseHtmlString());
 	}
 	
 	private String[][] parseHtmlString() {
@@ -64,7 +58,7 @@ public class HtmlParserOlcr {
             finaltable[0] = headerrow; 
             
             // body (time and classes)
-			String[] bodyrow = null;
+			String[] bodyrow;
             for (Element tbody : table.select("tbody")) {
             	int i = 1;
                 for (Element tr : tbody.select("tr")) {
@@ -94,9 +88,7 @@ public class HtmlParserOlcr {
 					if(!finaltable[i][j].isEmpty()) {
 						// clean string before adding
 						tmparray = makeCleanClassStrings(finaltable[0][j], finaltable[i][0], finaltable[i][j]);
-						for(int k = 0; k<tmparray.length; k++) {
-							finallist.add(tmparray[k]);
-						}
+                        Collections.addAll(finallist, tmparray);
 					}
 				}
 			}
@@ -129,13 +121,13 @@ public class HtmlParserOlcr {
 		for(int i = 0; i<seperateclasses.length; i++) {
 			// Build a string, start with day and time
 			stringb = new StringBuilder();
-			stringb.append(day + ":" + newtime + ":");
+			stringb.append(day).append(":").append(newtime).append(":");
 			
 			// Split using ":" character
 			singleclassfields = seperateclasses[i].split(":");
-			for(int j = 0; j<singleclassfields.length; j++) {
-				stringb.append(singleclassfields[j].trim()).append(":");
-			}
+            for (String singleclassfield : singleclassfields) {
+                stringb.append(singleclassfield.trim()).append(":");
+            }
 			
 			// Delete last ":" character
 			stringb.deleteCharAt(stringb.length()-1);
