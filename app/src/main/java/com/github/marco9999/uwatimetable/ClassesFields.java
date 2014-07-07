@@ -2,7 +2,7 @@ package com.github.marco9999.uwatimetable;
 
 import android.provider.BaseColumns;
 
-public final class ClassesFields implements BaseColumns {
+final class ClassesFields implements BaseColumns {
 	final static String TABLE_NAME = "classes"; // text
 	final static String COLUMN_NULLABLE = "null"; // text
 	

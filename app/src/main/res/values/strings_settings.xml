@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="placeholder">Placeholder Text</string>
-    
+
     <string name="title_actions_import_classes">Import Classes</string>
     <string name="title_action_read_from_olcr">Read from OLCR</string>
     <string name="summary_action_read_from_olcr">Read classes directly from the UWA OLCR website (recommended for first time use).</string>
@@ -21,9 +20,7 @@
     <string name="summary_action_test_entry">Create a test entry with predefined values.</string>
     <string name="title_option_display_id">Display class ID\'s</string>
     <string name="summary_option_display_id">Display unique class ID as stored in the database.</string>
-    
-    <string name="action_readfromolcr">Read classes from OLCR</string>
-    
+
     <string name="hint_day">\"Monday\"</string>
     <string name="hint_time">\"9\" or \"12\"</string>
     <string name="hint_unit">\"ENSC3004\"</string>
@@ -39,6 +36,7 @@
     <string name="action_back">Back</string>
     
     <string name="action_deletebyid">Delete by ID</string>
+    <string name="action_delete_selected">Delete selected</string>
     <string name="enterid">Enter ID of class to delete:</string>
     <string name="hint_enterid">Enter ID</string>
         

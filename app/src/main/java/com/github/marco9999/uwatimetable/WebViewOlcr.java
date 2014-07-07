@@ -5,10 +5,11 @@ import android.content.Context;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-@SuppressLint("SetJavaScriptEnabled")
-public class WebViewOlcr extends WebView {
+@SuppressLint("SetJavaScriptEnabled") // url is a trusted website (UWA OLCR) and browsing outside the domain will cause a seperate launch window to open
+class WebViewOlcr extends WebView {
 
-	public WebViewOlcr(Context context) {
+	@SuppressLint("AddJavascriptInterface")
+    public WebViewOlcr(Context context) {
 		super(context);
 		setWebViewClient(new WebViewClientOlcr());
 		getSettings().setBuiltInZoomControls(true);
@@ -27,7 +28,7 @@ public class WebViewOlcr extends WebView {
 
 class WebViewClientOlcr extends WebViewClient {
 	
-	final static String olcrurl = "olcr.uwa.edu.au";
+	private final static String olcrurl = "olcr.uwa.edu.au";
 	
 	// Stop window from losing focus when url is clicked (only for olcr.uwa.edu.au)
 	@Override

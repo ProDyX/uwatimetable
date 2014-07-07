@@ -17,27 +17,21 @@ import android.widget.Spinner;
 
 public class MainOverviewFragment extends Fragment
 {
-	static final String ERRTAG = "uwatimetable";
-	static final String KEY_DISPLAYALLCLASSES = "DISPLAYALLCLASSES";
-	static final String KEY_FIRSTTIMEUSE = "FIRSTTIMEUSE";
+	private static final String ERRTAG = "uwatimetable";
+	private static final String KEY_DISPLAYALLCLASSES = "DISPLAYALLCLASSES";
+	private static final String KEY_FIRSTTIMEUSE = "FIRSTTIMEUSE";
 
-	ListView classeslist;
-	Spinner today;
-	Button week;
-	WListBaseAdapter classadapter;
-	WDayAdapterView dayadapter;
-	WWeekButtonDialog weekdialog;
+	private ListView classeslist;
+	private Spinner today;
+	private Button week;
+	private WListBaseAdapter classadapter;
+    private WWeekButtonDialog weekdialog;
 	MainActivity mainactivity;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-	}
-	
-	@Override
-	public void onStart() {
-		super.onStart();
 	}
 	
 	@Override
@@ -72,7 +66,7 @@ public class MainOverviewFragment extends Fragment
 		classadapter = new WListBaseAdapter(mainactivity);
 		
 		// for getting a custom day
-		dayadapter = new WDayAdapterView(this);
+        WDayAdapterView dayadapter = new WDayAdapterView(this);
 		
 		// classes listview
 		classeslist.setAdapter(classadapter);
@@ -147,7 +141,7 @@ public class MainOverviewFragment extends Fragment
 	{
 		switch(item.getItemId()) {
 		case R.id.action_refresh:
-			this.refreshActionEvent(item);
+			this.refreshActionEvent();
 		case R.id.option_displayallclasses:
 			this.displayallclassesOptionEvent(item);
 			return true;
@@ -171,11 +165,11 @@ public class MainOverviewFragment extends Fragment
 		// Thread.dumpStack();
 	}
 	
-	public void refreshActionEvent(MenuItem item) {
+	void refreshActionEvent() {
 		initUI();
 	}
 	
-	public void displayallclassesOptionEvent(MenuItem mi) {
+	void displayallclassesOptionEvent(MenuItem mi) {
 		if(mi.isChecked()) {
 			mainactivity.uisharedpref.edit().putBoolean(KEY_DISPLAYALLCLASSES, false).commit();
 			initUI();

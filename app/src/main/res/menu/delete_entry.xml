@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item android:id="@+id/action_deleteselectedids" android:orderInCategory="1" android:showAsAction="always" android:icon="@android:drawable/ic_menu_delete" />
+    <item android:id="@+id/action_deleteselectedids" android:orderInCategory="1" android:showAsAction="ifRoom" android:icon="@android:drawable/ic_menu_delete" android:title="@string/action_delete_selected" />
     <item android:id="@+id/action_deletebyid" android:orderInCategory="2" android:showAsAction="collapseActionView" android:title="@string/action_deletebyid" />
     
 </menu>

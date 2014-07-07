@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
    	android:layout_height="match_parent"
    	android:orientation="vertical" >
+
     <ScrollView 
         android:layout_width="match_parent"
     	android:layout_weight="1"
@@ -12,13 +13,14 @@
 	        android:id="@+id/container"
 	        android:layout_width="match_parent"
 	    	android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_overall_margin"
 	    	android:orientation="vertical" >
 	    
 		    <LinearLayout
 		        android:layout_width="match_parent"
 			    android:layout_height="wrap_content"
-			    android:layout_margin="@dimen/activity_overall_margin"
-			    android:orientation="vertical" >
+			    android:orientation="vertical"
+                android:layout_marginBottom="@dimen/activity_vertical_margin">
 			    
 		        <TextView
 		            android:layout_width="wrap_content"
@@ -37,14 +39,15 @@
 		    </LinearLayout>
 		    
 		    <View
-			    android:layout_width="fill_parent"
+			    android:layout_width="match_parent"
 			    android:layout_height="1dp"
 			    android:background="@android:color/darker_gray" />
 		
 		    <LinearLayout
 		        android:layout_width="match_parent"
 			    android:layout_height="wrap_content"
-			    android:layout_margin="@dimen/activity_overall_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
 			    android:orientation="vertical" >
 			    
 		        <TextView
@@ -64,14 +67,15 @@
 		    </LinearLayout>
 		    
 		    <View
-			    android:layout_width="fill_parent"
+			    android:layout_width="match_parent"
 			    android:layout_height="1dp"
 			    android:background="@android:color/darker_gray" />
 		    
 		    <LinearLayout
 		        android:layout_width="match_parent"
 			    android:layout_height="wrap_content"
-			    android:layout_margin="@dimen/activity_overall_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
 			    android:orientation="vertical" >
 			    
 		        <TextView
@@ -91,14 +95,15 @@
 		    </LinearLayout>
 		    
 		    <View
-			    android:layout_width="fill_parent"
+			    android:layout_width="match_parent"
 			    android:layout_height="1dp"
 			    android:background="@android:color/darker_gray" />
 		    
 		    <LinearLayout
 		        android:layout_width="match_parent"
 			    android:layout_height="wrap_content"
-			    android:layout_margin="@dimen/activity_overall_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
 			    android:orientation="vertical" >
 			    
 		        <TextView
@@ -118,14 +123,15 @@
 		    </LinearLayout>
 		    
 		    <View
-			    android:layout_width="fill_parent"
+			    android:layout_width="match_parent"
 			    android:layout_height="1dp"
 			    android:background="@android:color/darker_gray" />
 		    
 		    <LinearLayout
 		        android:layout_width="match_parent"
 			    android:layout_height="wrap_content"
-			    android:layout_margin="@dimen/activity_overall_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
 			    android:orientation="vertical" >
 			    
 		        <TextView
@@ -145,14 +151,15 @@
 		    </LinearLayout>
 		    
 		    <View
-			    android:layout_width="fill_parent"
+			    android:layout_width="match_parent"
 			    android:layout_height="1dp"
 			    android:background="@android:color/darker_gray" />
 		    
 		    <LinearLayout
 		        android:layout_width="match_parent"
 			    android:layout_height="wrap_content"
-			    android:layout_margin="@dimen/activity_overall_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
 			    android:orientation="vertical" >
 			    
 		        <TextView
@@ -172,14 +179,15 @@
 		    </LinearLayout>
 		    
 		    <View
-			    android:layout_width="fill_parent"
+			    android:layout_width="match_parent"
 			    android:layout_height="1dp"
 			    android:background="@android:color/darker_gray" /> 
 		    
 		  	<LinearLayout
 		        android:layout_width="match_parent"
 			    android:layout_height="wrap_content"
-			    android:layout_margin="@dimen/activity_overall_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
 			    android:orientation="vertical" >
 			    
 		        <TextView

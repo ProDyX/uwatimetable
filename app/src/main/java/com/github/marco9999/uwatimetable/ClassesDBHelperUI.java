@@ -9,14 +9,14 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ClassesDBHelperUI {
+class ClassesDBHelperUI {
 
-    final static String ERRTAG = "uwatimetable";
-	final static String token = ":";
-	static final String KEY_DISPLAYALLCLASSES = "DISPLAYALLCLASSES";
+    private final static String ERRTAG = "uwatimetable";
+	private final static String token = ":";
+	private static final String KEY_DISPLAYALLCLASSES = "DISPLAYALLCLASSES";
 
-	SQLiteDatabase db;
-	MainActivity mainactivity;
+	private final SQLiteDatabase db;
+	private final MainActivity mainactivity;
 
 	ClassesDBHelperUI(SQLiteDatabase _db, MainActivity _mainactivity) {
 		db = _db; // Classes Db
@@ -43,7 +43,8 @@ public class ClassesDBHelperUI {
 			String semester = weektochecklc.substring(3, 4);
 			if (semester.equals("1")) {
 				if (currentweek >= START_SEM1 && currentweek <= END_SEM1) {
-					if (weektochecklc.contains("w2")) {
+                    //noinspection SimplifiableIfStatement
+                    if (weektochecklc.contains("w2")) {
                         return !(currentweek == START_SEM1);
 					} else {
 						return true;
@@ -53,7 +54,8 @@ public class ClassesDBHelperUI {
 				}
 			} else if (semester.equals("2")) {
 				if (currentweek >= START_SEM2 && currentweek <= END_SEM2) {
-					if (weektochecklc.contains("w2")) {
+                    //noinspection SimplifiableIfStatement
+                    if (weektochecklc.contains("w2")) {
 						return !(currentweek == START_SEM2);
 					} else {
 						return true;

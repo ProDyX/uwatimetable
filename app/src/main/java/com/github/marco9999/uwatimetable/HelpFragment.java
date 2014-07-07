@@ -10,7 +10,7 @@ import android.webkit.WebViewClient;
 
 public class HelpFragment extends Fragment 
 {
-	WebView helpview;
+	private WebView helpview;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

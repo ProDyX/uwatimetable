@@ -1,5 +1,6 @@
 package com.github.marco9999.uwatimetable;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.ContentValues;
@@ -19,12 +20,17 @@ import android.widget.Toast;
 public class ManualEntryFragment extends Fragment 
 {
 	static final String ERRTAG = "uwatimetable";
-	static final String KEY_FIRSTTIMEUSE = "FIRSTTIMEUSE";
+	private static final String KEY_FIRSTTIMEUSE = "FIRSTTIMEUSE";
 	
-	MainActivity mainactivity;
-	ClassesDBHelperUI dbhelperui;
-	ViewGroup container;
-	EditText eday, etime, eunit, etype, estream, eweeks, evenue;
+	private MainActivity mainactivity;
+	private ClassesDBHelperUI dbhelperui;
+	private EditText eday;
+    private EditText etime;
+    private EditText eunit;
+    private EditText etype;
+    private EditText estream;
+    private EditText eweeks;
+    private EditText evenue;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -41,9 +47,9 @@ public class ManualEntryFragment extends Fragment
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()) {
-		case R.id.action_clear:
-			this.clearfieldsActionEvent(item);
-			return true;
+            case R.id.action_clear:
+                this.clearfieldsActionEvent();
+                return true;
 		}
 		return false;
 	}
@@ -129,7 +135,8 @@ public class ManualEntryFragment extends Fragment
 		final String[] data = new String[] {day, Integer.toString(time), unit, type, Integer.toString(stream), weeks, venue};
 		
 		// setup view to use
-		ViewGroup vg = (ViewGroup) mainactivity.getLayoutInflater().inflate(R.layout.verify_class_entry, null);
+		@SuppressLint("InflateParams") // parsing null is fine here as its inflated into an alertdialog
+        ViewGroup vg = (ViewGroup) mainactivity.getLayoutInflater().inflate(R.layout.verify_class_entry, null);
 		((TextView)vg.findViewById(R.id.day)).setText(day);
 		((TextView)vg.findViewById(R.id.weeks)).setText(weeks);
 		((TextView)vg.findViewById(R.id.time)).setText(Integer.toString(time));
@@ -174,7 +181,7 @@ public class ManualEntryFragment extends Fragment
 		builder.show();
 	}
 	
-	public void clearfieldsActionEvent(MenuItem mi) {
+	void clearfieldsActionEvent() {
 		eday.getText().clear();
 		etime.getText().clear();
 		eunit.getText().clear();

@@ -1,18 +1,18 @@
 package com.github.marco9999.uwatimetable;
 
-import java.util.ArrayList;
-
 import android.content.ContentValues;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-public class ClassesFileAsyncTask extends AsyncTask<Void, Integer, Void>
+import java.util.ArrayList;
+
+class ClassesFileAsyncTask extends AsyncTask<Void, Integer, Void>
 {
-	static final String ERRTAG = "uwatimetable";
+	private static final String ERRTAG = "uwatimetable";
 	
-	MainActivity mainactivity;
-	ClassesDBHelperUI dbhelperui;
+	private final MainActivity mainactivity;
+	private final ClassesDBHelperUI dbhelperui;
 	
 	public ClassesFileAsyncTask(MainActivity _mainactivity) {
 		super();

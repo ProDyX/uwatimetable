@@ -1,22 +1,20 @@
 package com.github.marco9999.uwatimetable;
 
-import java.util.ArrayList;
-
-import com.github.marco9999.htmlparserolcr.HtmlParserOlcr;
-
 import android.content.ContentValues;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
+import com.github.marco9999.htmlparserolcr.HtmlParserOlcr;
+
+import java.util.ArrayList;
+
 class ProcessHtmlOlcr {
 	
 	static final String ERRTAG = "uwatimetable";
-	final String timetablepage = "studenttimetable.jsp";
-	final String timetableaction = "v_action=2";
-	
-	MainActivity context;
-	ClassesDBHelperUI dbhelper;
+
+    private final MainActivity context;
+	private final ClassesDBHelperUI dbhelper;
 
 	// Dummy class for javascript html source hack
 	ProcessHtmlOlcr(MainActivity _context) {
@@ -26,10 +24,11 @@ class ProcessHtmlOlcr {
 
 	@JavascriptInterface
     public void processHTML(String URL, String html) {
-		if(URL.contains(timetablepage) && URL.contains(timetableaction)) {
+        String timetablepage = "studenttimetable.jsp";
+        String timetableaction = "v_action=2";
+        if(URL.contains(timetablepage) && URL.contains(timetableaction)) {
 			// Get list
-			HtmlParserOlcr parser = new HtmlParserOlcr(html);
-			ArrayList<String> classlist = parser.getClassList();
+			ArrayList<String> classlist = new HtmlParserOlcr().getClassList(html);
 			
 			// put into contentvalues array
 			ArrayList<ContentValues> arraycv = new ArrayList<ContentValues>();

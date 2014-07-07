@@ -14,13 +14,11 @@ public class HtmlParserOlcr {
 	
 	// Uses the Jsoup library.
 	
-	String dirtyhtml;
+	private String dirtyhtml;
 
-	public HtmlParserOlcr(String contents) {
-	    dirtyhtml = contents;
-	}
+	public ArrayList<String> getClassList(String contents) {
+        dirtyhtml = contents;
 
-	public ArrayList<String> getClassList() {
         // parse html and put into ArrayList
 		return makeListFromTable(parseHtmlString());
 	}

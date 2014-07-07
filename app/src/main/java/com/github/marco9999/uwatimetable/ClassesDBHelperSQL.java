@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class ClassesDBHelperSQL extends SQLiteOpenHelper {
+class ClassesDBHelperSQL extends SQLiteOpenHelper {
 
     private static final String DBNAME = "uwatimetable.db";
     private static final int DBVERSION = 2;
@@ -18,7 +18,7 @@ public class ClassesDBHelperSQL extends SQLiteOpenHelper {
     private static final String COMMA_SEP = ",";
 
     // create the table
-    protected static final String SQL_CREATE_ENTRIES = "CREATE TABLE IF NOT EXISTS "
+    static final String SQL_CREATE_ENTRIES = "CREATE TABLE IF NOT EXISTS "
 	    + ClassesFields.TABLE_NAME + " (" + ClassesFields._ID
 	    + " INTEGER PRIMARY KEY" + COMMA_SEP
 	    + ClassesFields.COLUMN_DAY + TEXT_TYPE + COMMA_SEP
@@ -29,7 +29,7 @@ public class ClassesDBHelperSQL extends SQLiteOpenHelper {
 	    + ClassesFields.COLUMN_WEEKS + TEXT_TYPE + COMMA_SEP
 	    + ClassesFields.COLUMN_VENUE + TEXT_TYPE + ")";
 
-    protected static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS "
+    static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS "
 	    + ClassesFields.TABLE_NAME;
 
     @Override

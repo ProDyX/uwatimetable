@@ -10,14 +10,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class ClassesFileHelper {
+class ClassesFileHelper {
 	
 	private final static String filename = "classes.txt";
 	private final static String ERRTAG = "uwatimetable";
 	
-	File classesdbfile = null;
-	BufferedReader reader = null;
-	String line = null;
+	private File classesdbfile = null;
+	private BufferedReader reader = null;
+	private String line = null;
 
 	boolean openClassesDBFile() {
 		String state = Environment.getExternalStorageState();

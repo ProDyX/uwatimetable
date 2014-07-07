@@ -8,14 +8,14 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class WListBaseAdapter extends BaseAdapter
+class WListBaseAdapter extends BaseAdapter
 {
 	static final String ERRTAG = "uwatimetable";
-	static final String KEY_DISPLAYALLCLASSES = "DISPLAYALLCLASSES";
-	static final String KEY_DISPLAYID = "option_display_id";
+	private static final String KEY_DISPLAYALLCLASSES = "DISPLAYALLCLASSES";
+	private static final String KEY_DISPLAYID = "option_display_id";
 
-	ArrayList<String[]> classeslist;
-	MainActivity mainactivity;
+	private ArrayList<String[]> classeslist;
+	private final MainActivity mainactivity;
 	
 	WListBaseAdapter(MainActivity _mainactivity) {
 		super();
@@ -54,14 +54,12 @@ public class WListBaseAdapter extends BaseAdapter
 		
 		// extract the single class from the list at the position specified
 		String[] singleclass = classeslist.get(position);
+        assert singleclass != null;
 		
 		// check if parsing existing view
 		ViewGroup classview = null;
 		if (convertView == null) {
-			// inflate a new view
-			if (singleclass != null) {
-				classview = (ViewGroup) li.inflate(R.layout.class_entry, parent, false);
-			}
+			classview = (ViewGroup) li.inflate(R.layout.class_entry, parent, false);
 		} else {
 			// use existing view
 			classview = (ViewGroup) convertView;

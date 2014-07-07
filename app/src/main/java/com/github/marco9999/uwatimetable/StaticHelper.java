@@ -1,25 +1,27 @@
 package com.github.marco9999.uwatimetable;
 
-import java.util.Calendar;
-
 import android.content.ContentValues;
-import android.content.Context;
-import android.widget.Toast;
 
-public class StaticHelper {
+import java.util.Calendar;
+// import android.content.Context;
+// import android.widget.Toast;
+
+class StaticHelper {
 	
 	static int getWeekOfYear() {
 		return Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
 	}
 
-	static String getDayOfWeek() {
-		// note: Special case for saturday and sunday -> default to monday. Sunday = 1 -> Saturday = 7
-		final String[] days = new String[] {"Monday","Monday","Tuesday","Wednesday","Thursday","Friday","Monday"};
-		
-		// Return the day using calendar class
-		return days[Calendar.getInstance().get(Calendar.DAY_OF_WEEK)-1];
-	}
-	
+// --Commented out by Inspection START (7/07/2014 4:54 PM):
+//	static String getDayOfWeek() {
+//		// note: Special case for saturday and sunday -> default to monday. Sunday = 1 -> Saturday = 7
+//		final String[] days = new String[] {"Monday","Monday","Tuesday","Wednesday","Thursday","Friday","Monday"};
+//
+//		// Return the day using calendar class
+//		return days[Calendar.getInstance().get(Calendar.DAY_OF_WEEK)-1];
+//	}
+// --Commented out by Inspection STOP (7/07/2014 4:54 PM)
+
 	static int getDayOfWeekInt() {
 		// This array is based on weekdays_array from strings.xml, using the note from in the string version of this function 
 		final int[] days = new int[] {0,0,1,2,3,4,0};
@@ -42,10 +44,12 @@ public class StaticHelper {
 		return testval;
 	}
 
-	void DEBUGImplementToast(Context context) {
-		// display toast notifying success.
-		String toastmsg = "TODO: Implement";
-		Toast.makeText(context, toastmsg, Toast.LENGTH_LONG).show();
-	}
-	
+// --Commented out by Inspection START (7/07/2014 4:54 PM):
+//	void DEBUGImplementToast(Context context) {
+//		// display toast notifying success.
+//		String toastmsg = "TODO: Implement";
+//		Toast.makeText(context, toastmsg, Toast.LENGTH_LONG).show();
+//	}
+// --Commented out by Inspection STOP (7/07/2014 4:54 PM)
+
 }

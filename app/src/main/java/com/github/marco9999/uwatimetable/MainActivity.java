@@ -12,13 +12,12 @@ import android.view.MenuItem;
 public class MainActivity extends Activity 
 {	
 	static final String ERRTAG = "uwatimetable";
-	static final String TAG_FRAGMENT_OVERVIEW = "overview";
-	static final String TAG_FRAGMENT_SETTINGS = "settings";
-	static final String TAG_FRAGMENT_HELP = "help";
+	private static final String TAG_FRAGMENT_OVERVIEW = "overview";
+	private static final String TAG_FRAGMENT_SETTINGS = "settings";
+	private static final String TAG_FRAGMENT_HELP = "help";
 
-    ClassesDBHelperSQL dbhelpersql;
-	ClassesDBHelperUI dbhelperui;
-	MainOverviewFragment mainoverviewfrag;
+    ClassesDBHelperUI dbhelperui;
+	private MainOverviewFragment mainoverviewfrag;
 	SharedPreferences uisharedpref;
 
 	@Override
@@ -26,7 +25,7 @@ public class MainActivity extends Activity
 		super.onCreate(savedInstanceState);
 		
 		// create db member and make it writeable
-		dbhelpersql = new ClassesDBHelperSQL(this);
+        ClassesDBHelperSQL dbhelpersql = new ClassesDBHelperSQL(this);
 		SQLiteDatabase mDB = dbhelpersql.getWritableDatabase();
 
 		// ui helper class

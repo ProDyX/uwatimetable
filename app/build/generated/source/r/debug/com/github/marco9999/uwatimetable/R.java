@@ -91,9 +91,9 @@ public final class R {
     public static final class string {
         public static final int action_back=0x7f070000;
         public static final int action_clear=0x7f070001;
-        public static final int action_deletebyid=0x7f070002;
-        public static final int action_help=0x7f070003;
-        public static final int action_readfromolcr=0x7f070004;
+        public static final int action_delete_selected=0x7f070002;
+        public static final int action_deletebyid=0x7f070003;
+        public static final int action_help=0x7f070004;
         public static final int action_refresh=0x7f070005;
         public static final int action_settings=0x7f070006;
         public static final int addclass=0x7f070007;
@@ -116,46 +116,45 @@ public final class R {
         public static final int noclasses_displayall=0x7f070018;
         public static final int null_=0x7f070019;
         public static final int option_displayallclasses=0x7f07001a;
-        public static final int placeholder=0x7f07001b;
-        public static final int resetweek=0x7f07001c;
-        public static final int stream=0x7f07001d;
-        public static final int summary_action_delete_database=0x7f07001e;
-        public static final int summary_action_delete_selected_entries=0x7f07001f;
-        public static final int summary_action_manual_entry=0x7f070020;
-        public static final int summary_action_read_from_file=0x7f070021;
-        public static final int summary_action_read_from_olcr=0x7f070022;
-        public static final int summary_action_test_entry=0x7f070023;
-        public static final int summary_option_display_id=0x7f070024;
-        public static final int time=0x7f070025;
-        public static final int title_action_delete_database=0x7f070026;
-        public static final int title_action_delete_selected_entries=0x7f070027;
-        public static final int title_action_manual_entry=0x7f070028;
-        public static final int title_action_read_from_file=0x7f070029;
-        public static final int title_action_read_from_olcr=0x7f07002a;
-        public static final int title_action_test_entry=0x7f07002b;
-        public static final int title_actions_adv_db_options=0x7f07002c;
-        public static final int title_actions_debug=0x7f07002d;
-        public static final int title_actions_import_classes=0x7f07002e;
-        public static final int title_day=0x7f07002f;
-        public static final int title_delete_entry=0x7f070030;
-        public static final int title_help=0x7f070031;
-        public static final int title_id=0x7f070032;
-        public static final int title_manual_entry=0x7f070033;
-        public static final int title_option_display_id=0x7f070034;
-        public static final int title_overview=0x7f070035;
-        public static final int title_read_olcr=0x7f070036;
-        public static final int title_settings=0x7f070037;
-        public static final int title_stream=0x7f070038;
-        public static final int title_time=0x7f070039;
-        public static final int title_type=0x7f07003a;
-        public static final int title_unit=0x7f07003b;
-        public static final int title_venue=0x7f07003c;
-        public static final int title_week=0x7f07003d;
-        public static final int title_weeks=0x7f07003e;
-        public static final int type=0x7f07003f;
-        public static final int unit=0x7f070040;
-        public static final int venue=0x7f070041;
-        public static final int weeks=0x7f070042;
+        public static final int resetweek=0x7f07001b;
+        public static final int stream=0x7f07001c;
+        public static final int summary_action_delete_database=0x7f07001d;
+        public static final int summary_action_delete_selected_entries=0x7f07001e;
+        public static final int summary_action_manual_entry=0x7f07001f;
+        public static final int summary_action_read_from_file=0x7f070020;
+        public static final int summary_action_read_from_olcr=0x7f070021;
+        public static final int summary_action_test_entry=0x7f070022;
+        public static final int summary_option_display_id=0x7f070023;
+        public static final int time=0x7f070024;
+        public static final int title_action_delete_database=0x7f070025;
+        public static final int title_action_delete_selected_entries=0x7f070026;
+        public static final int title_action_manual_entry=0x7f070027;
+        public static final int title_action_read_from_file=0x7f070028;
+        public static final int title_action_read_from_olcr=0x7f070029;
+        public static final int title_action_test_entry=0x7f07002a;
+        public static final int title_actions_adv_db_options=0x7f07002b;
+        public static final int title_actions_debug=0x7f07002c;
+        public static final int title_actions_import_classes=0x7f07002d;
+        public static final int title_day=0x7f07002e;
+        public static final int title_delete_entry=0x7f07002f;
+        public static final int title_help=0x7f070030;
+        public static final int title_id=0x7f070031;
+        public static final int title_manual_entry=0x7f070032;
+        public static final int title_option_display_id=0x7f070033;
+        public static final int title_overview=0x7f070034;
+        public static final int title_read_olcr=0x7f070035;
+        public static final int title_settings=0x7f070036;
+        public static final int title_stream=0x7f070037;
+        public static final int title_time=0x7f070038;
+        public static final int title_type=0x7f070039;
+        public static final int title_unit=0x7f07003a;
+        public static final int title_venue=0x7f07003b;
+        public static final int title_week=0x7f07003c;
+        public static final int title_weeks=0x7f07003d;
+        public static final int type=0x7f07003e;
+        public static final int unit=0x7f07003f;
+        public static final int venue=0x7f070040;
+        public static final int weeks=0x7f070041;
     }
     public static final class style {
         /** 
@@ -163,8 +162,6 @@ public final class R {
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         
- API 11 theme customizations can go here. 
- API 14 theme customizations can go here. 
          */
         public static final int AppBaseTheme=0x7f080000;
         /**  All customizations that are NOT specific to a particular API-level can go here. 

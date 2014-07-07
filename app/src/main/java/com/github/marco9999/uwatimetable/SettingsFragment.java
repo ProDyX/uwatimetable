@@ -13,21 +13,21 @@ import android.widget.Toast;
 
 public class SettingsFragment extends PreferenceFragment implements OnPreferenceClickListener {
 	
-	static final String ERRTAG = "uwatimetable";
-	static final String KEY_FIRSTTIMEUSE = "FIRSTTIMEUSE";
-	static final String TAG_FRAGMENT_MANUAL_ENTRY = "manual_entry";
-	static final String TAG_FRAGMENT_DELETE_ENTRY = "delete_entry";
-	static final String TAG_FRAGMENT_READ_OLCR = "read_olcr";
+	private static final String ERRTAG = "uwatimetable";
+	private static final String KEY_FIRSTTIMEUSE = "FIRSTTIMEUSE";
+	private static final String TAG_FRAGMENT_MANUAL_ENTRY = "manual_entry";
+	private static final String TAG_FRAGMENT_DELETE_ENTRY = "delete_entry";
+	private static final String TAG_FRAGMENT_READ_OLCR = "read_olcr";
 	
-	MainActivity mainactivity;
+	private MainActivity mainactivity;
 	
-	static final String k_action_read_from_olcr = "action_read_from_olcr";
-	static final String k_action_read_from_file = "action_read_from_file";
-	static final String k_action_manual_entry = "action_manual_entry";
-	static final String k_action_delete_database = "action_delete_database";
-	static final String k_action_delete_selected_entries = "action_delete_selected_entries";
-	static final String k_action_test_entry = "action_test_entry";
-	static final String k_option_display_id = "option_display_id";
+	private static final String k_action_read_from_olcr = "action_read_from_olcr";
+	private static final String k_action_read_from_file = "action_read_from_file";
+	private static final String k_action_manual_entry = "action_manual_entry";
+	private static final String k_action_delete_database = "action_delete_database";
+	private static final String k_action_delete_selected_entries = "action_delete_selected_entries";
+	private static final String k_action_test_entry = "action_test_entry";
+	private static final String k_option_display_id = "option_display_id";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,7 +76,7 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 		return false;
 	}
 
-	public void readfromolcrActionEvent() {
+	void readfromolcrActionEvent() {
 		// launch read from olcr fragment
 		if(getFragmentManager().findFragmentByTag(TAG_FRAGMENT_READ_OLCR) == null) {
 			getFragmentManager().beginTransaction()
@@ -87,7 +87,7 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 		}
 	}
 	
-	public void deletedbActionEvent() {
+	void deletedbActionEvent() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(mainactivity);
 		builder.setTitle("Wipe Database?").setIcon(android.R.drawable.ic_dialog_alert);
 		builder.setMessage("Are you sure you want to delete the database? You can not recover the data after this has been done!");
@@ -116,7 +116,7 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 		builder.show();
 	}
 	
-	public void deleteselectedActionEvent() {
+	void deleteselectedActionEvent() {
 		// launch delete entry fragment
 		if(getFragmentManager().findFragmentByTag(TAG_FRAGMENT_DELETE_ENTRY) == null) {
 			getFragmentManager().beginTransaction()
@@ -127,7 +127,7 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 		}
 	}
 	
-	public void testentryActionEvent() {
+	void testentryActionEvent() {
 		if(mainactivity.dbhelperui.writeClassToDB(new ContentValues[] {StaticHelper.createTestEntry()})) {
 			// set first time use to false
 	        mainactivity.uisharedpref.edit().putBoolean(KEY_FIRSTTIMEUSE, false).commit();
@@ -142,7 +142,7 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 		}
 	}
 
-	public void readfromfileActionEvent() {
+	void readfromfileActionEvent() {
 		// See the ClassesFileAsyncTask class for more details.
 		new ClassesFileAsyncTask(mainactivity).execute(new Void[] {null});
 		
@@ -151,7 +151,7 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 		
 	}
 	
-	public void manualentryActionEvent() {
+	void manualentryActionEvent() {
 		// launch manual entry fragment
 		if(getFragmentManager().findFragmentByTag(TAG_FRAGMENT_MANUAL_ENTRY) == null) {
 			getFragmentManager().beginTransaction()

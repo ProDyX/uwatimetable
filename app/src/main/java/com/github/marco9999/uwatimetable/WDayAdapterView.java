@@ -4,11 +4,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-public class WDayAdapterView implements OnItemSelectedListener {
+class WDayAdapterView implements OnItemSelectedListener {
 	
 	static final String ERRTAG = "uwatimetable";
 
-	MainOverviewFragment ui;
+	private final MainOverviewFragment ui;
 	
 	WDayAdapterView(MainOverviewFragment _ui) {
 		ui = _ui;

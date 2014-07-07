@@ -26,8 +26,8 @@ public class DeleteEntryFragment extends ListFragment
 {
 	static final String ERRTAG = "uwatimetable";
 	
-	MainActivity mainactivity;
-	ClassesDBHelperUI dbhelperui;
+	private MainActivity mainactivity;
+	private ClassesDBHelperUI dbhelperui;
     HashMap<String,Boolean> checkboxstate;
 
 	@Override
@@ -84,9 +84,9 @@ public class DeleteEntryFragment extends ListFragment
         root.getEmptyView().findViewById(R.id.noclasses_displayall).setVisibility(View.GONE);
 		
 		// set title
-		mainactivity.getActionBar().setSubtitle(R.string.title_delete_entry);
-    	
-		// show menu items
+        mainactivity.getActionBar().setSubtitle(R.string.title_delete_entry);
+
+        // show menu items
 		setMenuVisibility(true);
 
         // init list
@@ -178,9 +178,9 @@ public class DeleteEntryFragment extends ListFragment
 
 class WDeleteBaseAdapter extends BaseAdapter {
 
-    MainActivity mainactivity;
+    private final MainActivity mainactivity;
     ArrayList<String[]> classeslist;
-    DeleteEntryFragment deleteentryfrag;
+    private final DeleteEntryFragment deleteentryfrag;
 
     WDeleteBaseAdapter(MainActivity ma, ArrayList<String[]> list, DeleteEntryFragment def) {
         mainactivity = ma;

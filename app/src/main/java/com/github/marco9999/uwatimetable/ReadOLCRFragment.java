@@ -13,20 +13,17 @@ import android.widget.Button;
 
 public class ReadOLCRFragment extends Fragment implements OnClickListener 
 {
-	static final String KEY_FIRSTTIMEUSE = "FIRSTTIMEUSE";
+	private static final String KEY_FIRSTTIMEUSE = "FIRSTTIMEUSE";
 	
-	static final String olcrurl = "https://server1.olcr.uwa.edu.au/olcrstudent/";
+	private static final String olcrurl = "https://server1.olcr.uwa.edu.au/olcrstudent/";
 
-	static final String TAG_CANCEL = "cancel";
-	static final String TAG_PROCESS = "process";
+	private static final String TAG_CANCEL = "cancel";
+	private static final String TAG_PROCESS = "process";
 	
-	MainActivity mainactivity;
-	ViewGroup olcr;
-	WebViewOlcr olcrwebview;
-	
-	Button cancel;
-	Button process;
-	
+	private MainActivity mainactivity;
+	private ViewGroup olcr;
+	private WebViewOlcr olcrwebview;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +54,9 @@ public class ReadOLCRFragment extends Fragment implements OnClickListener
     	olcr = (ViewGroup) rootvg.findViewById(R.id.olcr_webview_container);
     	
     	// set button listeners
-    	cancel = (Button) rootvg.findViewById(R.id.olcr_cancel);
+        Button cancel = (Button) rootvg.findViewById(R.id.olcr_cancel);
     	cancel.setTag(TAG_CANCEL);
-    	process = (Button) rootvg.findViewById(R.id.olcr_process);
+        Button process = (Button) rootvg.findViewById(R.id.olcr_process);
     	process.setTag(TAG_PROCESS);
     	
     	cancel.setOnClickListener(this);
@@ -107,7 +104,7 @@ public class ReadOLCRFragment extends Fragment implements OnClickListener
 		String tag = (String) v.getTag();
 		if(tag.equals(TAG_CANCEL)) {
 	        // pop this fragment
-			getFragmentManager().popBackStack();
+			mainactivity.getFragmentManager().popBackStack();
 		} else if (tag.equals(TAG_PROCESS)) {
 			// Html source grab when someone closes the window
 	        olcrwebview.loadUrl("javascript:window.HTMLOUT.processHTML(document.URL, '<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
