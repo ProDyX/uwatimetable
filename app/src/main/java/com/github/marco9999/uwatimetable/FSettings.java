@@ -1,14 +1,11 @@
 package com.github.marco9999.uwatimetable;
 
-import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
-import android.util.Log;
 import android.widget.Toast;
 
 public class FSettings extends PreferenceFragment implements OnPreferenceClickListener {
@@ -88,32 +85,7 @@ public class FSettings extends PreferenceFragment implements OnPreferenceClickLi
 	}
 	
 	void deletedbActionEvent() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(mainactivity);
-		builder.setTitle("Wipe Database?").setIcon(android.R.drawable.ic_dialog_alert);
-		builder.setMessage("Are you sure you want to delete the database? You can not recover the data after this has been done!");
-		builder.setPositiveButton("Wipe", new DialogInterface.OnClickListener() {
-		    @Override
-		    public void onClick(DialogInterface dialog, int id) {
-		    	mainactivity.dbhelperui.recreateClassesDB();
-		    	
-				// display toast notifying success.
-				String toastmsg = "Deleted old database.";
-				Toast.makeText(mainactivity, toastmsg, Toast.LENGTH_LONG).show();
-				
-				Log.i(ERRTAG, "Deleted DB");
-		    }
-		});
-		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-		    @Override
-		    public void onClick(DialogInterface dialog, int id) {
-		    	dialog.dismiss();
-		    	
-		    	// display toast notifying success.
-				String toastmsg = "Canceled.";
-				Toast.makeText(mainactivity, toastmsg, Toast.LENGTH_LONG).show();
-		    }
-		});
-		builder.show();
+        new DDeleteDbActionEvent().show(mainactivity.getFragmentManager(), null);
 	}
 	
 	void deleteselectedActionEvent() {
