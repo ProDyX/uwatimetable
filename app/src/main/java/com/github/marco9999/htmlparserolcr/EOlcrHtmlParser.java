@@ -10,7 +10,7 @@ import org.jsoup.safety.Whitelist;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class HtmlParserOlcr {
+public class EOlcrHtmlParser {
 	
 	// Uses the Jsoup library.
 	

@@ -11,7 +11,7 @@ import android.preference.PreferenceFragment;
 import android.util.Log;
 import android.widget.Toast;
 
-public class SettingsFragment extends PreferenceFragment implements OnPreferenceClickListener {
+public class FSettings extends PreferenceFragment implements OnPreferenceClickListener {
 	
 	private static final String ERRTAG = "uwatimetable";
 	private static final String KEY_FIRSTTIMEUSE = "FIRSTTIMEUSE";
@@ -19,7 +19,7 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 	private static final String TAG_FRAGMENT_DELETE_ENTRY = "delete_entry";
 	private static final String TAG_FRAGMENT_READ_OLCR = "read_olcr";
 	
-	private MainActivity mainactivity;
+	private AMain mainactivity;
 	
 	private static final String k_action_read_from_olcr = "action_read_from_olcr";
 	private static final String k_action_read_from_file = "action_read_from_file";
@@ -37,7 +37,7 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
         addPreferencesFromResource(R.xml.settings_fragment);
         
         // add callback to main activity
-        mainactivity = (MainActivity) getActivity();
+        mainactivity = (AMain) getActivity();
         
         // add listener to preferences
         this.findPreference(k_action_read_from_olcr).setOnPreferenceClickListener(this);
@@ -82,7 +82,7 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 			getFragmentManager().beginTransaction()
 				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 				.addToBackStack(null)
-				.replace(R.id.fragment_holder, new ReadOLCRFragment())
+				.replace(R.id.fragment_holder, new FReadOLCR())
 				.commit();
 		}
 	}
@@ -122,13 +122,13 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 			getFragmentManager().beginTransaction()
 				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 				.addToBackStack(null)
-				.replace(R.id.fragment_holder, new DeleteEntryFragment())
+				.replace(R.id.fragment_holder, new FDeleteEntry())
 				.commit();
 		}
 	}
 	
 	void testentryActionEvent() {
-		if(mainactivity.dbhelperui.writeClassToDB(new ContentValues[] {StaticHelper.createTestEntry()})) {
+		if(mainactivity.dbhelperui.writeClassToDB(new ContentValues[] {HStatic.createTestEntry()})) {
 			// set first time use to false
 	        mainactivity.uisharedpref.edit().putBoolean(KEY_FIRSTTIMEUSE, false).commit();
 			
@@ -143,8 +143,8 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 	}
 
 	void readfromfileActionEvent() {
-		// See the ClassesFileAsyncTask class for more details.
-		new ClassesFileAsyncTask(mainactivity).execute(new Void[] {null});
+		// See the EClassesFileAsyncTask class for more details.
+		new EClassesFileAsyncTask(mainactivity).execute(new Void[] {null});
 		
 		// set first time use to false
         mainactivity.uisharedpref.edit().putBoolean(KEY_FIRSTTIMEUSE, false).commit();
@@ -157,7 +157,7 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 			getFragmentManager().beginTransaction()
 				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 				.addToBackStack(null)
-				.replace(R.id.fragment_holder, new ManualEntryFragment())
+				.replace(R.id.fragment_holder, new FManualEntry())
 				.commit();
 		}
 	}

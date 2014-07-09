@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-public class MainOverviewFragment extends Fragment
+public class FMainOverview extends Fragment
 {
 	private static final String ERRTAG = "uwatimetable";
 	private static final String KEY_DISPLAYALLCLASSES = "DISPLAYALLCLASSES";
@@ -23,10 +23,9 @@ public class MainOverviewFragment extends Fragment
 
 	private ListView classeslist;
 	private Spinner today;
-	private Button week;
+	Button week;
 	private WListBaseAdapter classadapter;
-    private WWeekButtonDialog weekdialog;
-	MainActivity mainactivity;
+	AMain mainactivity;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -60,7 +59,7 @@ public class MainOverviewFragment extends Fragment
 	    super.onActivityCreated(savedInstanceState);
 	    
 		// get root activity (set callback)
-		mainactivity = (MainActivity) this.getActivity();
+		mainactivity = (AMain) this.getActivity();
 		
 		// for displaying in the list
 		classadapter = new WListBaseAdapter(mainactivity);
@@ -75,17 +74,16 @@ public class MainOverviewFragment extends Fragment
 		ArrayAdapter<CharSequence> dayslistadapter = ArrayAdapter.createFromResource(mainactivity, R.array.weekdays_array, android.R.layout.simple_spinner_item);
 		dayslistadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		today.setAdapter(dayslistadapter);
-		today.setSelection(StaticHelper.getDayOfWeekInt(), false); // set initially as today
+		today.setSelection(HStatic.getDayOfWeekInt(), false); // set initially as today
 		today.setOnItemSelectedListener(dayadapter);
 		
 		// initial week setup
-		weekdialog = new WWeekButtonDialog(week, this);
-		week.setText(Integer.toString(StaticHelper.getWeekOfYear()));
+		week.setText(Integer.toString(HStatic.getWeekOfYear()));
 		week.setTextAppearance(mainactivity, android.R.style.TextAppearance_DeviceDefault_Widget_TextView_SpinnerItem);
 		week.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				weekdialog.show();
+				new DWeekButton().show(mainactivity.getFragmentManager(), null);
 			}
 		});
 		

@@ -2,26 +2,31 @@ package com.github.marco9999.uwatimetable;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.NumberPicker;
 
-class WWeekButtonDialog {
+public class DWeekButton extends DialogFragment {
 
-    private final Button week;
-	private final MainOverviewFragment fragment;
-	private final MainActivity context;
-	
-	WWeekButtonDialog(Button _week, MainOverviewFragment _fragment) {
-		week = _week;
-		fragment = _fragment;
-		context = fragment.mainactivity;
-	}
-	 
-	void show() {
+    @Override
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+        // constants
+        final int MIN_WEEKS = 1;
+        final int MAX_WEEKS = 52;
+        String LABEL_POS = "Set";
+        String LABEL_NEG = "Cancel";
+
+        // get required variables
+        final AMain context = (AMain)getActivity();
+        final FMainOverview fragment = context.mainoverviewfrag;
+        final Button week = fragment.week;
+
 		// setup
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		@SuppressLint("InflateParams") // parsing null is fine here as its inflated into an alertdialog
@@ -30,9 +35,7 @@ class WWeekButtonDialog {
 		final Button resetweek = (Button) rootvg.findViewById(R.id.resetweek);
 		
 		// set min, max and current values of the number picker
-        int MIN_WEEKS = 1;
         picker.setMinValue(MIN_WEEKS);
-        int MAX_WEEKS = 52;
         picker.setMaxValue(MAX_WEEKS);
 		picker.setValue(Integer.parseInt((String) week.getText()));
 		picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS); // stop being able to highlight the numbers (aesthetic reasons)
@@ -41,7 +44,7 @@ class WWeekButtonDialog {
 		resetweek.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				picker.setValue(StaticHelper.getWeekOfYear());
+				picker.setValue(HStatic.getWeekOfYear());
 			}
 		});
 		
@@ -49,7 +52,6 @@ class WWeekButtonDialog {
 		builder.setTitle("Set week:").setView(rootvg);
 		
 		// set Cancel and Set button labels and behaviour
-        String LABEL_POS = "Set";
         builder.setPositiveButton(LABEL_POS, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -57,7 +59,6 @@ class WWeekButtonDialog {
 				fragment.initUI();
 			}
 		});
-        String LABEL_NEG = "Cancel";
         builder.setNegativeButton(LABEL_NEG, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -66,7 +67,7 @@ class WWeekButtonDialog {
 		});
 		
 		// show the dialog
-		builder.create().show();
+		return builder.create();
 	}
 
 }

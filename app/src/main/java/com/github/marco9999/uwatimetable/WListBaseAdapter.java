@@ -15,9 +15,9 @@ class WListBaseAdapter extends BaseAdapter
 	private static final String KEY_DISPLAYID = "option_display_id";
 
 	private ArrayList<String[]> classeslist;
-	private final MainActivity mainactivity;
+	private final AMain mainactivity;
 	
-	WListBaseAdapter(MainActivity _mainactivity) {
+	WListBaseAdapter(AMain _mainactivity) {
 		super();
 		mainactivity = _mainactivity;
 		classeslist = new ArrayList<String[]>(); // just create an empty arraylist to keep BaseAdapter methods happy
@@ -68,7 +68,7 @@ class WListBaseAdapter extends BaseAdapter
 		// fill view with details
 		Integer layoutpos;
 		for (int i = 1; i<singleclass.length; i++) {
-			layoutpos = ClassesFields.FIELD_VIEW_MAP[i];
+			layoutpos = ClassesFields.FIELD_VIEW_MAP_OVERVIEW[i];
 			if (layoutpos != null) {
 				((TextView) classview.findViewById(layoutpos)).setText(singleclass[i]);
 			}

@@ -4,12 +4,12 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-class ClassesDBHelperSQL extends SQLiteOpenHelper {
+class HClassesDbSQL extends SQLiteOpenHelper {
 
     private static final String DBNAME = "uwatimetable.db";
     private static final int DBVERSION = 2;
 
-    public ClassesDBHelperSQL(Context context) {
+    public HClassesDbSQL(Context context) {
     	super(context, DBNAME, null, DBVERSION);
     }
 

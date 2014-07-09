@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class HelpFragment extends Fragment 
+public class FHelp extends Fragment
 {
 	private WebView helpview;
 	

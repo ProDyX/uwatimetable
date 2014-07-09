@@ -5,19 +5,19 @@ import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
-import com.github.marco9999.htmlparserolcr.HtmlParserOlcr;
+import com.github.marco9999.htmlparserolcr.EOlcrHtmlParser;
 
 import java.util.ArrayList;
 
-class ProcessHtmlOlcr {
+class HClassesOlcrImporter {
 	
 	static final String ERRTAG = "uwatimetable";
 
-    private final MainActivity context;
-	private final ClassesDBHelperUI dbhelper;
+    private final AMain context;
+	private final HClassesDbUI dbhelper;
 
 	// Dummy class for javascript html source hack
-	ProcessHtmlOlcr(MainActivity _context) {
+	HClassesOlcrImporter(AMain _context) {
 		context = _context;
 		dbhelper = context.dbhelperui;
 	}
@@ -28,7 +28,7 @@ class ProcessHtmlOlcr {
         String timetableaction = "v_action=2";
         if(URL.contains(timetablepage) && URL.contains(timetableaction)) {
 			// Get list
-			ArrayList<String> classlist = new HtmlParserOlcr().getClassList(html);
+			ArrayList<String> classlist = new EOlcrHtmlParser().getClassList(html);
 			
 			// put into contentvalues array
 			ArrayList<ContentValues> arraycv = new ArrayList<ContentValues>();

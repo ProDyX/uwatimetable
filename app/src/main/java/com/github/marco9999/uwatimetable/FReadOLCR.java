@@ -11,7 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-public class ReadOLCRFragment extends Fragment implements OnClickListener 
+public class FReadOLCR extends Fragment implements OnClickListener
 {
 	private static final String KEY_FIRSTTIMEUSE = "FIRSTTIMEUSE";
 	
@@ -20,9 +20,9 @@ public class ReadOLCRFragment extends Fragment implements OnClickListener
 	private static final String TAG_CANCEL = "cancel";
 	private static final String TAG_PROCESS = "process";
 	
-	private MainActivity mainactivity;
+	private AMain mainactivity;
 	private ViewGroup olcr;
-	private WebViewOlcr olcrwebview;
+	private WWebViewOlcr olcrwebview;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,10 +70,10 @@ public class ReadOLCRFragment extends Fragment implements OnClickListener
 		super.onActivityCreated(savedInstanceState);
 		
         // set callback/context
-        mainactivity = (MainActivity) getActivity();
+        mainactivity = (AMain) getActivity();
 		
 		// load page and view
-    	olcrwebview = new WebViewOlcr(mainactivity);
+    	olcrwebview = new WWebViewOlcr(mainactivity);
 		olcr.addView(olcrwebview);
 	}
 	

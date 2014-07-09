@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-class ClassesFileHelper {
+class HClassesFileImporter {
 	
 	private final static String filename = "classes.txt";
 	private final static String ERRTAG = "uwatimetable";

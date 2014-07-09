@@ -9,16 +9,16 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-class ClassesDBHelperUI {
+class HClassesDbUI {
 
     private final static String ERRTAG = "uwatimetable";
 	private final static String token = ":";
 	private static final String KEY_DISPLAYALLCLASSES = "DISPLAYALLCLASSES";
 
 	private final SQLiteDatabase db;
-	private final MainActivity mainactivity;
+	private final AMain mainactivity;
 
-	ClassesDBHelperUI(SQLiteDatabase _db, MainActivity _mainactivity) {
+	HClassesDbUI(SQLiteDatabase _db, AMain _mainactivity) {
 		db = _db; // Classes Db
 		mainactivity = _mainactivity;
 	}
@@ -112,9 +112,9 @@ class ClassesDBHelperUI {
 	}
 	
 	void recreateClassesDB() {
-		db.execSQL(ClassesDBHelperSQL.SQL_CREATE_ENTRIES); // Just create it to make sure we debug it right ;)
-		db.execSQL(ClassesDBHelperSQL.SQL_DELETE_ENTRIES);
-		db.execSQL(ClassesDBHelperSQL.SQL_CREATE_ENTRIES);
+		db.execSQL(HClassesDbSQL.SQL_CREATE_ENTRIES); // Just create it to make sure we debug it right ;)
+		db.execSQL(HClassesDbSQL.SQL_DELETE_ENTRIES);
+		db.execSQL(HClassesDbSQL.SQL_CREATE_ENTRIES);
 	}
 
 	ArrayList<String[]> readRelevantEntries(String day, int week) {

@@ -9,15 +9,15 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends Activity 
+public class AMain extends Activity
 {	
 	static final String ERRTAG = "uwatimetable";
 	private static final String TAG_FRAGMENT_OVERVIEW = "overview";
 	private static final String TAG_FRAGMENT_SETTINGS = "settings";
 	private static final String TAG_FRAGMENT_HELP = "help";
 
-    ClassesDBHelperUI dbhelperui;
-	private MainOverviewFragment mainoverviewfrag;
+    HClassesDbUI dbhelperui;
+	FMainOverview mainoverviewfrag;
 	SharedPreferences uisharedpref;
 
 	@Override
@@ -25,11 +25,11 @@ public class MainActivity extends Activity
 		super.onCreate(savedInstanceState);
 		
 		// create db member and make it writeable
-        ClassesDBHelperSQL dbhelpersql = new ClassesDBHelperSQL(this);
+        HClassesDbSQL dbhelpersql = new HClassesDbSQL(this);
 		SQLiteDatabase mDB = dbhelpersql.getWritableDatabase();
 
 		// ui helper class
-		dbhelperui = new ClassesDBHelperUI(mDB, this);
+		dbhelperui = new HClassesDbUI(mDB, this);
 		
 		// ui preferences
 		uisharedpref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -39,12 +39,12 @@ public class MainActivity extends Activity
 		
 		// dont reinitialise fragment if its a configuration change
 		if (savedInstanceState != null) {
-			mainoverviewfrag = (MainOverviewFragment) getFragmentManager().findFragmentByTag(TAG_FRAGMENT_OVERVIEW);
+			mainoverviewfrag = (FMainOverview) getFragmentManager().findFragmentByTag(TAG_FRAGMENT_OVERVIEW);
 			return;
 		}
 		
 		// add main overview fragment (default screen)
-		mainoverviewfrag = new MainOverviewFragment();
+		mainoverviewfrag = new FMainOverview();
 		getFragmentManager().beginTransaction().add(R.id.fragment_holder, mainoverviewfrag, TAG_FRAGMENT_OVERVIEW).commit();
 	}
 	
@@ -56,7 +56,7 @@ public class MainActivity extends Activity
 				getFragmentManager().beginTransaction()
 					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 					.addToBackStack(null)
-					.replace(R.id.fragment_holder, new SettingsFragment(), TAG_FRAGMENT_SETTINGS)
+					.replace(R.id.fragment_holder, new FSettings(), TAG_FRAGMENT_SETTINGS)
 					.commit();
 			}
 			return true;
@@ -65,7 +65,7 @@ public class MainActivity extends Activity
 				getFragmentManager().beginTransaction()
 					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 					.addToBackStack(null)
-					.replace(R.id.fragment_holder, new HelpFragment(), TAG_FRAGMENT_HELP)
+					.replace(R.id.fragment_holder, new FHelp(), TAG_FRAGMENT_HELP)
 					.commit();
 			}
 			return true;

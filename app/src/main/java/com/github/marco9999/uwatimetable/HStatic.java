@@ -6,7 +6,7 @@ import java.util.Calendar;
 // import android.content.Context;
 // import android.widget.Toast;
 
-class StaticHelper {
+class HStatic {
 	
 	static int getWeekOfYear() {
 		return Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);

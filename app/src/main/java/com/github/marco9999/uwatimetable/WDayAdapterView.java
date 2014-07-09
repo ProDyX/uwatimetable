@@ -8,9 +8,9 @@ class WDayAdapterView implements OnItemSelectedListener {
 	
 	static final String ERRTAG = "uwatimetable";
 
-	private final MainOverviewFragment ui;
+	private final FMainOverview ui;
 	
-	WDayAdapterView(MainOverviewFragment _ui) {
+	WDayAdapterView(FMainOverview _ui) {
 		ui = _ui;
 	}
 

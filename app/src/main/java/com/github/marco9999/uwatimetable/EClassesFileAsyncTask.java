@@ -7,14 +7,14 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-class ClassesFileAsyncTask extends AsyncTask<Void, Integer, Void>
+class EClassesFileAsyncTask extends AsyncTask<Void, Integer, Void>
 {
 	private static final String ERRTAG = "uwatimetable";
 	
-	private final MainActivity mainactivity;
-	private final ClassesDBHelperUI dbhelperui;
+	private final AMain mainactivity;
+	private final HClassesDbUI dbhelperui;
 	
-	public ClassesFileAsyncTask(MainActivity _mainactivity) {
+	public EClassesFileAsyncTask(AMain _mainactivity) {
 		super();
 		mainactivity = _mainactivity;
 		dbhelperui = mainactivity.dbhelperui;
@@ -30,7 +30,7 @@ class ClassesFileAsyncTask extends AsyncTask<Void, Integer, Void>
 		ArrayList<ContentValues> arraycv = new ArrayList<ContentValues>();
 		
 		// open file helper, check for error (also done in class)
-		ClassesFileHelper filehelper = new ClassesFileHelper();
+		HClassesFileImporter filehelper = new HClassesFileImporter();
 		if(filehelper.openClassesDBFile()) {
 			filehelper.openBufferedReaderFile();
 		} else {

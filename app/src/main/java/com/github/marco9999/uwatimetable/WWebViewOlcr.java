@@ -6,16 +6,16 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 @SuppressLint("SetJavaScriptEnabled") // url is a trusted website (UWA OLCR) and browsing outside the domain will cause a seperate launch window to open
-class WebViewOlcr extends WebView {
+class WWebViewOlcr extends WebView {
 
 	@SuppressLint("AddJavascriptInterface")
-    public WebViewOlcr(Context context) {
+    public WWebViewOlcr(Context context) {
 		super(context);
-		setWebViewClient(new WebViewClientOlcr());
+		setWebViewClient(new WWebViewClientOlcr());
 		getSettings().setBuiltInZoomControls(true);
 		getSettings().setDisplayZoomControls(false);
 		getSettings().setJavaScriptEnabled(true);
-		addJavascriptInterface(new ProcessHtmlOlcr((MainActivity)context), "HTMLOUT");
+		addJavascriptInterface(new HClassesOlcrImporter((AMain)context), "HTMLOUT");
 	}
 	
 	// Anderp bug? Without this no virtual keyboard comes up (https://code.google.com/p/android/issues/detail?id=7189)
@@ -26,7 +26,7 @@ class WebViewOlcr extends WebView {
     
 }
 
-class WebViewClientOlcr extends WebViewClient {
+class WWebViewClientOlcr extends WebViewClient {
 	
 	private final static String olcrurl = "olcr.uwa.edu.au";
 	

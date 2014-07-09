@@ -1,10 +1,6 @@
 package com.github.marco9999.uwatimetable;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,16 +10,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-public class ManualEntryFragment extends Fragment 
+public class FManualEntry extends Fragment
 {
 	static final String ERRTAG = "uwatimetable";
-	private static final String KEY_FIRSTTIMEUSE = "FIRSTTIMEUSE";
-	
-	private MainActivity mainactivity;
-	private ClassesDBHelperUI dbhelperui;
+    private static final String KEY_DATA = "DATA";
+
+    private AMain mainactivity;
 	private EditText eday;
     private EditText etime;
     private EditText eunit;
@@ -59,8 +53,7 @@ public class ManualEntryFragment extends Fragment
 		super.onActivityCreated(savedInstanceState);
 		
 		// set callback
-		mainactivity = (MainActivity) getActivity();
-		dbhelperui = mainactivity.dbhelperui;
+		mainactivity = (AMain) getActivity();
 	}
 	
 	@Override
@@ -126,59 +119,20 @@ public class ManualEntryFragment extends Fragment
 	void addclassButtonEvent() {
 		// get data
 		String day = eday.getText().toString();
-		int time = Integer.parseInt(etime.getText().toString());
+		String time = String.valueOf(Integer.parseInt(etime.getText().toString())); // use parse int and string to clean input before processing
 		String unit = eunit.getText().toString();
 		String type = etype.getText().toString();
-		int stream = Integer.parseInt(estream.getText().toString());
+		String stream = String.valueOf(Integer.parseInt(estream.getText().toString())); // use parse int and string to clean input before processing
 		String weeks = eweeks.getText().toString();
 		String venue = evenue.getText().toString();
-		final String[] data = new String[] {day, Integer.toString(time), unit, type, Integer.toString(stream), weeks, venue};
+		String[] data = new String[] {day, time, unit, type, stream, weeks, venue};
 		
-		// setup view to use
-		@SuppressLint("InflateParams") // parsing null is fine here as its inflated into an alertdialog
-        ViewGroup vg = (ViewGroup) mainactivity.getLayoutInflater().inflate(R.layout.verify_class_entry, null);
-		((TextView)vg.findViewById(R.id.day)).setText(day);
-		((TextView)vg.findViewById(R.id.weeks)).setText(weeks);
-		((TextView)vg.findViewById(R.id.time)).setText(Integer.toString(time));
-		((TextView)vg.findViewById(R.id.unit)).setText(unit);
-		((TextView)vg.findViewById(R.id.type)).setText(type);
-		((TextView)vg.findViewById(R.id.stream)).setText(Integer.toString(stream));
-		((TextView)vg.findViewById(R.id.venue)).setText(venue);
-		
-		// build alert to verify
-		final String TITLE = "Please Verify Before Adding:";
-		final String POS_BUTTON = "Add";
-		final String NEG_BUTTON = "Cancel";
-		AlertDialog.Builder builder = new AlertDialog.Builder(mainactivity);
-		builder.setTitle(TITLE);
-		builder.setView(vg);
-		builder.setPositiveButton(POS_BUTTON, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// add class to db
-				if(dbhelperui.writeClassToDB(new ContentValues[] {dbhelperui.createClassesCV(data)})) {
-					// set first time use to false
-			        mainactivity.uisharedpref.edit().putBoolean(KEY_FIRSTTIMEUSE, false).commit();
-					
-					// display toast notifying success.
-					String toastmsg = "Added class.";
-					Toast.makeText(mainactivity, toastmsg, Toast.LENGTH_LONG).show();
-				} else {
-					// display toast notifying success.
-					String toastmsg = "Failed to add class.";
-					Toast.makeText(mainactivity, toastmsg, Toast.LENGTH_LONG).show();
-				}
-			}
-		});
-		builder.setNegativeButton(NEG_BUTTON, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// display toast notifying success.
-				String toastmsg = "Canceled.";
-				Toast.makeText(mainactivity, toastmsg, Toast.LENGTH_LONG).show();
-			}
-		});
-		builder.show();
+        // create fragment
+        DAddClassButtonEvent dialog = new DAddClassButtonEvent();
+        Bundle args = new Bundle();
+        args.putStringArray(KEY_DATA, data);
+        dialog.setArguments(args);
+        dialog.show(mainactivity.getFragmentManager(), null);
 	}
 	
 	void clearfieldsActionEvent() {
