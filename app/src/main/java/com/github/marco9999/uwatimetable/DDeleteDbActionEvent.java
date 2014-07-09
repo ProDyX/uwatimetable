@@ -44,8 +44,6 @@ public class DDeleteDbActionEvent extends DialogFragment {
         builder.setNegativeButton(BUTTON_NEG, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-
                 // display toast notifying success.
                 String toastmsg = "Canceled.";
                 Toast.makeText(mainactivity, toastmsg, Toast.LENGTH_LONG).show();
