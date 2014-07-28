@@ -8,6 +8,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 class HClassesDbUI {
 
@@ -127,8 +128,7 @@ class HClassesDbUI {
 		String sqlselection = "day='" + day + "'";
 
 		// Get the cursor results
-		Cursor dbcursor = db.query(ClassesFields.TABLE_NAME, null, sqlselection,
-				null, null, null, ClassesFields.COLUMN_TIME);
+		Cursor dbcursor = db.query(ClassesFields.TABLE_NAME, null, sqlselection, null, null, null, ClassesFields.COLUMN_TIME);
 
 		if (!dbcursor.moveToFirst()) {
 			Log.i(ERRTAG, "Cursor from DB query is empty. Returning empty ArrayList.");
@@ -159,8 +159,16 @@ class HClassesDbUI {
 		return returnedlist;
 	}
 
+    HashMap<String, String[]> readUpcomingEntries(int currentweek, String currentday, int currenthour, int rangeweek) {
+        // init hash map with capactity, assuming at least one of each class type
+        HashMap<String, String[]> returnedmap = new HashMap<String, String[]>(ClassesFields.NUM_TYPE_CLASSES);
+
+        return returnedmap;
+    }
+
     ArrayList<String[]> readAllEntries() {
         ArrayList<String[]> returnedlist = new ArrayList<String[]>();
+
         Cursor dbcursor = db.query(ClassesFields.TABLE_NAME, null, null, null, null, null, ClassesFields._ID);
         if (!dbcursor.moveToFirst()) {
             Log.i(ERRTAG, "Cursor from DB query is empty. Returning empty ArrayList.");
@@ -221,10 +229,10 @@ class HClassesDbUI {
 		// since there will always be a total of 7 elements in the class entry 
 		// (check ClassesDBFields for the listings), we can trim the end of the string array
 		// and join up the elements >7 (<length-1) into the 7th element.
-		String[] returnline = Arrays.copyOf(splitline, ClassesFields.NUM_INFO_COLS);
-		if (splitline.length > (ClassesFields.NUM_INFO_COLS+1)) { // check if we have more than 8 elements (8 elements including the preferences part, 7 without) and do correction
-			for(int i = ClassesFields.NUM_INFO_COLS; i<(splitline.length - 1); i++) { // the first part of the venue string should always be copied over, so we can start from 7 (zero indexed here)
-				returnline[ClassesFields.NUM_INFO_COLS-1] = returnline[ClassesFields.NUM_INFO_COLS-1].concat(": " + splitline[i]);
+		String[] returnline = Arrays.copyOf(splitline, ClassesFields.NUM_INFO_COLS_NOID);
+		if (splitline.length > (ClassesFields.NUM_INFO_COLS_NOID+1)) { // check if we have more than 8 elements (8 elements including the preferences part, 7 without) and do correction
+			for(int i = ClassesFields.NUM_INFO_COLS_NOID; i<(splitline.length - 1); i++) { // the first part of the venue string should always be copied over, so we can start from 7 (zero indexed here)
+				returnline[ClassesFields.NUM_INFO_COLS_NOID-1] = returnline[ClassesFields.NUM_INFO_COLS_NOID-1].concat(": " + splitline[i]);
 			}
 		}
 		

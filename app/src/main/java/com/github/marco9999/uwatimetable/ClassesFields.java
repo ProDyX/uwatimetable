@@ -15,6 +15,7 @@ final class ClassesFields implements BaseColumns {
 	final static String COLUMN_VENUE = "venue"; // text
 	
 	final static int NUM_INFO_COLS = 8; // 1 for id + 7 info cols
+    final static int NUM_INFO_COLS_NOID = 7; // 7 info cols
 	
 	// A ENTRY IN CLASSES.TXT WILL BE AS FOLLOWS:
 	// DAY:TIME:UNIT:TYPE:STREAM:WEEKS:VENUE(:[PREF i], not currently used)
@@ -24,4 +25,10 @@ final class ClassesFields implements BaseColumns {
     final static Integer[] FIELD_VIEW_MAP_ADDCLASS = {R.id.day, R.id.time, R.id.unit, R.id.type, R.id.stream, R.id.weeks, R.id.venue};
 	final static int FIELD_INDEX_WEEKS = 6; // used to map week to textview in WListBaseAdapter
 	final static int FIELD_INDEX_ID = 0;
+
+    // Within the types of classes, we have: Lectures, Labs, Tutorials, Practicals, Seminars (According to timetable.uwa.edu.au)
+    // Add another arbitrary type, called 'Other' which contains any classes which do not fit into the categories above.
+    // In total, there are 6 types of classes
+    final static int NUM_TYPE_CLASSES = 6;
+
 }
