@@ -33,8 +33,18 @@ public class LNavDrawerItemClick implements ListView.OnItemClickListener {
                         .replace(R.id.fragment_holder, new FMainOverview(), TAG_FRAGMENT_OVERVIEW)
                         .commit();
             } else if (fragmentstr.equals(TAG_FRAGMENT_UPCOMING)) {
-                Toast.makeText(mainactivity, "Implement Upcoming Fragment", Toast.LENGTH_LONG).show();
+                // debug
+                Toast.makeText(mainactivity, "TODO: Implement Upcoming Fragment", Toast.LENGTH_LONG).show();
+                mainactivity.drawerlist.setItemChecked(0, true);
+                mainactivity.drawerlayout.closeDrawer(mainactivity.drawerlist);
+                return;
             }
         }
+
+        // set checked item
+        mainactivity.drawerlist.setItemChecked(position, true);
+
+        // close the drawer
+        mainactivity.drawerlayout.closeDrawer(mainactivity.drawerlist);
     }
 }

@@ -3,6 +3,7 @@ package com.github.marco9999.uwatimetable;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -25,6 +26,8 @@ public class AMain extends Activity
 	FMainOverview mainoverviewfrag;
 	SharedPreferences uisharedpref;
     ActionBarDrawerToggle drawertoggle;
+    ListView drawerlist;
+    DrawerLayout drawerlayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,16 +48,16 @@ public class AMain extends Activity
 
         // setup nav drawer
         String[] nav_drawer_items = getResources().getStringArray(R.array.nav_drawer_items);
-        ListView drawer = ((ListView) findViewById(R.id.nav_drawer));
-        drawer.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, nav_drawer_items));
-        drawer.setOnItemClickListener(new LNavDrawerItemClick(this));
+        drawerlist = ((ListView) findViewById(R.id.nav_drawer));
+        drawerlist.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, nav_drawer_items));
+        drawerlist.setOnItemClickListener(new LNavDrawerItemClick(this));
 
-        // drawer toggle
-        DrawerLayout drawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        // drawer toggle setup
+        drawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawertoggle = new ActionBarDrawerToggle(this, drawerlayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close  ) {
             /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
+            public void onDrawerClosed(View drawerview) {
+                super.onDrawerClosed(drawerview);
             }
 
             /** Called when a drawer has settled in a completely open state. */
@@ -66,6 +69,7 @@ public class AMain extends Activity
         // Set the drawer toggle as the DrawerListener
         drawerlayout.setDrawerListener(drawertoggle);
 
+        // setup action bar for drawer
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
@@ -78,6 +82,7 @@ public class AMain extends Activity
 		// add main overview fragment (default screen)
 		mainoverviewfrag = new FMainOverview();
 		getFragmentManager().beginTransaction().add(R.id.fragment_holder, mainoverviewfrag, TAG_FRAGMENT_OVERVIEW).commit();
+        drawerlist.setItemChecked(0, true); // set the default fragment (overview) to be checked in nav drawer
 	}
 	
 	@Override
@@ -124,4 +129,18 @@ public class AMain extends Activity
 		}
 		return true;
 	}
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        drawertoggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawertoggle.onConfigurationChanged(newConfig);
+    }
+
 }
