@@ -2,10 +2,10 @@
 <pre-dex-items>
 
     <item
-        dex="/Users/Satti/Documents/Projects_AS/uwatimetable/app/build/intermediates/pre-dexed/debug/jsoup-1.7.3-294932eff38c4535014bb2ad098d2e94c87a196e.jar"
-        jar="/Users/Satti/Documents/Projects_AS/uwatimetable/app/libs/jsoup-1.7.3.jar"
+        dex="C:\Shared\Dev\Projects_IJ\uwatimetable\app\build\intermediates\pre-dexed\debug\classes-9866663b23e2ceb84c8c8aae4fa3320c0ff2e7f8.jar"
+        jar="C:\Shared\Dev\Projects_IJ\uwatimetable\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\19.0.1\classes.jar"
         jumboMode="false"
         revision="20.0.0"
-        sha1="ab1f22cadc2f8b514e55ba368f5128056fe304da"/>
+        sha1="f71a6822470c9eb659d4f4a6cb57b780b35f058b"/>
 
 </pre-dex-items>

@@ -181,11 +181,16 @@ class WDeleteBaseAdapter extends BaseAdapter {
             classview = (ViewGroup) convertView;
         }
 
+        // set day and weeks to visible
+        classview.findViewById(R.id.delete_day).setVisibility(View.VISIBLE);
+        classview.findViewById(R.id.day_week_divider).setVisibility(View.VISIBLE);
+        classview.findViewById(R.id.title_weeks).setVisibility(View.VISIBLE);
+        classview.findViewById(R.id.weeks).setVisibility(View.VISIBLE);
+
         // fill view with details
-        ((TextView) classview.findViewById(R.id.delete_id)).setText(singleclass[ClassesFields.FIELD_INDEX_ID]);
         Integer layoutpos;
-        for (int i = 1; i<singleclass.length; i++) {
-            layoutpos = ClassesFields.FIELD_VIEW_MAP_OVERVIEW[i];
+        for (int i = 0; i<singleclass.length; i++) {
+            layoutpos = ClassesFields.FIELD_VIEW_MAP_DELENT[i];
             if (layoutpos != null) {
                 ((TextView) classview.findViewById(layoutpos)).setText(singleclass[i]);
             }

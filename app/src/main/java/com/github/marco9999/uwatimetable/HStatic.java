@@ -7,6 +7,9 @@ import java.util.Calendar;
 // import android.widget.Toast;
 
 class HStatic {
+
+    // Array corresponding to fragments in nav bar
+
 	
 	static int getWeekOfYear() {
 		return Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);

@@ -88,8 +88,25 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_centerHorizontal="true" >
-        	    
-		    <TextView 
+
+            <TextView
+                android:id="@+id/delete_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/day"
+                android:textColor="#FF0000"
+                android:layout_marginRight="5dp"
+                android:visibility="gone"/>
+
+            <View
+                android:id="@+id/day_week_divider"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray"
+                android:visibility="gone"
+                android:layout_marginRight="5dp"/>
+
+            <TextView
 		        android:id="@+id/title_weeks"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"

@@ -22,6 +22,7 @@ final class ClassesFields implements BaseColumns {
 	
 	// Used to map returned arraylist or string array with classes data for the day -> views for displaying
 	final static Integer[] FIELD_VIEW_MAP_OVERVIEW = {null, null, R.id.time, R.id.unit, R.id.type, R.id.stream, null, R.id.venue};
+    final static Integer[] FIELD_VIEW_MAP_DELENT = {R.id.delete_id, R.id.delete_day, R.id.time, R.id.unit, R.id.type, R.id.stream, R.id.weeks, R.id.venue};
     final static Integer[] FIELD_VIEW_MAP_ADDCLASS = {R.id.day, R.id.time, R.id.unit, R.id.type, R.id.stream, R.id.weeks, R.id.venue};
 	final static int FIELD_INDEX_WEEKS = 6; // used to map week to textview in WListBaseAdapter
 	final static int FIELD_INDEX_ID = 0;
