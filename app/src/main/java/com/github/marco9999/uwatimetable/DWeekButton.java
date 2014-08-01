@@ -11,8 +11,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 
 public class DWeekButton extends DialogFragment {
+
+    private static final String KEY_DISPLAYALLCLASSES = "DISPLAYALLCLASSES";
 
     @Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -30,9 +33,15 @@ public class DWeekButton extends DialogFragment {
 		// setup
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		@SuppressLint("InflateParams") // parsing null is fine here as its inflated into an alertdialog
-        ViewGroup rootvg = (ViewGroup) context.getLayoutInflater().inflate(R.layout.dialog_number_picker, null);
+        ViewGroup rootvg = (ViewGroup) context.getLayoutInflater().inflate(R.layout.dialog_week_picker, null);
+        final TextView noeffect = (TextView) rootvg.findViewById(R.id.week_noeffect);
 		final NumberPicker picker = (NumberPicker) rootvg.findViewById(R.id.picker);
 		final Button resetweek = (Button) rootvg.findViewById(R.id.resetweek);
+
+        // set if no effect message is visible
+        if(context.uisharedpref.getBoolean(KEY_DISPLAYALLCLASSES, false)) {
+            noeffect.setVisibility(View.VISIBLE);
+        }
 		
 		// set min, max and current values of the number picker
         picker.setMinValue(MIN_WEEKS);

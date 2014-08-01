@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-class WListBaseAdapter extends BaseAdapter
+class WClassesBaseAdapter extends BaseAdapter
 {
 	static final String ERRTAG = "uwatimetable";
 	private static final String KEY_DISPLAYALLCLASSES = "DISPLAYALLCLASSES";
@@ -17,7 +17,7 @@ class WListBaseAdapter extends BaseAdapter
 	private ArrayList<String[]> classeslist;
 	private final AMain mainactivity;
 	
-	WListBaseAdapter(AMain _mainactivity) {
+	WClassesBaseAdapter(AMain _mainactivity) {
 		super();
 		mainactivity = _mainactivity;
 		classeslist = new ArrayList<String[]>(); // just create an empty arraylist to keep BaseAdapter methods happy
@@ -81,7 +81,10 @@ class WListBaseAdapter extends BaseAdapter
 			
 			// weeks index from ClassesFields definition
 			((TextView) classview.findViewById(R.id.weeks)).setText(singleclass[ClassesFields.FIELD_INDEX_WEEKS]);
-		}
+		} else {
+            classview.findViewById(R.id.title_weeks).setVisibility(View.GONE);
+            classview.findViewById(R.id.weeks).setVisibility(View.GONE);
+        }
 		
 		// fill in id if selected
 		if(mainactivity.uisharedpref.getBoolean(KEY_DISPLAYID, false)) {
@@ -90,7 +93,10 @@ class WListBaseAdapter extends BaseAdapter
 			
 			// id index from ClassesFields definition
 			((TextView) classview.findViewById(R.id.id_number)).setText(singleclass[ClassesFields.FIELD_INDEX_ID]);
-		}
+        } else {
+            classview.findViewById(R.id.title_id).setVisibility(View.GONE);
+            classview.findViewById(R.id.id_number).setVisibility(View.GONE);
+        }
 		
 		return classview;
 		

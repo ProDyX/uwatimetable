@@ -24,7 +24,7 @@ public class FMainOverview extends Fragment
 	private ListView classeslist;
 	private Spinner today;
 	Button week;
-	private WListBaseAdapter classadapter;
+	private WClassesBaseAdapter classadapter;
 	AMain mainactivity;
 	
 	@Override
@@ -62,7 +62,7 @@ public class FMainOverview extends Fragment
 		mainactivity = (AMain) this.getActivity();
 		
 		// for displaying in the list
-		classadapter = new WListBaseAdapter(mainactivity);
+		classadapter = new WClassesBaseAdapter(mainactivity);
 		
 		// for getting a custom day
         WDayAdapterView dayadapter = new WDayAdapterView(this);
@@ -74,11 +74,9 @@ public class FMainOverview extends Fragment
 		ArrayAdapter<CharSequence> dayslistadapter = ArrayAdapter.createFromResource(mainactivity, R.array.weekdays_array, android.R.layout.simple_spinner_item);
 		dayslistadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		today.setAdapter(dayslistadapter);
-		today.setSelection(HStatic.getDayOfWeekInt(), false); // set initially as today
 		today.setOnItemSelectedListener(dayadapter);
 		
 		// initial week setup
-		week.setText(Integer.toString(HStatic.getWeekOfYear()));
 		week.setTextAppearance(mainactivity, android.R.style.TextAppearance_DeviceDefault_Widget_TextView_SpinnerItem);
 		week.setOnClickListener(new OnClickListener() {
 			@Override
@@ -96,14 +94,18 @@ public class FMainOverview extends Fragment
 	@Override
 	public void onResume() {
 		super.onResume();
-		
+
 		// set title
     	mainactivity.getActionBar().setSubtitle(R.string.title_overview);
 
     	// show menu items
 		setMenuVisibility(true);
-		
-		// show the ui
+
+        // setup day and week text
+        today.setSelection(HStatic.getDayOfWeekInt(), false); // set initially as today. set animate parameter to false to avoid initialising ui twice unnecessarily
+        week.setText(Integer.toString(HStatic.getWeekOfYear()));
+
+        // show the ui
 		initUI();
 	}
 	
@@ -140,6 +142,7 @@ public class FMainOverview extends Fragment
 		switch(item.getItemId()) {
 		case R.id.action_refresh:
 			this.refreshActionEvent();
+            return true;
 		case R.id.option_displayallclasses:
 			this.displayallclassesOptionEvent(item);
 			return true;
