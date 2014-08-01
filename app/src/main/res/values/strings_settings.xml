@@ -14,6 +14,10 @@
     <string name="summary_action_delete_database">Wipe the database of all data. This process is not reversible!</string>
     <string name="title_action_delete_selected_entries">Delete selected entries</string>
     <string name="summary_action_delete_selected_entries">Delete selected entries from a list of all classes.</string>
+
+    <string name="title_actions_overview_prefs">Overview Preferences</string>
+    <string name="title_option_save_day_week">Save day and week on exit</string>
+    <string name="summary_option_save_day_week">Save the day and week values upon exit of Overview</string>
     
     <string name="title_actions_debug">Debug and Developer Options</string>
     <string name="title_action_test_entry">Create test entry</string>

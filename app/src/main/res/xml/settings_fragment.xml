@@ -28,6 +28,16 @@
             android:summary="@string/summary_action_delete_selected_entries"
             android:title="@string/title_action_delete_selected_entries" />
     </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/title_actions_overview_prefs"
+        android:key="actions_overview_prefs" >
+        <CheckBoxPreference
+            android:key="option_save_day_week"
+            android:defaultValue="false"
+            android:persistent="true"
+            android:summary="@string/summary_option_save_day_week"
+            android:title="@string/title_option_save_day_week" />
+    </PreferenceCategory>
     <PreferenceCategory 
         android:title="@string/title_actions_debug"
         android:key="actions_debug" >

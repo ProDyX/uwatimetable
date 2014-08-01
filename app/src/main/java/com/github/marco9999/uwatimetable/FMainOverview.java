@@ -20,6 +20,10 @@ public class FMainOverview extends Fragment
 	private static final String ERRTAG = "uwatimetable";
 	private static final String KEY_DISPLAYALLCLASSES = "DISPLAYALLCLASSES";
 	private static final String KEY_FIRSTTIMEUSE = "FIRSTTIMEUSE";
+    private static final String KEY_SAVEDAYWEEK = "option_save_day_week";
+    private static final String KEY_SAVEDAY = "SAVEDAY";
+    private static final String KEY_SAVEWEEK = "SAVEWEEK";
+
 
 	private ListView classeslist;
 	private Spinner today;
@@ -102,12 +106,32 @@ public class FMainOverview extends Fragment
 		setMenuVisibility(true);
 
         // setup day and week text
-        today.setSelection(HStatic.getDayOfWeekInt(), false); // set initially as today. set animate parameter to false to avoid initialising ui twice unnecessarily
-        week.setText(Integer.toString(HStatic.getWeekOfYear()));
+        if(mainactivity.uisharedpref.getBoolean(KEY_SAVEDAYWEEK, false)) {
+            String sday = mainactivity.uisharedpref.getString(KEY_SAVEDAY, "Monday"); // def value shouldn't be used ever except first time use
+            String sweek = mainactivity.uisharedpref.getString(KEY_SAVEWEEK, "1"); // def value shouldn't be used ever except first time use
+            Log.i(ERRTAG, "----- Loaded Day and Week. -----, " + sday + ", " + sweek);
+            today.setSelection(((ArrayAdapter<CharSequence>)today.getAdapter()).getPosition(sday));
+            week.setText(sweek);
+        } else {
+            today.setSelection(HStatic.getDayOfWeekInt(), false); // set initially as today. set animate parameter to false to avoid initialising ui twice unnecessarily
+            week.setText(Integer.toString(HStatic.getWeekOfYear()));
+        }
 
         // show the ui
 		initUI();
 	}
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        // save day and week if enabled
+        if(mainactivity.uisharedpref.getBoolean(KEY_SAVEDAYWEEK, false)) {
+            Log.i(ERRTAG, "----- Saved Day and Week. -----, " +  (String)today.getSelectedItem() + ", " + (String)week.getText());
+            mainactivity.uisharedpref.edit().putString(KEY_SAVEDAY, (String)today.getSelectedItem()).apply();
+            mainactivity.uisharedpref.edit().putString(KEY_SAVEWEEK, (String)week.getText()).apply();
+        }
+    }
 	
 	@Override
 	public void onStop() {
@@ -155,8 +179,8 @@ public class FMainOverview extends Fragment
 
 	void initUI() {
 		// get week and day
-		String sday = (String) today.getSelectedItem();
-		int iweek = Integer.parseInt((String) week.getText());
+		String sday = (String)today.getSelectedItem();
+		int iweek = Integer.parseInt((String)week.getText());
 		
 		// fill details
 		Log.i(ERRTAG, "Grabbing data with parameters { Day: " + sday + ", Week: " + iweek + " }.");
@@ -172,10 +196,10 @@ public class FMainOverview extends Fragment
 	
 	void displayallclassesOptionEvent(MenuItem mi) {
 		if(mi.isChecked()) {
-			mainactivity.uisharedpref.edit().putBoolean(KEY_DISPLAYALLCLASSES, false).commit();
+			mainactivity.uisharedpref.edit().putBoolean(KEY_DISPLAYALLCLASSES, false).apply();
 			initUI();
 		} else {
-			mainactivity.uisharedpref.edit().putBoolean(KEY_DISPLAYALLCLASSES, true).commit();
+			mainactivity.uisharedpref.edit().putBoolean(KEY_DISPLAYALLCLASSES, true).apply();
 			initUI();
 		}
 	}
