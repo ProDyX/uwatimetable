@@ -8,11 +8,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-class WClassesBaseAdapter extends BaseAdapter
-{
-	static final String ERRTAG = "uwatimetable";
-	private static final String KEY_DISPLAYALLCLASSES = "DISPLAYALLCLASSES";
-	private static final String KEY_DISPLAYID = "option_display_id";
+class WClassesBaseAdapter extends BaseAdapter {
 
 	private ArrayList<String[]> classeslist;
 	private final AMain mainactivity;
@@ -75,7 +71,7 @@ class WClassesBaseAdapter extends BaseAdapter
 		}
 		
 		// fill in weeks if selected
-		if(mainactivity.uisharedpref.getBoolean(KEY_DISPLAYALLCLASSES, false)) {
+		if(mainactivity.uisharedpref.getBoolean(Key.DISPLAYALLCLASSES, false)) {
 			classview.findViewById(R.id.title_weeks).setVisibility(View.VISIBLE);
 			classview.findViewById(R.id.weeks).setVisibility(View.VISIBLE);
 			
@@ -87,7 +83,7 @@ class WClassesBaseAdapter extends BaseAdapter
         }
 		
 		// fill in id if selected
-		if(mainactivity.uisharedpref.getBoolean(KEY_DISPLAYID, false)) {
+		if(mainactivity.uisharedpref.getBoolean(Key.DISPLAYID, false)) {
 			classview.findViewById(R.id.title_id).setVisibility(View.VISIBLE);
 			classview.findViewById(R.id.id_number).setVisibility(View.VISIBLE);
 			

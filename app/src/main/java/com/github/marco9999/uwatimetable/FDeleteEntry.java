@@ -19,8 +19,6 @@ import java.util.Map;
 
 public class FDeleteEntry extends ListFragment
 {
-	static final String ERRTAG = "uwatimetable";
-	
 	private AMain mainactivity;
 	private HClassesDbUI dbhelperui;
     HashMap<String,Boolean> checkboxstate;

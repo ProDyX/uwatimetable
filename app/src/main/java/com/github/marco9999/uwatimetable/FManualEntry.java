@@ -12,10 +12,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class FManualEntry extends Fragment
-{
-	static final String ERRTAG = "uwatimetable";
-    private static final String KEY_DATA = "DATA";
+public class FManualEntry extends Fragment {
 
     private AMain mainactivity;
 	private EditText eday;
@@ -130,7 +127,7 @@ public class FManualEntry extends Fragment
         // create fragment
         DAddClassButtonEvent dialog = new DAddClassButtonEvent();
         Bundle args = new Bundle();
-        args.putStringArray(KEY_DATA, data);
+        args.putStringArray(Key.DATA, data);
         dialog.setArguments(args);
         dialog.show(mainactivity.getFragmentManager(), null);
 	}

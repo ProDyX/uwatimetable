@@ -9,9 +9,6 @@ import android.widget.Toast;
 
 public class LNavDrawerItemClick implements ListView.OnItemClickListener {
 
-    private static final String TAG_FRAGMENT_OVERVIEW = "Overview";
-    private static final String TAG_FRAGMENT_UPCOMING = "Upcoming";
-
     private AMain mainactivity;
 
     LNavDrawerItemClick(AMain mainactivity) {
@@ -26,13 +23,13 @@ public class LNavDrawerItemClick implements ListView.OnItemClickListener {
 
         // check if its already on the stack
         if(mainactivity.getFragmentManager().findFragmentByTag(fragmentstr) == null) {
-            if(fragmentstr.equals(TAG_FRAGMENT_OVERVIEW)) {
+            if(fragmentstr.equals(Tag.FRAGMENT_OVERVIEW)) {
                 mainactivity.getFragmentManager().beginTransaction()
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .addToBackStack(null)
-                        .replace(R.id.fragment_holder, new FMainOverview(), TAG_FRAGMENT_OVERVIEW)
+                        .replace(R.id.fragment_holder, new FMainOverview(), Tag.FRAGMENT_OVERVIEW)
                         .commit();
-            } else if (fragmentstr.equals(TAG_FRAGMENT_UPCOMING)) {
+            } else if (fragmentstr.equals(Tag.FRAGMENT_UPCOMING)) {
                 // debug
                 Toast.makeText(mainactivity, "TODO: Implement Upcoming Fragment", Toast.LENGTH_LONG).show();
                 mainactivity.drawerlist.setItemChecked(0, true);

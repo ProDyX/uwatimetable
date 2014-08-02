@@ -15,12 +15,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class AMain extends Activity
-{	
-	static final String ERRTAG = "uwatimetable";
-	private static final String TAG_FRAGMENT_OVERVIEW = "Overview";
-	private static final String TAG_FRAGMENT_SETTINGS = "Settings";
-	private static final String TAG_FRAGMENT_HELP = "Help";
+public class AMain extends Activity {
 
     HClassesDbUI dbhelperui;
 	FMainOverview mainoverviewfrag;
@@ -75,13 +70,13 @@ public class AMain extends Activity
 
         // dont reinitialise fragment if its a configuration change
 		if (savedInstanceState != null) {
-			mainoverviewfrag = (FMainOverview) getFragmentManager().findFragmentByTag(TAG_FRAGMENT_OVERVIEW);
+			mainoverviewfrag = (FMainOverview) getFragmentManager().findFragmentByTag(Tag.FRAGMENT_OVERVIEW);
 			return;
 		}
 		
 		// add main overview fragment (default screen)
 		mainoverviewfrag = new FMainOverview();
-		getFragmentManager().beginTransaction().add(R.id.fragment_holder, mainoverviewfrag, TAG_FRAGMENT_OVERVIEW).commit();
+		getFragmentManager().beginTransaction().add(R.id.fragment_holder, mainoverviewfrag, Tag.FRAGMENT_OVERVIEW).commit();
         drawerlist.setItemChecked(0, true); // set the default fragment (overview) to be checked in nav drawer
 	}
 	
@@ -92,20 +87,20 @@ public class AMain extends Activity
         }
 		switch(item.getItemId()) {
 		case R.id.action_settings:
-			if(getFragmentManager().findFragmentByTag(TAG_FRAGMENT_SETTINGS) == null) {
+			if(getFragmentManager().findFragmentByTag(Tag.FRAGMENT_SETTINGS) == null) {
 				getFragmentManager().beginTransaction()
 					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 					.addToBackStack(null)
-					.replace(R.id.fragment_holder, new FSettings(), TAG_FRAGMENT_SETTINGS)
+					.replace(R.id.fragment_holder, new FSettings(), Tag.FRAGMENT_SETTINGS)
 					.commit();
 			}
 			return true;
 		case R.id.action_help:
-			if(getFragmentManager().findFragmentByTag(TAG_FRAGMENT_HELP) == null) {
+			if(getFragmentManager().findFragmentByTag(Tag.FRAGMENT_HELP) == null) {
 				getFragmentManager().beginTransaction()
 					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 					.addToBackStack(null)
-					.replace(R.id.fragment_holder, new FHelp(), TAG_FRAGMENT_HELP)
+					.replace(R.id.fragment_holder, new FHelp(), Tag.FRAGMENT_HELP)
 					.commit();
 			}
 			return true;

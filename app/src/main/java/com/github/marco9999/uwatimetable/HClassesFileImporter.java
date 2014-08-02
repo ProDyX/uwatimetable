@@ -13,8 +13,7 @@ import java.io.InputStreamReader;
 class HClassesFileImporter {
 	
 	private final static String filename = "classes.txt";
-	private final static String ERRTAG = "uwatimetable";
-	
+
 	private File classesdbfile = null;
 	private BufferedReader reader = null;
 	private String line = null;
@@ -24,15 +23,15 @@ class HClassesFileImporter {
 		if (Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
 			classesdbfile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + filename);
 			if(classesdbfile.exists()) {
-				Log.i(ERRTAG, classesdbfile.getPath());
+				Log.i(LogTag.APP, "Opened file: " + classesdbfile.getPath());
 				return true;
 			}
 		} else {
 		    // Oops... what went wrong here?
-		    Log.e(ERRTAG, "Error: Check read from external storage permission!");
+		    Log.e(LogTag.APP, "Error: Check read from external storage permission!");
 		    return false;
 		}
-		Log.i(ERRTAG, "File doesn't exist.");
+		Log.i(LogTag.APP, "File doesn't exist.");
 		return false; // file doesn't exist, so don't bother trying to read it.
 	}
 	

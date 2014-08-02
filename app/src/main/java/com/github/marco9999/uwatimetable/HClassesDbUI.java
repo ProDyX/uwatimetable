@@ -12,9 +12,7 @@ import java.util.HashMap;
 
 class HClassesDbUI {
 
-    private final static String ERRTAG = "uwatimetable";
 	private final static String token = ":";
-	private static final String KEY_DISPLAYALLCLASSES = "DISPLAYALLCLASSES";
 
 	private final SQLiteDatabase db;
 	private final AMain mainactivity;
@@ -27,7 +25,7 @@ class HClassesDbUI {
 	@SuppressLint("DefaultLocale") // we can assume it will be always english
 	boolean isRelevantToWeek(String weektocheck, int currentweek) {
 		// first check if display all is turned on
-		if (mainactivity.uisharedpref.getBoolean(KEY_DISPLAYALLCLASSES, false)) {
+		if (mainactivity.uisharedpref.getBoolean(Key.DISPLAYALLCLASSES, false)) {
 			return true;
 		}
 		
@@ -66,7 +64,7 @@ class HClassesDbUI {
 				}
 			} else {
 				// what the hell did we run into?
-				Log.i(ERRTAG, "Unknown class week encounted, returning false: " + weektocheck);
+				Log.i(LogTag.APP, "Unknown class week encounted, returning false: " + weektocheck);
 				return false;
 			}
 		} else {
@@ -99,7 +97,7 @@ class HClassesDbUI {
 			if (values[i] != null) {
 				retcode = db.insert(ClassesFields.TABLE_NAME, ClassesFields.COLUMN_NULLABLE, values[i]);
 				if (retcode == -1) {
-					Log.e(ERRTAG, "Insert into DB failure. Check input. (" + i + ")");
+					Log.e(LogTag.APP, "Insert into DB failure. Check input. (" + i + ")");
 					return false;
 				}
 			}
@@ -131,7 +129,7 @@ class HClassesDbUI {
 		Cursor dbcursor = db.query(ClassesFields.TABLE_NAME, null, sqlselection, null, null, null, ClassesFields.COLUMN_TIME);
 
 		if (!dbcursor.moveToFirst()) {
-			Log.i(ERRTAG, "Cursor from DB query is empty. Returning empty ArrayList.");
+			Log.i(LogTag.APP, "Cursor from DB query is empty. Returning empty ArrayList.");
 			return returnedlist;
 		}
 
@@ -151,7 +149,7 @@ class HClassesDbUI {
 				tempstr[7] = dbcursor.getString(dbcursor.getColumnIndex(ClassesFields.COLUMN_VENUE));
 				returnedlist.add(tempstr);
 				
-				Log.i(ERRTAG, "Class ID returned: " + tempstr[0]);
+				Log.i(LogTag.APP, "Class ID returned: " + tempstr[0]);
 			}
 			dbcursor.moveToNext();
 		}
@@ -171,7 +169,7 @@ class HClassesDbUI {
 
         Cursor dbcursor = db.query(ClassesFields.TABLE_NAME, null, null, null, null, null, ClassesFields._ID);
         if (!dbcursor.moveToFirst()) {
-            Log.i(ERRTAG, "Cursor from DB query is empty. Returning empty ArrayList.");
+            Log.i(LogTag.APP, "Cursor from DB query is empty. Returning empty ArrayList.");
             return returnedlist;
         }
 

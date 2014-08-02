@@ -10,8 +10,6 @@ import android.widget.Toast;
 
 public class DDeleteDbActionEvent extends DialogFragment {
 
-    private static final String ERRTAG = "uwatimetable";
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // get variables needed
@@ -38,7 +36,7 @@ public class DDeleteDbActionEvent extends DialogFragment {
                 Toast.makeText(mainactivity, toastmsg, Toast.LENGTH_LONG).show();
 
                 // log this
-                Log.i(ERRTAG, "Deleted DB");
+                Log.i(LogTag.APP, "Deleted DB");
             }
         });
         builder.setNegativeButton(BUTTON_NEG, new DialogInterface.OnClickListener() {

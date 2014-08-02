@@ -10,21 +10,14 @@ import android.widget.Toast;
 
 public class FSettings extends PreferenceFragment implements OnPreferenceClickListener {
 	
-	private static final String ERRTAG = "uwatimetable";
-	private static final String KEY_FIRSTTIMEUSE = "FIRSTTIMEUSE";
-	private static final String TAG_FRAGMENT_MANUAL_ENTRY = "manual_entry";
-	private static final String TAG_FRAGMENT_DELETE_ENTRY = "delete_entry";
-	private static final String TAG_FRAGMENT_READ_OLCR = "read_olcr";
-	
 	private AMain mainactivity;
 	
-	private static final String k_action_read_from_olcr = "action_read_from_olcr";
-	private static final String k_action_read_from_file = "action_read_from_file";
-	private static final String k_action_manual_entry = "action_manual_entry";
-	private static final String k_action_delete_database = "action_delete_database";
-	private static final String k_action_delete_selected_entries = "action_delete_selected_entries";
-	private static final String k_action_test_entry = "action_test_entry";
-	private static final String k_option_display_id = "option_display_id";
+	private static final String p_action_read_from_olcr = "action_read_from_olcr";
+	private static final String p_action_read_from_file = "action_read_from_file";
+	private static final String p_action_manual_entry = "action_manual_entry";
+	private static final String p_action_delete_database = "action_delete_database";
+	private static final String p_action_delete_selected_entries = "action_delete_selected_entries";
+	private static final String p_action_test_entry = "action_test_entry";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,13 +30,12 @@ public class FSettings extends PreferenceFragment implements OnPreferenceClickLi
         mainactivity = (AMain) getActivity();
         
         // add listener to preferences
-        this.findPreference(k_action_read_from_olcr).setOnPreferenceClickListener(this);
-        this.findPreference(k_action_read_from_file).setOnPreferenceClickListener(this);
-        this.findPreference(k_action_manual_entry).setOnPreferenceClickListener(this);
-        this.findPreference(k_action_delete_database).setOnPreferenceClickListener(this);
-        this.findPreference(k_action_delete_selected_entries).setOnPreferenceClickListener(this);
-        this.findPreference(k_action_test_entry).setOnPreferenceClickListener(this);
-        this.findPreference(k_option_display_id).setOnPreferenceClickListener(this);
+        this.findPreference(p_action_read_from_olcr).setOnPreferenceClickListener(this);
+        this.findPreference(p_action_read_from_file).setOnPreferenceClickListener(this);
+        this.findPreference(p_action_manual_entry).setOnPreferenceClickListener(this);
+        this.findPreference(p_action_delete_database).setOnPreferenceClickListener(this);
+        this.findPreference(p_action_delete_selected_entries).setOnPreferenceClickListener(this);
+        this.findPreference(p_action_test_entry).setOnPreferenceClickListener(this);
     }
     
     @Override
@@ -57,17 +49,17 @@ public class FSettings extends PreferenceFragment implements OnPreferenceClickLi
 	@Override
 	public boolean onPreferenceClick(Preference preference) {
 		String key = preference.getKey();
-		if (key.equals(k_action_read_from_olcr)) {
+		if (key.equals(p_action_read_from_olcr)) {
 			readfromolcrActionEvent();
-		} else if (key.equals(k_action_read_from_file)) {
+		} else if (key.equals(p_action_read_from_file)) {
 			readfromfileActionEvent();
-		} else if (key.equals(k_action_manual_entry)) {
+		} else if (key.equals(p_action_manual_entry)) {
 			manualentryActionEvent();
-		} else if (key.equals(k_action_delete_database)) {
+		} else if (key.equals(p_action_delete_database)) {
 			deletedbActionEvent();
-		} else if (key.equals(k_action_delete_selected_entries)) {
+		} else if (key.equals(p_action_delete_selected_entries)) {
 			deleteselectedActionEvent();
-		} else if (key.equals(k_action_test_entry)) {
+		} else if (key.equals(p_action_test_entry)) {
 			testentryActionEvent();
 		}
 		return false;
@@ -75,7 +67,7 @@ public class FSettings extends PreferenceFragment implements OnPreferenceClickLi
 
 	void readfromolcrActionEvent() {
 		// launch read from olcr fragment
-		if(getFragmentManager().findFragmentByTag(TAG_FRAGMENT_READ_OLCR) == null) {
+		if(getFragmentManager().findFragmentByTag(Tag.FRAGMENT_READ_OLCR) == null) {
 			getFragmentManager().beginTransaction()
 				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 				.addToBackStack(null)
@@ -90,7 +82,7 @@ public class FSettings extends PreferenceFragment implements OnPreferenceClickLi
 	
 	void deleteselectedActionEvent() {
 		// launch delete entry fragment
-		if(getFragmentManager().findFragmentByTag(TAG_FRAGMENT_DELETE_ENTRY) == null) {
+		if(getFragmentManager().findFragmentByTag(Tag.FRAGMENT_DELETE_ENTRY) == null) {
 			getFragmentManager().beginTransaction()
 				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 				.addToBackStack(null)
@@ -102,7 +94,7 @@ public class FSettings extends PreferenceFragment implements OnPreferenceClickLi
 	void testentryActionEvent() {
 		if(mainactivity.dbhelperui.writeClassToDB(new ContentValues[] {HStatic.createTestEntry()})) {
 			// set first time use to false
-	        mainactivity.uisharedpref.edit().putBoolean(KEY_FIRSTTIMEUSE, false).commit();
+	        mainactivity.uisharedpref.edit().putBoolean(Key.FIRSTTIMEUSE, false).commit();
 			
 			// display toast notifying success.
 			String toastmsg = "Created a test entry.";
@@ -119,13 +111,13 @@ public class FSettings extends PreferenceFragment implements OnPreferenceClickLi
 		new EClassesFileAsyncTask(mainactivity).execute(new Void[] {null});
 		
 		// set first time use to false
-        mainactivity.uisharedpref.edit().putBoolean(KEY_FIRSTTIMEUSE, false).commit();
+        mainactivity.uisharedpref.edit().putBoolean(Key.FIRSTTIMEUSE, false).commit();
 		
 	}
 	
 	void manualentryActionEvent() {
 		// launch manual entry fragment
-		if(getFragmentManager().findFragmentByTag(TAG_FRAGMENT_MANUAL_ENTRY) == null) {
+		if(getFragmentManager().findFragmentByTag(Tag.FRAGMENT_MANUAL_ENTRY) == null) {
 			getFragmentManager().beginTransaction()
 				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 				.addToBackStack(null)

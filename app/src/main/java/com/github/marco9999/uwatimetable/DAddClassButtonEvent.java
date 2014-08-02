@@ -13,13 +13,10 @@ import android.widget.Toast;
 
 public class DAddClassButtonEvent extends DialogFragment {
 
-    private static final String KEY_FIRSTTIMEUSE = "FIRSTTIMEUSE";
-    private static final String KEY_DATA = "DATA";
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // get variables needed
-        final String[] data = getArguments().getStringArray(KEY_DATA);
+        final String[] data = getArguments().getStringArray(Key.DATA);
         final AMain mainactivity = (AMain) getActivity();
 
         // setup view to use
@@ -47,7 +44,7 @@ public class DAddClassButtonEvent extends DialogFragment {
                 // add class to db
                 if(mainactivity.dbhelperui.writeClassToDB(new ContentValues[] {mainactivity.dbhelperui.createClassesCV(data)})) {
                     // set first time use to false
-                    mainactivity.uisharedpref.edit().putBoolean(KEY_FIRSTTIMEUSE, false).commit();
+                    mainactivity.uisharedpref.edit().putBoolean(Key.FIRSTTIMEUSE, false).commit();
 
                     // display toast notifying success.
                     String toastmsg = "Added class.";

@@ -15,8 +15,6 @@ import android.widget.TextView;
 
 public class DWeekButton extends DialogFragment {
 
-    private static final String KEY_DISPLAYALLCLASSES = "DISPLAYALLCLASSES";
-
     @Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
         // constants
@@ -39,7 +37,7 @@ public class DWeekButton extends DialogFragment {
 		final Button resetweek = (Button) rootvg.findViewById(R.id.resetweek);
 
         // set if no effect message is visible
-        if(context.uisharedpref.getBoolean(KEY_DISPLAYALLCLASSES, false)) {
+        if(context.uisharedpref.getBoolean(Key.DISPLAYALLCLASSES, false)) {
             noeffect.setVisibility(View.VISIBLE);
         }
 		

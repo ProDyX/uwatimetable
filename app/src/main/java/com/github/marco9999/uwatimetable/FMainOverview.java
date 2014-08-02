@@ -15,15 +15,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-public class FMainOverview extends Fragment
-{
-	private static final String ERRTAG = "uwatimetable";
-	private static final String KEY_DISPLAYALLCLASSES = "DISPLAYALLCLASSES";
-	private static final String KEY_FIRSTTIMEUSE = "FIRSTTIMEUSE";
-    private static final String KEY_SAVEDAYWEEK = "option_save_day_week";
-    private static final String KEY_SAVEDAY = "SAVEDAY";
-    private static final String KEY_SAVEWEEK = "SAVEWEEK";
-
+public class FMainOverview extends Fragment {
 
 	private ListView classeslist;
 	private Spinner today;
@@ -90,7 +82,7 @@ public class FMainOverview extends Fragment
 		});
 		
 		// set classes list based on first time use
-		if(mainactivity.uisharedpref.getBoolean(KEY_FIRSTTIMEUSE, true)) {
+		if(mainactivity.uisharedpref.getBoolean(Key.FIRSTTIMEUSE, true)) {
 			classeslist.getEmptyView().findViewById(R.id.first_time_use).setVisibility(View.VISIBLE);
 		}
 	}
@@ -106,10 +98,10 @@ public class FMainOverview extends Fragment
 		setMenuVisibility(true);
 
         // setup day and week text
-        if(mainactivity.uisharedpref.getBoolean(KEY_SAVEDAYWEEK, false)) {
-            String sday = mainactivity.uisharedpref.getString(KEY_SAVEDAY, "Monday"); // def value shouldn't be used ever except first time use
-            String sweek = mainactivity.uisharedpref.getString(KEY_SAVEWEEK, "1"); // def value shouldn't be used ever except first time use
-            Log.i(ERRTAG, "----- Loaded Day and Week. -----, " + sday + ", " + sweek);
+        if(mainactivity.uisharedpref.getBoolean(Key.SAVEDAYWEEK, false)) {
+            String sday = mainactivity.uisharedpref.getString(Key.SAVEDAY, "Monday"); // def value shouldn't be used ever except first time use
+            String sweek = mainactivity.uisharedpref.getString(Key.SAVEWEEK, "1"); // def value shouldn't be used ever except first time use
+            Log.i(LogTag.APP, "----- Loaded Day and Week. -----, " + sday + ", " + sweek);
             today.setSelection(((ArrayAdapter<CharSequence>)today.getAdapter()).getPosition(sday));
             week.setText(sweek);
         } else {
@@ -126,10 +118,10 @@ public class FMainOverview extends Fragment
         super.onPause();
 
         // save day and week if enabled
-        if(mainactivity.uisharedpref.getBoolean(KEY_SAVEDAYWEEK, false)) {
-            Log.i(ERRTAG, "----- Saved Day and Week. -----, " +  (String)today.getSelectedItem() + ", " + (String)week.getText());
-            mainactivity.uisharedpref.edit().putString(KEY_SAVEDAY, (String)today.getSelectedItem()).apply();
-            mainactivity.uisharedpref.edit().putString(KEY_SAVEWEEK, (String)week.getText()).apply();
+        if(mainactivity.uisharedpref.getBoolean(Key.SAVEDAYWEEK, false)) {
+            Log.i(LogTag.APP, "----- Saved Day and Week. -----, " +  (String)today.getSelectedItem() + ", " + (String)week.getText());
+            mainactivity.uisharedpref.edit().putString(Key.SAVEDAY, (String)today.getSelectedItem()).apply();
+            mainactivity.uisharedpref.edit().putString(Key.SAVEWEEK, (String)week.getText()).apply();
         }
     }
 	
@@ -137,10 +129,7 @@ public class FMainOverview extends Fragment
 	public void onStop() {
 		// hide menu items
 		setMenuVisibility(false);
-		
-		// save prefs
-		// mainactivity.uisharedpref.edit().putBoolean(KEY_DISPLAYALLCLASSES, mainactivity.dbhelperui.displayall).commit();
-		
+
 		super.onStop();
 	}
 	
@@ -153,7 +142,7 @@ public class FMainOverview extends Fragment
 	@Override
 	public void onPrepareOptionsMenu(Menu menu){
 	   // display all checked? by default the menuitem is unchecked
-	   if (mainactivity.uisharedpref.getBoolean(KEY_DISPLAYALLCLASSES, false)) {
+	   if (mainactivity.uisharedpref.getBoolean(Key.DISPLAYALLCLASSES, false)) {
 		   menu.findItem(R.id.option_displayallclasses).setChecked(true);
 	   } else {
 		   menu.findItem(R.id.option_displayallclasses).setChecked(false);
@@ -161,8 +150,7 @@ public class FMainOverview extends Fragment
 	}
 	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
+	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()) {
 		case R.id.action_refresh:
 			this.refreshActionEvent();
@@ -171,7 +159,7 @@ public class FMainOverview extends Fragment
 			this.displayallclassesOptionEvent(item);
 			return true;
 		default: 
-			Log.e(ERRTAG, "MainFragmentOverview: Reached defualt in onOptionsItemSelected! Shouldn't happen.");
+			Log.e(LogTag.APP, "MainFragmentOverview: Reached defualt in onOptionsItemSelected! Shouldn't happen.");
 			break;
 		}
 		return false;
@@ -183,11 +171,8 @@ public class FMainOverview extends Fragment
 		int iweek = Integer.parseInt((String)week.getText());
 		
 		// fill details
-		Log.i(ERRTAG, "Grabbing data with parameters { Day: " + sday + ", Week: " + iweek + " }.");
+		Log.i(LogTag.APP, "Grabbing data with parameters { Day: " + sday + ", Week: " + iweek + " }.");
 		classadapter.setDataListAndNotify(mainactivity.dbhelperui.readRelevantEntries(sday, iweek));
-		
-		// DEBUG: stack trace
-		// Thread.dumpStack();
 	}
 	
 	void refreshActionEvent() {
@@ -196,10 +181,10 @@ public class FMainOverview extends Fragment
 	
 	void displayallclassesOptionEvent(MenuItem mi) {
 		if(mi.isChecked()) {
-			mainactivity.uisharedpref.edit().putBoolean(KEY_DISPLAYALLCLASSES, false).apply();
+			mainactivity.uisharedpref.edit().putBoolean(Key.DISPLAYALLCLASSES, false).apply();
 			initUI();
 		} else {
-			mainactivity.uisharedpref.edit().putBoolean(KEY_DISPLAYALLCLASSES, true).apply();
+			mainactivity.uisharedpref.edit().putBoolean(Key.DISPLAYALLCLASSES, true).apply();
 			initUI();
 		}
 	}

@@ -11,15 +11,13 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-public class FReadOLCR extends Fragment implements OnClickListener
-{
-	private static final String KEY_FIRSTTIMEUSE = "FIRSTTIMEUSE";
-	
+public class FReadOLCR extends Fragment implements OnClickListener {
+
 	private static final String olcrurl = "https://server1.olcr.uwa.edu.au/olcrstudent/";
 
-	private static final String TAG_CANCEL = "cancel";
-	private static final String TAG_PROCESS = "process";
-	
+    private static final String BTN_TAG_CANCEL = "cancel";
+    private static final String BTN_TAG_PROCESS = "process";
+
 	private AMain mainactivity;
 	private ViewGroup olcr;
 	private WWebViewOlcr olcrwebview;
@@ -55,9 +53,9 @@ public class FReadOLCR extends Fragment implements OnClickListener
     	
     	// set button listeners
         Button cancel = (Button) rootvg.findViewById(R.id.olcr_cancel);
-    	cancel.setTag(TAG_CANCEL);
+    	cancel.setTag(BTN_TAG_CANCEL);
         Button process = (Button) rootvg.findViewById(R.id.olcr_process);
-    	process.setTag(TAG_PROCESS);
+    	process.setTag(BTN_TAG_PROCESS);
     	
     	cancel.setOnClickListener(this);
     	process.setOnClickListener(this);
@@ -102,15 +100,15 @@ public class FReadOLCR extends Fragment implements OnClickListener
 	@Override
 	public void onClick(View v) {
 		String tag = (String) v.getTag();
-		if(tag.equals(TAG_CANCEL)) {
+		if(tag.equals(BTN_TAG_CANCEL)) {
 	        // pop this fragment
 			mainactivity.getFragmentManager().popBackStack();
-		} else if (tag.equals(TAG_PROCESS)) {
+		} else if (tag.equals(BTN_TAG_PROCESS)) {
 			// Html source grab when someone closes the window
 	        olcrwebview.loadUrl("javascript:window.HTMLOUT.processHTML(document.URL, '<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
 	        
 	        // set first time use to false
-	        mainactivity.uisharedpref.edit().putBoolean(KEY_FIRSTTIMEUSE, false).commit();
+	        mainactivity.uisharedpref.edit().putBoolean(Key.FIRSTTIMEUSE, false).commit();
 	        
 	        // pop this fragment
 	        mainactivity.getFragmentManager().popBackStack();

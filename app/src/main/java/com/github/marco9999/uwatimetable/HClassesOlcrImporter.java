@@ -10,8 +10,6 @@ import com.github.marco9999.htmlparserolcr.EOlcrHtmlParser;
 import java.util.ArrayList;
 
 class HClassesOlcrImporter {
-	
-	static final String ERRTAG = "uwatimetable";
 
     private final AMain context;
 	private final HClassesDbUI dbhelper;

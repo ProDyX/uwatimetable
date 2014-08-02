@@ -9,8 +9,6 @@ import java.util.ArrayList;
 
 class EClassesFileAsyncTask extends AsyncTask<Void, Integer, Void>
 {
-	private static final String ERRTAG = "uwatimetable";
-	
 	private final AMain mainactivity;
 	private final HClassesDbUI dbhelperui;
 	
@@ -49,15 +47,13 @@ class EClassesFileAsyncTask extends AsyncTask<Void, Integer, Void>
 		
 		// progress update
 		publishProgress(count);
-		
 
-		
 		return null;
 	}
 	
 	@Override
 	protected void onPostExecute(Void result) {
-		Log.i(ERRTAG, "Read from file complete");
+		Log.i(LogTag.APP, "Read from file complete");
 	}
 	
 	@Override
