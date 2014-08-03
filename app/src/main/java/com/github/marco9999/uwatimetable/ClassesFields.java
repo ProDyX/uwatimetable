@@ -17,19 +17,20 @@ final class ClassesFields implements BaseColumns {
 	final static int NUM_INFO_COLS = 8; // 1 for id + 7 info cols
     final static int NUM_INFO_COLS_NOID = 7; // 7 info cols
 	
-	// A ENTRY IN CLASSES.TXT WILL BE AS FOLLOWS:
-	// DAY:TIME:UNIT:TYPE:STREAM:WEEKS:VENUE(:[PREF i], not currently used)
+	// AN ENTRY IN CLASSES.TXT WILL BE AS FOLLOWS:
+	// DAY:TIME:UNIT:TYPE:STREAM:WEEKS:VENUE(:[PREF i], not currently used/activated)
 	
 	// Used to map returned arraylist or string array with classes data for the day -> views for displaying
-	final static Integer[] FIELD_VIEW_MAP_OVERVIEW = {null, null, R.id.time, R.id.unit, R.id.type, R.id.stream, null, R.id.venue};
+    // (ID:)DAY:TIME:UNIT:TYPE:STREAM:WEEKS:VENUE(:[PREF i], not currently used)
+	final static Integer[] FIELD_VIEW_MAP_OVERVIEW = {R.id.id_number, null, R.id.time, R.id.unit, R.id.type, R.id.stream, R.id.weeks, R.id.venue};
     final static Integer[] FIELD_VIEW_MAP_DELENT = {R.id.delete_id, R.id.delete_day, R.id.time, R.id.unit, R.id.type, R.id.stream, R.id.weeks, R.id.venue};
-    final static Integer[] FIELD_VIEW_MAP_ADDCLASS = {R.id.day, R.id.time, R.id.unit, R.id.type, R.id.stream, R.id.weeks, R.id.venue};
+    final static Integer[] FIELD_VIEW_MAP_ADDCLASS = {R.id.day, R.id.time, R.id.unit, R.id.type, R.id.stream, R.id.weeks, R.id.venue}; // id field omitted as it is not used when adding a class manually
 	final static int FIELD_INDEX_WEEKS = 6; // used to map week to textview in WClassesBaseAdapter
 	final static int FIELD_INDEX_ID = 0;
 
     // Within the types of classes, we have: Lectures, Labs, Tutorials, Practicals, Seminars (According to timetable.uwa.edu.au)
     // Add another arbitrary type, called 'Other' which contains any classes which do not fit into the categories above.
-    // In total, there are 6 types of classes
+    // In total, there are 6 types of classes.
     final static int NUM_TYPE_CLASSES = 6;
 
 }

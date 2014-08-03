@@ -63,32 +63,26 @@ class WClassesBaseAdapter extends BaseAdapter {
 		
 		// fill view with details
 		Integer layoutpos;
-		for (int i = 1; i<singleclass.length; i++) {
+		for (int i = 0; i<singleclass.length; i++) {
 			layoutpos = ClassesFields.FIELD_VIEW_MAP_OVERVIEW[i];
 			if (layoutpos != null) {
 				((TextView) classview.findViewById(layoutpos)).setText(singleclass[i]);
 			}
 		}
 		
-		// fill in weeks if selected
+		// show weeks if selected
 		if(mainactivity.uisharedpref.getBoolean(Key.DISPLAYALLCLASSES, false)) {
 			classview.findViewById(R.id.title_weeks).setVisibility(View.VISIBLE);
 			classview.findViewById(R.id.weeks).setVisibility(View.VISIBLE);
-			
-			// weeks index from ClassesFields definition
-			((TextView) classview.findViewById(R.id.weeks)).setText(singleclass[ClassesFields.FIELD_INDEX_WEEKS]);
 		} else {
             classview.findViewById(R.id.title_weeks).setVisibility(View.GONE);
             classview.findViewById(R.id.weeks).setVisibility(View.GONE);
         }
 		
-		// fill in id if selected
+		// show id if selected
 		if(mainactivity.uisharedpref.getBoolean(Key.DISPLAYID, false)) {
 			classview.findViewById(R.id.title_id).setVisibility(View.VISIBLE);
 			classview.findViewById(R.id.id_number).setVisibility(View.VISIBLE);
-			
-			// id index from ClassesFields definition
-			((TextView) classview.findViewById(R.id.id_number)).setText(singleclass[ClassesFields.FIELD_INDEX_ID]);
         } else {
             classview.findViewById(R.id.title_id).setVisibility(View.GONE);
             classview.findViewById(R.id.id_number).setVisibility(View.GONE);
