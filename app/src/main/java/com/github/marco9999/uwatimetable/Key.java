@@ -10,8 +10,6 @@ public class Key {
     static final String DISPLAYALLCLASSES = "DISPLAYALLCLASSES";
     static final String SAVEDAYWEEK = "option_save_day_week";
     static final String SAVEDAYWEEKDATA = "SAVEDAYWEEKDATA";
-    static final String SAVEDAY = "SAVEDAY";
-    static final String SAVEWEEK = "SAVEWEEK";
     static final String DISPLAYID = "option_display_id";
 
 }
