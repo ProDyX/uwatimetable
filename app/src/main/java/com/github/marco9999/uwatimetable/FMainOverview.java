@@ -99,14 +99,13 @@ public class FMainOverview extends Fragment {
 
         // setup day and week text
         if(mainactivity.uisharedpref.getBoolean(Key.SAVEDAYWEEK, false)) {
-            String sday = mainactivity.uisharedpref.getString(Key.SAVEDAY, "Monday"); // def value shouldn't be used ever except first time use
-            String sweek = mainactivity.uisharedpref.getString(Key.SAVEWEEK, "1"); // def value shouldn't be used ever except first time use
-            Log.i(LogTag.APP, "----- Loaded Day and Week. -----, " + sday + ", " + sweek);
-            today.setSelection(((ArrayAdapter<CharSequence>)today.getAdapter()).getPosition(sday));
-            week.setText(sweek);
+            String[] savedayweekdata = mainactivity.uisharedpref.getString(Key.SAVEDAYWEEKDATA, "Monday,1").split(","); // def value shouldn't be used ever except first time use
+            today.setSelection(((ArrayAdapter<CharSequence>)today.getAdapter()).getPosition(savedayweekdata[0]));
+            week.setText(savedayweekdata[1]);
+            Log.i(LogTag.APP, "----- Loaded Day and Week: " + savedayweekdata[0] + "," + savedayweekdata[1] + " -----");
         } else {
             today.setSelection(HStatic.getDayOfWeekInt(), false); // set initially as today. set animate parameter to false to avoid initialising ui twice unnecessarily
-            week.setText(Integer.toString(HStatic.getWeekOfYear()));
+            week.setText(Integer.toString(HStatic.getWeekOfYearInt()));
         }
 
         // show the ui
@@ -119,9 +118,9 @@ public class FMainOverview extends Fragment {
 
         // save day and week if enabled
         if(mainactivity.uisharedpref.getBoolean(Key.SAVEDAYWEEK, false)) {
-            Log.i(LogTag.APP, "----- Saved Day and Week. -----, " +  (String)today.getSelectedItem() + ", " + (String)week.getText());
-            mainactivity.uisharedpref.edit().putString(Key.SAVEDAY, (String)today.getSelectedItem()).apply();
-            mainactivity.uisharedpref.edit().putString(Key.SAVEWEEK, (String)week.getText()).apply();
+            String savedayweekdata = today.getSelectedItem() + "," + week.getText();
+            mainactivity.uisharedpref.edit().putString(Key.SAVEDAYWEEKDATA, savedayweekdata).apply();
+            Log.i(LogTag.APP, "----- Saved Day and Week: " +  savedayweekdata + " -----");
         }
     }
 	

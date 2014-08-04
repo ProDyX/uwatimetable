@@ -3,30 +3,26 @@ package com.github.marco9999.uwatimetable;
 import android.content.ContentValues;
 
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 // import android.content.Context;
 // import android.widget.Toast;
 
 class HStatic {
 
-    // Array corresponding to fragments in nav bar
-
-	
-	static int getWeekOfYear() {
-		return Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
+	static int getWeekOfYearInt() {
+        // special case for if its saturday, as we have set the program to return monday (of next week) if its the weekend...
+        // but whilst sunday is already the start of next week, saturday is still considered as part of the current week.
+        // thus for saturday, just return the current week + 1.
+        if (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+            return Calendar.getInstance().get(Calendar.WEEK_OF_YEAR) + 1;
+        }
+        return Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
 	}
 
-// --Commented out by Inspection START (7/07/2014 4:54 PM):
-//	static String getDayOfWeek() {
-//		// note: Special case for saturday and sunday -> default to monday. Sunday = 1 -> Saturday = 7
-//		final String[] days = new String[] {"Monday","Monday","Tuesday","Wednesday","Thursday","Friday","Monday"};
-//
-//		// Return the day using calendar class
-//		return days[Calendar.getInstance().get(Calendar.DAY_OF_WEEK)-1];
-//	}
-// --Commented out by Inspection STOP (7/07/2014 4:54 PM)
-
 	static int getDayOfWeekInt() {
-		// This array is based on weekdays_array from strings.xml, using the note from in the string version of this function 
+        // note: Special case for saturday and sunday -> default to monday. Sunday = 1 -> Saturday = 7
+		// This array is based on weekdays_array from strings.xml
 		final int[] days = new int[] {0,0,1,2,3,4,0};
 		
 		// Return int from array
@@ -46,13 +42,5 @@ class HStatic {
 		testval.put(ClassesFields.COLUMN_VENUE, "Physics: Ross Lecture Theatre");
 		return testval;
 	}
-
-// --Commented out by Inspection START (7/07/2014 4:54 PM):
-//	void DEBUGImplementToast(Context context) {
-//		// display toast notifying success.
-//		String toastmsg = "TODO: Implement";
-//		Toast.makeText(context, toastmsg, Toast.LENGTH_LONG).show();
-//	}
-// --Commented out by Inspection STOP (7/07/2014 4:54 PM)
 
 }
