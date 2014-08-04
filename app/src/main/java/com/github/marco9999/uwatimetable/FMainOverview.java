@@ -17,6 +17,8 @@ import android.widget.Spinner;
 
 public class FMainOverview extends Fragment {
 
+    final static String SAVEINSTANCE_DAYWEEK = "SI_DAYWEEK";
+
 	private ListView classeslist;
 	private Spinner today;
 	Button week;
@@ -85,6 +87,28 @@ public class FMainOverview extends Fragment {
 		if(mainactivity.uisharedpref.getBoolean(Key.FIRSTTIMEUSE, true)) {
 			classeslist.getEmptyView().findViewById(R.id.first_time_use).setVisibility(View.VISIBLE);
 		}
+
+        // setup day and week text
+        // see if we can restore saved info from exit
+        if (mainactivity.uisharedpref.getBoolean(Key.SAVEDAYWEEK, false)) {
+            String[] savedayweekdata = mainactivity.uisharedpref.getString(Key.SAVEDAYWEEKDATA, "Monday,1").split(","); // def value shouldn't be used ever except first time use
+            today.setSelection(((ArrayAdapter<CharSequence>) today.getAdapter()).getPosition(savedayweekdata[0]));
+            week.setText(savedayweekdata[1]);
+            Log.i(LogTag.APP, "----- Loaded Day and Week: " + savedayweekdata[0] + "," + savedayweekdata[1] + " -----");
+        } else {
+            // otherwise just default to current day and week
+            today.setSelection(HStatic.getDayOfWeekInt(), false); // set initially as today. set animate parameter to false to avoid initialising ui twice unnecessarily
+            week.setText(Integer.toString(HStatic.getWeekOfYearInt()));
+        }
+        // try to see if its a config change.. and override anything above
+        if (savedInstanceState != null) {
+            String[] sidayweekdata = savedInstanceState.getStringArray(SAVEINSTANCE_DAYWEEK);
+            if (sidayweekdata != null) {
+                today.setSelection(((ArrayAdapter<CharSequence>) today.getAdapter()).getPosition(sidayweekdata[0]));
+                week.setText(sidayweekdata[1]);
+                Log.i(LogTag.APP, "----- SI LOAD Day and Week: " + sidayweekdata[0] + "," + sidayweekdata[1] + " -----");
+            }
+        }
 	}
 	
 	@Override
@@ -96,17 +120,6 @@ public class FMainOverview extends Fragment {
 
     	// show menu items
 		setMenuVisibility(true);
-
-        // setup day and week text
-        if(mainactivity.uisharedpref.getBoolean(Key.SAVEDAYWEEK, false)) {
-            String[] savedayweekdata = mainactivity.uisharedpref.getString(Key.SAVEDAYWEEKDATA, "Monday,1").split(","); // def value shouldn't be used ever except first time use
-            today.setSelection(((ArrayAdapter<CharSequence>)today.getAdapter()).getPosition(savedayweekdata[0]));
-            week.setText(savedayweekdata[1]);
-            Log.i(LogTag.APP, "----- Loaded Day and Week: " + savedayweekdata[0] + "," + savedayweekdata[1] + " -----");
-        } else {
-            today.setSelection(HStatic.getDayOfWeekInt(), false); // set initially as today. set animate parameter to false to avoid initialising ui twice unnecessarily
-            week.setText(Integer.toString(HStatic.getWeekOfYearInt()));
-        }
 
         // show the ui
 		initUI();
@@ -131,6 +144,15 @@ public class FMainOverview extends Fragment {
 
 		super.onStop();
 	}
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // save day and week on config change
+        outState.putStringArray(SAVEINSTANCE_DAYWEEK, new String[] {(String)today.getSelectedItem(), (String)week.getText()});
+        Log.i(LogTag.APP, "----- SI SAVE Day and Week: " + (String)today.getSelectedItem() + "," + (String)week.getText() + " -----");
+    }
 	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
