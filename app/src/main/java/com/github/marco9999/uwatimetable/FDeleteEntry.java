@@ -109,13 +109,21 @@ public class FDeleteEntry extends ListFragment
 	}
 
     void deleteselectedidsActionEvent() {
+        // put id's into array
+        ArrayList<String> ids = new ArrayList<String>();
         for(Map.Entry<String, Boolean> entry : checkboxstate.entrySet()) {
             if(entry.getValue()) {
-                mainactivity.dbhelperui.deleteClassFromDB(entry.getKey());
+               ids.add(entry.getKey());
             }
         }
-
-        initList();
+        String[] idarray = ids.toArray(new String[0]);
+        // create fragment
+        DDeleteSelIDActionEvent dialog = new DDeleteSelIDActionEvent();
+        dialog.setCallback(this);
+        Bundle args = new Bundle();
+        args.putStringArray(Key.DATA, idarray);
+        dialog.setArguments(args);
+        dialog.show(mainactivity.getFragmentManager(), null);
     }
 
     @Override
