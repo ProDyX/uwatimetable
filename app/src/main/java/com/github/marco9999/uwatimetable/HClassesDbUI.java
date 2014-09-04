@@ -63,9 +63,9 @@ class HClassesDbUI {
 					return false;
 				}
 			} else {
-				// what the hell did we run into?
-				Log.i(LogTag.APP, "Unknown class week encounted, returning false: " + weektocheck);
-				return false;
+				// what the hell did we run into? return true to be safe.
+				Log.i(LogTag.APP, "Unknown class week encounted, returning true: " + weektocheck);
+				return true;
 			}
 		} else {
 			// Check for ranges or individual weeks: ie: 42-45,47-48 or 10,42 or 11 etc..
@@ -123,7 +123,7 @@ class HClassesDbUI {
 		String[] tempstr;
 
 		// Create the selection sql string for the specified day
-		String sqlselection = "day='" + day + "'";
+		String sqlselection = ClassesFields.COLUMN_DAY + "='" + day + "'";
 
 		// Get the cursor results
 		Cursor dbcursor = db.query(ClassesFields.TABLE_NAME, null, sqlselection, null, null, null, ClassesFields.COLUMN_TIME);
@@ -153,16 +153,10 @@ class HClassesDbUI {
 			}
 			dbcursor.moveToNext();
 		}
+        dbcursor.close();
 
 		return returnedlist;
 	}
-
-    HashMap<String, String[]> readUpcomingEntries(int currentweek, String currentday, int currenthour, int rangeweek) {
-        // init hash map with capactity, assuming at least one of each class type
-        HashMap<String, String[]> returnedmap = new HashMap<String, String[]>(ClassesFields.NUM_TYPE_CLASSES);
-
-        return returnedmap;
-    }
 
     ArrayList<String[]> readAllEntries() {
         ArrayList<String[]> returnedlist = new ArrayList<String[]>();
@@ -187,7 +181,145 @@ class HClassesDbUI {
             returnedlist.add(tempstr);
             dbcursor.moveToNext();
         }
+        dbcursor.close();
+
         return returnedlist;
+    }
+
+    HashMap<String, String[]> readAllUpcomingClass(int currentweek, String currentday, int currenthour, int rangeweek) {
+        // Convenience method. Uses the array defined in ClassesFields to return all types.
+        // Init hash map with capacity, assuming at least one of each class type
+        HashMap<String, String[]> returnedmap = new HashMap<String, String[]>(ClassesFields.NUM_TYPE_CLASSES);
+
+        for (String[] typearray : ClassesFields.TYPE_CLASSES_ARRAY) {
+            // Put result into hashmap. Always set the hashmap key to the first entry in the array.
+            returnedmap.put(typearray[0], readUpcomingClass(typearray, currentweek, currentday, currenthour, rangeweek));
+        }
+
+        return returnedmap;
+    }
+
+    String[] readUpcomingClass(String[] typearray, int currentweek, String currentday, int currenthour, int rangeweek) {
+        final int ARB_HIGH_WEEK = 60; // arbitrary high week (see below)
+
+        String currenttype;
+        for (int i = 0; i<typearray.length; i++) {
+            currenttype = typearray[i];
+
+            // Create the selection sql string for the specified day
+            String sqlselection = ClassesFields.COLUMN_TYPE + "='" + currenttype + "'";
+
+            // Get the cursor results
+            Cursor dbcursor = db.query(ClassesFields.TABLE_NAME, null, sqlselection, null, null, null, null);
+
+            // check if empty, if so, then continue looping or set value in hashmap to null
+            if (!dbcursor.moveToFirst()) {
+                // reached the end without a match so return null.
+                if(i == typearray.length - 1) return null;
+
+                // else continue.
+                continue;
+            }
+
+            // if not then add earliest result after current week, day and time to hashmap.
+            // need to iterate to find the earliest.
+            int earlistclassidx = -1;
+            int earlyweektmp = ARB_HIGH_WEEK;
+            int earlyweektmp2;
+            String weekstmp;
+            for (int j = 0; i < dbcursor.getCount(); j++) {
+                weekstmp = dbcursor.getString(dbcursor.getColumnIndex(ClassesFields.COLUMN_WEEKS));
+                earlyweektmp2 = checkAndGetEarliestWeek(weekstmp, HStatic.getWeekOfYearInt(), false);
+                if((earlyweektmp2 != -1) && (earlyweektmp2 < earlyweektmp)) {
+                    earlyweektmp = earlyweektmp2;
+                    earlistclassidx = j;
+                } else if (earlyweektmp2 == earlyweektmp) {
+                    // fuuuuuuckyouuuuuu TODO: implement based on day... then time...
+                }
+                // no match, continue
+            }
+
+
+        }
+    }
+
+    @SuppressLint("DefaultLocale") // we can assume it will be always english
+    int checkAndGetEarliestWeek(String weektocheck, int currentweek, boolean ispassedforweek) {
+        // Note: Returns -1 if not upcoming.
+        // Constants
+        // TODO: hardcoded values... need to see if we can pull from website (probably too much code to bother with)
+        final int START_SEM1 = 9;
+        final int END_SEM1 = 22;
+        final int START_SEM2 = 31;
+        final int END_SEM2 = 44;
+
+        final int NOT_UPCOMING = -1;
+        final int ARB_HIGH_WEEK = 60; // arbitrary high week (see below)
+
+        int EXT_WEEK = 0;
+        if (ispassedforweek) EXT_WEEK = 1;
+
+        String weektochecklc = weektocheck.toLowerCase();
+        if (weektochecklc.contains("sem")) {
+            // which semester? if something contains 'sem' it can't contain any ranges or single weeks.
+            String semester = weektochecklc.substring(3, 4);
+            if (semester.equals("1")) {
+                if (currentweek <= END_SEM1) {
+                    //noinspection SimplifiableIfStatement
+                    if (weektochecklc.contains("w2")) {
+                        if (currentweek <= START_SEM1) return (START_SEM1 + 1);
+                    }
+                    return ((currentweek + EXT_WEEK) > END_SEM1 ? NOT_UPCOMING : (currentweek + EXT_WEEK));
+                } else {
+                    return NOT_UPCOMING;
+                }
+            } else if (semester.equals("2")) {
+                if (currentweek <= END_SEM2) {
+                    //noinspection SimplifiableIfStatement
+                    if (weektochecklc.contains("w2")) {
+                        if (currentweek <= START_SEM2) return (currentweek + EXT_WEEK);
+                    }
+                    return ((currentweek + EXT_WEEK) > END_SEM2 ? NOT_UPCOMING : (currentweek + EXT_WEEK));
+                } else {
+                    return NOT_UPCOMING;
+                }
+            } else {
+                // what the hell did we run into? return current week to be safe.
+                Log.i(LogTag.APP, "Unknown class week encounted, returning upcoming week (" + (currentweek + EXT_WEEK) + "): " + weektocheck);
+                return (currentweek + EXT_WEEK);
+            }
+        } else {
+            // Check for ranges or individual weeks: ie: 42-45,47-48 or 10,42 or 11 etc..
+            String[] ranges = weektochecklc.split(",");
+            int lowestlimit = ARB_HIGH_WEEK; // start at arbitrary high week to make sure every class will be lower than it initially.
+            for (String indranges : ranges) {
+                if (indranges.contains("-")) {
+                    String[] indweeks = indranges.split("-");
+                    int limit1 = Integer.parseInt(indweeks[0]);
+                    int limit2 = Integer.parseInt(indweeks[1]);
+                    if (currentweek <= limit2) {
+                        if (currentweek < limit1) {
+                            if (limit1 < lowestlimit) lowestlimit = limit1;
+                        } else {
+                            if (limit2 < lowestlimit) lowestlimit = currentweek + EXT_WEEK;
+                        }
+                    }
+                } else {
+                    int limit = Integer.parseInt(indranges);
+                    if (currentweek <= limit) {
+                        if (limit < lowestlimit) lowestlimit = limit;
+                    }
+                }
+            }
+
+            // end of checker
+            if (lowestlimit != ARB_HIGH_WEEK) {
+                return lowestlimit;
+            } else {
+                // no matches
+                return NOT_UPCOMING;
+            }
+        }
     }
 
 	ContentValues createClassesCV(String[] svalues) {

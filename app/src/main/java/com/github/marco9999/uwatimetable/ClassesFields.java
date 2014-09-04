@@ -3,6 +3,8 @@ package com.github.marco9999.uwatimetable;
 import android.provider.BaseColumns;
 
 final class ClassesFields implements BaseColumns {
+
+    // DB column names
 	final static String TABLE_NAME = "classes"; // text
 	final static String COLUMN_NULLABLE = "null"; // text
 	
@@ -28,9 +30,37 @@ final class ClassesFields implements BaseColumns {
 	final static int FIELD_INDEX_WEEKS = 6; // used to map week to textview in WClassesBaseAdapter
 	final static int FIELD_INDEX_ID = 0;
 
-    // Within the types of classes, we have: Lectures, Labs, Tutorials, Practicals, Seminars (According to timetable.uwa.edu.au)
+    // Within the types of classes, we have: Lectures, Labs, Tutorials, Practicals, Seminars (According to timetable.uwa.edu.au) + Workshops
     // Add another arbitrary type, called 'Other' which contains any classes which do not fit into the categories above.
-    // In total, there are 6 types of classes.
-    final static int NUM_TYPE_CLASSES = 6;
+    // In total, there are 7 types of classes.
+    // Included are the long hand names and some common abbreviations. The key with _1 in it will be used as the primary key when returning in a hashmap.
+    final static int NUM_TYPE_CLASSES = 7;
+
+    final static String TYPE_LECTURE_1 = "Lecture";
+    final static String TYPE_LECTURE_2 = "Lec";
+    final static String[] TYPE_LECTURES = {TYPE_LECTURE_1, TYPE_LECTURE_2};
+
+    final static String TYPE_LABORATORY_1 = "Laboratory";
+    final static String TYPE_LABORATORY_2 = "Lab";
+    final static String[] TYPE_LABORATORYS = {TYPE_LABORATORY_1, TYPE_LABORATORY_2};
+
+    final static String TYPE_TUTORIAL_1 = "Tutorial";
+    final static String TYPE_TUTORIAL_2 = "Tut";
+    final static String[] TYPE_TUTORIALS = {TYPE_TUTORIAL_1, TYPE_TUTORIAL_2};
+
+    final static String TYPE_PRACTICAL_1 = "Practical";
+    final static String TYPE_PRACTICAL_2 = "Prac";
+    final static String[] TYPE_PRACTICALS = {TYPE_PRACTICAL_1, TYPE_PRACTICAL_2};
+
+    final static String TYPE_SEMINAR_1 = "Seminar";
+    final static String[] TYPE_SEMINARS = {TYPE_SEMINAR_1};
+
+    final static String TYPE_WORKSHOP_1 = "Workshop";
+    final static String[] TYPE_WORKSHOPS = {TYPE_WORKSHOP_1};
+
+    final static String TYPE_OTHER_1 = "Other";
+    final static String[] TYPE_OTHERS = {TYPE_OTHER_1};
+
+    final static String[][] TYPE_CLASSES_ARRAY = {TYPE_LECTURES, TYPE_LABORATORYS, TYPE_TUTORIALS, TYPE_PRACTICALS, TYPE_SEMINARS, TYPE_WORKSHOPS, TYPE_OTHERS};
 
 }
