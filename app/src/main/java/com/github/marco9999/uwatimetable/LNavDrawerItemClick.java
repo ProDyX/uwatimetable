@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class LNavDrawerItemClick implements ListView.OnItemClickListener {
 
@@ -29,12 +28,14 @@ public class LNavDrawerItemClick implements ListView.OnItemClickListener {
                         .addToBackStack(null)
                         .replace(R.id.fragment_holder, new FMainOverview(), Tag.FRAGMENT_OVERVIEW)
                         .commit();
-            } else if (fragmentstr.equals(Tag.FRAGMENT_UPCOMING)) {
-                // debug
-                Toast.makeText(mainactivity, "TODO: Implement Upcoming Fragment", Toast.LENGTH_LONG).show();
-                mainactivity.drawerlist.setItemChecked(0, true);
                 mainactivity.drawerlayout.closeDrawer(mainactivity.drawerlist);
-                return;
+            } else if (fragmentstr.equals(Tag.FRAGMENT_UPCOMING)) {
+                mainactivity.getFragmentManager().beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .addToBackStack(null)
+                        .replace(R.id.fragment_holder, new FUpcoming(), Tag.FRAGMENT_UPCOMING)
+                        .commit();
+                mainactivity.drawerlayout.closeDrawer(mainactivity.drawerlist);
             }
         }
 

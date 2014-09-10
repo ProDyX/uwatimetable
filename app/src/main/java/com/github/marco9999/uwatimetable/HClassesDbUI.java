@@ -130,117 +130,142 @@ class HClassesDbUI {
 
 		if (!dbcursor.moveToFirst()) {
 			Log.i(LogTag.APP, "Cursor from DB query is empty. Returning empty ArrayList.");
+            dbcursor.close();
 			return returnedlist;
 		}
 
 		// filter cursor out based on weeks, while copying to new arraylist
-		for (int i = 0; i < dbcursor.getCount(); i++) {
-			if (isRelevantToWeek(
-					dbcursor.getString(dbcursor.getColumnIndex(ClassesFields.COLUMN_WEEKS)),
-					week)) {
-				tempstr = new String[ClassesFields.NUM_INFO_COLS];
-				tempstr[0] = Integer.toString(dbcursor.getInt(dbcursor.getColumnIndex(ClassesFields._ID)));
-				tempstr[1] = dbcursor.getString(dbcursor.getColumnIndex(ClassesFields.COLUMN_DAY));
-				tempstr[2] = Integer.toString(dbcursor.getInt(dbcursor.getColumnIndex(ClassesFields.COLUMN_TIME))) + ":00";
-				tempstr[3] = dbcursor.getString(dbcursor.getColumnIndex(ClassesFields.COLUMN_UNIT));
-				tempstr[4] = dbcursor.getString(dbcursor.getColumnIndex(ClassesFields.COLUMN_TYPE));
-				tempstr[5] = "(0" + Integer.toString(dbcursor.getInt(dbcursor.getColumnIndex(ClassesFields.COLUMN_STREAM))) + ") - ";
-				tempstr[6] = dbcursor.getString(dbcursor.getColumnIndex(ClassesFields.COLUMN_WEEKS));
-				tempstr[7] = dbcursor.getString(dbcursor.getColumnIndex(ClassesFields.COLUMN_VENUE));
+		do {
+			if (isRelevantToWeek(dbcursor.getString(dbcursor.getColumnIndex(ClassesFields.COLUMN_WEEKS)), week)) {
+                tempstr = createClassStrArrayFromCursor(dbcursor);
 				returnedlist.add(tempstr);
-				
 				Log.i(LogTag.APP, "Class ID returned: " + tempstr[0]);
 			}
-			dbcursor.moveToNext();
-		}
-        dbcursor.close();
+		} while (dbcursor.moveToNext());
 
+        dbcursor.close();
 		return returnedlist;
 	}
 
     ArrayList<String[]> readAllEntries() {
+        // similar to readRelevantEntries, except the search string is null (to return all)
         ArrayList<String[]> returnedlist = new ArrayList<String[]>();
 
         Cursor dbcursor = db.query(ClassesFields.TABLE_NAME, null, null, null, null, null, ClassesFields._ID);
         if (!dbcursor.moveToFirst()) {
             Log.i(LogTag.APP, "Cursor from DB query is empty. Returning empty ArrayList.");
+            dbcursor.close();
             return returnedlist;
         }
 
-        String[] tempstr;
-        for (int i = 0; i < dbcursor.getCount(); i++) {
-            tempstr = new String[ClassesFields.NUM_INFO_COLS];
-            tempstr[0] = Integer.toString(dbcursor.getInt(dbcursor.getColumnIndex(ClassesFields._ID)));
-            tempstr[1] = dbcursor.getString(dbcursor.getColumnIndex(ClassesFields.COLUMN_DAY));
-            tempstr[2] = Integer.toString(dbcursor.getInt(dbcursor.getColumnIndex(ClassesFields.COLUMN_TIME))) + ":00";
-            tempstr[3] = dbcursor.getString(dbcursor.getColumnIndex(ClassesFields.COLUMN_UNIT));
-            tempstr[4] = dbcursor.getString(dbcursor.getColumnIndex(ClassesFields.COLUMN_TYPE));
-            tempstr[5] = "(0" + Integer.toString(dbcursor.getInt(dbcursor.getColumnIndex(ClassesFields.COLUMN_STREAM))) + ") - ";
-            tempstr[6] = dbcursor.getString(dbcursor.getColumnIndex(ClassesFields.COLUMN_WEEKS));
-            tempstr[7] = dbcursor.getString(dbcursor.getColumnIndex(ClassesFields.COLUMN_VENUE));
-            returnedlist.add(tempstr);
-            dbcursor.moveToNext();
-        }
-        dbcursor.close();
+        do {
+            returnedlist.add(createClassStrArrayFromCursor(dbcursor));
+        } while (dbcursor.moveToNext());
 
+        dbcursor.close();
         return returnedlist;
     }
 
-    HashMap<String, String[]> readAllUpcomingClass(int currentweek, String currentday, int currenthour, int rangeweek) {
+    HashMap<String, String[]> readAllUpcomingClass(int currentweek, String currentday, int currenthour) {
         // Convenience method. Uses the array defined in ClassesFields to return all types.
         // Init hash map with capacity, assuming at least one of each class type
         HashMap<String, String[]> returnedmap = new HashMap<String, String[]>(ClassesFields.NUM_TYPE_CLASSES);
 
         for (String[] typearray : ClassesFields.TYPE_CLASSES_ARRAY) {
             // Put result into hashmap. Always set the hashmap key to the first entry in the array.
-            returnedmap.put(typearray[0], readUpcomingClass(typearray, currentweek, currentday, currenthour, rangeweek));
+            returnedmap.put(typearray[0], readUpcomingClass(typearray, currentweek, currentday, currenthour));
         }
 
         return returnedmap;
     }
 
-    String[] readUpcomingClass(String[] typearray, int currentweek, String currentday, int currenthour, int rangeweek) {
+    String[] readUpcomingClass(String[] typearray, int currentweek, String currentday, int currenthour) {
+        // TODO: revise function.
         final int ARB_HIGH_WEEK = 60; // arbitrary high week (see below)
+        final int ARB_HIGH_DAY = 10;
+        final int ARB_HIGH_TIME = 30;
 
-        String currenttype;
-        for (int i = 0; i<typearray.length; i++) {
-            currenttype = typearray[i];
-
-            // Create the selection sql string for the specified day
-            String sqlselection = ClassesFields.COLUMN_TYPE + "='" + currenttype + "'";
-
-            // Get the cursor results
-            Cursor dbcursor = db.query(ClassesFields.TABLE_NAME, null, sqlselection, null, null, null, null);
-
-            // check if empty, if so, then continue looping or set value in hashmap to null
-            if (!dbcursor.moveToFirst()) {
-                // reached the end without a match so return null.
-                if(i == typearray.length - 1) return null;
-
-                // else continue.
-                continue;
-            }
-
-            // if not then add earliest result after current week, day and time to hashmap.
-            // need to iterate to find the earliest.
-            int earlistclassidx = -1;
-            int earlyweektmp = ARB_HIGH_WEEK;
-            int earlyweektmp2;
-            String weekstmp;
-            for (int j = 0; i < dbcursor.getCount(); j++) {
-                weekstmp = dbcursor.getString(dbcursor.getColumnIndex(ClassesFields.COLUMN_WEEKS));
-                earlyweektmp2 = checkAndGetEarliestWeek(weekstmp, HStatic.getWeekOfYearInt(), false);
-                if((earlyweektmp2 != -1) && (earlyweektmp2 < earlyweektmp)) {
-                    earlyweektmp = earlyweektmp2;
-                    earlistclassidx = j;
-                } else if (earlyweektmp2 == earlyweektmp) {
-                    // fuuuuuuckyouuuuuu TODO: implement based on day... then time...
-                }
-                // no match, continue
-            }
-
-
+        // sql selection builder sub routine
+        StringBuilder sqlselbuild = new StringBuilder();
+        for (String currenttype : typearray) {
+            sqlselbuild.append(ClassesFields.COLUMN_TYPE);
+            sqlselbuild.append("='");
+            sqlselbuild.append(currenttype);
+            sqlselbuild.append("' OR ");
         }
+        sqlselbuild.delete(sqlselbuild.length() - 4, sqlselbuild.length());
+        String sqlselection = sqlselbuild.toString();
+
+        // Get the cursor results
+        Cursor dbcursor = db.query(ClassesFields.TABLE_NAME, null, sqlselection, null, null, null, null);
+
+        // check if empty
+        if (!dbcursor.moveToFirst()) {
+            // no matches were found, return null
+            return null;
+        }
+
+        // if not then add earliest result after current week, day and time to hashmap.
+        // need to iterate to find the earliest... probably very expensive performance wise.
+        int earlistclassidx = -1;
+
+        String weekstmp;
+        String daytmp;
+        int timetmp;
+
+        int earlyweekold = ARB_HIGH_WEEK;
+        int earlyweeknew;
+
+        int earlydayold = ARB_HIGH_DAY;
+        int earlydaynew;
+
+        int earlytimeold = ARB_HIGH_TIME;
+        int earlytimenew;
+
+        for (int i = 0; i < dbcursor.getCount(); i++) {
+            // cache values needed to check class
+            weekstmp = dbcursor.getString(dbcursor.getColumnIndex(ClassesFields.COLUMN_WEEKS));
+            daytmp = dbcursor.getString(dbcursor.getColumnIndex((ClassesFields.COLUMN_DAY)));
+            timetmp = dbcursor.getInt(dbcursor.getColumnIndex(ClassesFields.COLUMN_TIME));
+
+            // start by checking two classes based on weeks
+            earlyweeknew = checkAndGetEarliestWeek(weekstmp, currentweek, HStatic.hasClassAlreadyPast(daytmp, timetmp));
+            if((earlyweeknew != -1) && (earlyweeknew < earlyweekold)) {
+                earlyweekold = earlyweeknew;
+                earlistclassidx = i;
+            } else if (earlyweeknew == earlyweekold) {
+                // implement based on day
+                earlydaynew = HStatic.getIntFromStringDay(daytmp);
+                if(earlydaynew < earlydayold) {
+                    earlydayold = earlydaynew;
+                    earlistclassidx = i;
+                } else if (earlydaynew == earlydayold) {
+                    // implement based on time
+                    earlytimenew = timetmp;
+                    if(earlytimenew < earlytimeold) {
+                        earlytimeold = earlytimenew;
+                        earlistclassidx = i;
+                    } else if (earlytimenew == earlytimeold) {
+                        // classes have a clash... report the newest one for now
+                        // TODO: change function to return both.
+                        earlistclassidx = i;
+                    }
+                }
+            }
+
+            // no match, continue looping until one is found.
+            dbcursor.moveToNext();
+        }
+
+        // check if no classes matched
+        if (earlistclassidx == -1) return null;
+
+        // else move back to earlist position index, and create string array from it
+        dbcursor.moveToPosition(earlistclassidx);
+        String[] classstr = createClassStrArrayFromCursor(dbcursor);
+        Log.i(LogTag.APP, "Returned earliest class for " + typearray[0] + ": " + Arrays.deepToString(classstr));
+
+        return classstr;
     }
 
     @SuppressLint("DefaultLocale") // we can assume it will be always english
@@ -297,7 +322,7 @@ class HClassesDbUI {
                     String[] indweeks = indranges.split("-");
                     int limit1 = Integer.parseInt(indweeks[0]);
                     int limit2 = Integer.parseInt(indweeks[1]);
-                    if (currentweek <= limit2) {
+                    if ((currentweek + EXT_WEEK) <= limit2) {
                         if (currentweek < limit1) {
                             if (limit1 < lowestlimit) lowestlimit = limit1;
                         } else {
@@ -306,7 +331,7 @@ class HClassesDbUI {
                     }
                 } else {
                     int limit = Integer.parseInt(indranges);
-                    if (currentweek <= limit) {
+                    if ((currentweek + EXT_WEEK) <= limit) {
                         if (limit < lowestlimit) lowestlimit = limit;
                     }
                 }
@@ -322,7 +347,7 @@ class HClassesDbUI {
         }
     }
 
-	ContentValues createClassesCV(String[] svalues) {
+    ContentValues createClassesCV(String[] svalues) {
 		// values is an array containing the fields listed in ClassesFields
 		ContentValues cvalues = new ContentValues();
 		cvalues.put(ClassesFields.COLUMN_DAY, svalues[0]);
@@ -335,7 +360,22 @@ class HClassesDbUI {
 		return cvalues;
 	}
 
-	String[] readEntryFromLine(String line1) {
+	String[] createClassStrArrayFromCursor(Cursor dbcursor) {
+        // convenience method to create a string array from a db cursor
+        // must already have selected entry beforehand, otherwise will (most likely) throw an error
+        String[] tempstr = new String[ClassesFields.NUM_INFO_COLS];
+        tempstr[0] = Integer.toString(dbcursor.getInt(dbcursor.getColumnIndexOrThrow(ClassesFields._ID)));
+        tempstr[1] = dbcursor.getString(dbcursor.getColumnIndexOrThrow(ClassesFields.COLUMN_DAY));
+        tempstr[2] = Integer.toString(dbcursor.getInt(dbcursor.getColumnIndexOrThrow(ClassesFields.COLUMN_TIME))) + ":00";
+        tempstr[3] = dbcursor.getString(dbcursor.getColumnIndexOrThrow(ClassesFields.COLUMN_UNIT));
+        tempstr[4] = dbcursor.getString(dbcursor.getColumnIndexOrThrow(ClassesFields.COLUMN_TYPE));
+        tempstr[5] = "(0" + Integer.toString(dbcursor.getInt(dbcursor.getColumnIndexOrThrow(ClassesFields.COLUMN_STREAM))) + ") - ";
+        tempstr[6] = dbcursor.getString(dbcursor.getColumnIndexOrThrow(ClassesFields.COLUMN_WEEKS));
+        tempstr[7] = dbcursor.getString(dbcursor.getColumnIndexOrThrow(ClassesFields.COLUMN_VENUE));
+        return tempstr;
+    }
+
+    String[] readEntryFromLine(String line1) {
 		// if we didnt have to mutate the string, we would have a very small function here.
 		// instead, we need to remove the preference tag, AND join up the venue string as it 
 		// may contain a colon(s) in it which will get split by the function below. there may be

@@ -2,9 +2,8 @@ package com.github.marco9999.uwatimetable;
 
 import android.content.ContentValues;
 
+import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
 // import android.content.Context;
 // import android.widget.Toast;
 
@@ -17,11 +16,13 @@ class HStatic {
         if (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
             return Calendar.getInstance().get(Calendar.WEEK_OF_YEAR) + 1;
         }
+
         return Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
 	}
 
 	static int getDayOfWeekInt() {
-        // note: Special case for saturday and sunday -> default to monday. Sunday = 1 -> Saturday = 7
+        // note: Special case for saturday and sunday -> default to monday.
+        // Sunday = 1 -> Saturday = 7 from calendar, but this function goes from Monday = 0 -> Friday = 4.
 		// This array is based on weekdays_array from strings.xml
 		final int[] days = new int[] {0,0,1,2,3,4,0};
 		
@@ -29,18 +30,42 @@ class HStatic {
 		return days[Calendar.getInstance().get(Calendar.DAY_OF_WEEK)-1];
 	}
 
-	static ContentValues createTestEntry() {
-		// (test) create a new map of key -> values, to be used in storing in db
-		// (ContentValues class)
-		ContentValues testval = new ContentValues();
-		testval.put(ClassesFields.COLUMN_DAY, "Friday");
-		testval.put(ClassesFields.COLUMN_TIME, 12);
-		testval.put(ClassesFields.COLUMN_UNIT, "ENSC3001");
-		testval.put(ClassesFields.COLUMN_TYPE, "Lecture");
-		testval.put(ClassesFields.COLUMN_STREAM, 1);
-		testval.put(ClassesFields.COLUMN_WEEKS, "Sem1");
-		testval.put(ClassesFields.COLUMN_VENUE, "Physics: Ross Lecture Theatre");
-		return testval;
-	}
+    static String getDayOfWeekString() {
+        final String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
+        final int[] daysint = new int[] {0,0,1,2,3,4,0};
 
+        // Return int from array
+        return days[daysint[Calendar.getInstance().get(Calendar.DAY_OF_WEEK)-1]];
+
+    }
+
+    static int getHourOfDayInt() {
+        return Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+    }
+
+    static boolean hasClassAlreadyPast(String daytocheck, int timetocheck) {
+        int idx = getIntFromStringDay(daytocheck);
+        int day = getDayOfWeekInt();
+        int time = getHourOfDayInt();
+        return (idx > day && timetocheck > time);
+    }
+
+    static int getIntFromStringDay(String daytocheck) {
+        String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
+        return Arrays.binarySearch(days, daytocheck);
+    }
+
+    static ContentValues createTestEntry() {
+        // (test) create a new map of key -> values, to be used in storing in db
+        // (ContentValues class)
+        ContentValues testval = new ContentValues();
+        testval.put(ClassesFields.COLUMN_DAY, "Friday");
+        testval.put(ClassesFields.COLUMN_TIME, 12);
+        testval.put(ClassesFields.COLUMN_UNIT, "ENSC3001");
+        testval.put(ClassesFields.COLUMN_TYPE, "Lecture");
+        testval.put(ClassesFields.COLUMN_STREAM, 1);
+        testval.put(ClassesFields.COLUMN_WEEKS, "Sem1");
+        testval.put(ClassesFields.COLUMN_VENUE, "Physics: Ross Lecture Theatre");
+        return testval;
+    }
 }
