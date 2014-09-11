@@ -1,6 +1,7 @@
 package com.github.marco9999.uwatimetable;
 
 import android.content.ContentValues;
+import android.util.Log;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -43,16 +44,19 @@ class HStatic {
         return Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
     }
 
-    static boolean hasClassAlreadyPast(String daytocheck, int timetocheck) {
-        int idx = getIntFromStringDay(daytocheck);
+    static boolean hasClassAlreadyPast(String dayidxstring, int timeidx) {
+        int dayidx = getIntFromStringDay(dayidxstring);
         int day = getDayOfWeekInt();
         int time = getHourOfDayInt();
-        return (idx > day && timetocheck > time);
+        Log.d(LogTag.APP, "[hasclassalreadypassed called] " + "dayidxstring: " + dayidxstring + ", dayidx: " + dayidx + ", day: " + day + ", timeidx: " + timeidx + ", time: " + time);
+        if (day > dayidx) return true;
+        else if ((day == dayidx) && (time > timeidx)) return true;
+        else return false;
     }
 
     static int getIntFromStringDay(String daytocheck) {
         String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
-        return Arrays.binarySearch(days, daytocheck);
+        return Arrays.asList(days).indexOf(daytocheck);
     }
 
     static ContentValues createTestEntry() {

@@ -189,11 +189,12 @@ class HClassesDbUI {
         StringBuilder sqlselbuild = new StringBuilder();
         for (String currenttype : typearray) {
             sqlselbuild.append(ClassesFields.COLUMN_TYPE);
-            sqlselbuild.append("='");
+            sqlselbuild.append(" LIKE '%");
             sqlselbuild.append(currenttype);
-            sqlselbuild.append("' OR ");
+            sqlselbuild.append("%' OR ");
         }
         sqlselbuild.delete(sqlselbuild.length() - 4, sqlselbuild.length());
+        sqlselbuild.append(" COLLATE NOCASE");
         String sqlselection = sqlselbuild.toString();
 
         // Get the cursor results
@@ -212,6 +213,7 @@ class HClassesDbUI {
         String weekstmp;
         String daytmp;
         int timetmp;
+        boolean alreadypast;
 
         int earlyweekold = ARB_HIGH_WEEK;
         int earlyweeknew;
@@ -228,8 +230,9 @@ class HClassesDbUI {
             daytmp = dbcursor.getString(dbcursor.getColumnIndex((ClassesFields.COLUMN_DAY)));
             timetmp = dbcursor.getInt(dbcursor.getColumnIndex(ClassesFields.COLUMN_TIME));
 
-            // start by checking two classes based on weeks
-            earlyweeknew = checkAndGetEarliestWeek(weekstmp, currentweek, HStatic.hasClassAlreadyPast(daytmp, timetmp));
+            // start by checking two classes based on weeks (more efficient to do weeks -> day -> time? or day -> weeks -> time? etc)
+            alreadypast = HStatic.hasClassAlreadyPast(daytmp, timetmp);
+            earlyweeknew = checkAndGetEarliestWeek(weekstmp, currentweek, alreadypast);
             if((earlyweeknew != -1) && (earlyweeknew < earlyweekold)) {
                 earlyweekold = earlyweeknew;
                 earlistclassidx = i;
@@ -252,6 +255,8 @@ class HClassesDbUI {
                     }
                 }
             }
+            Log.d(LogTag.APP, "[readupcomingclass loop] " + "class: " + weekstmp + " - " + daytmp + " - " + timetmp + ", alreadypast: " + alreadypast + ", earlyweeknew: " + earlyweeknew + ", earliestclassidx: " + earlistclassidx);
+            Log.d(LogTag.APP, "-----");
 
             // no match, continue looping until one is found.
             dbcursor.moveToNext();
