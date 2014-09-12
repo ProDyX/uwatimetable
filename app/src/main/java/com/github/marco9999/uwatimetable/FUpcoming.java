@@ -69,12 +69,13 @@ public class FUpcoming extends Fragment {
             // else make a new entry view
             entry = (ViewGroup) mainactivity.getLayoutInflater().inflate(R.layout.entry_upcoming_fragment, fcontainer, false);
 
-            // set title string
+            // set title and day string
+            ((TextView) entry.findViewById(R.id.upcoming_day)).setText(extclass[ClassesFields.FIELD_INDEX_DAYS]);
             ((TextView) entry.findViewById(R.id.upcoming_title)).setText(typearray[0]);
 
             // set day and weeks to visible
-            entry.findViewById(R.id.delete_day).setVisibility(View.VISIBLE);
-            entry.findViewById(R.id.day_week_divider).setVisibility(View.VISIBLE);
+            entry.findViewById(R.id.delete_day).setVisibility(View.GONE);
+            entry.findViewById(R.id.day_week_divider).setVisibility(View.GONE);
             entry.findViewById(R.id.title_weeks).setVisibility(View.VISIBLE);
             entry.findViewById(R.id.weeks).setVisibility(View.VISIBLE);
 

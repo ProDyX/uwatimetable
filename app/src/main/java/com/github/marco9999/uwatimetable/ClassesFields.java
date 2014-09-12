@@ -26,9 +26,9 @@ final class ClassesFields implements BaseColumns {
     // (ID:)DAY:TIME:UNIT:TYPE:STREAM:WEEKS:VENUE(:[PREF i], not currently used)
 	final static Integer[] FIELD_VIEW_MAP_OVERVIEW = {R.id.id_number, null, R.id.time, R.id.unit, R.id.type, R.id.stream, R.id.weeks, R.id.venue};
     final static Integer[] FIELD_VIEW_MAP_DELENT = {R.id.delete_id, R.id.delete_day, R.id.time, R.id.unit, R.id.type, R.id.stream, R.id.weeks, R.id.venue};
-    final static Integer[] FIELD_VIEW_MAP_UPCOMING = {null, R.id.delete_day, R.id.time, R.id.unit, R.id.type, R.id.stream, R.id.weeks, R.id.venue};
+    final static Integer[] FIELD_VIEW_MAP_UPCOMING = {null, null, R.id.time, R.id.unit, R.id.type, R.id.stream, R.id.weeks, R.id.venue};
     final static Integer[] FIELD_VIEW_MAP_ADDCLASS = {R.id.day, R.id.time, R.id.unit, R.id.type, R.id.stream, R.id.weeks, R.id.venue}; // id field omitted as it is not used when adding a class manually
-	final static int FIELD_INDEX_WEEKS = 6; // used to map week to textview in WClassesBaseAdapter
+    final static int FIELD_INDEX_DAYS = 1; // used to map day in upcoming fragment
 	final static int FIELD_INDEX_ID = 0;
 
     // Within the types of classes, we have: Lectures, Labs, Tutorials, Practicals, Seminars (According to timetable.uwa.edu.au) + Workshops

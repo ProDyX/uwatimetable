@@ -94,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/day"
-                android:textColor="#FF0000"
+                android:textColor="@color/red"
                 android:layout_marginRight="5dp"
                 android:visibility="gone"/>
 
@@ -111,7 +111,7 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="@string/title_weeks"
-		        android:textColor="#FF0000"
+		        android:textColor="@color/red"
 		        android:layout_marginRight="5dp"
 		        android:visibility="gone" />
 		    
@@ -120,7 +120,7 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="@string/weeks" 
-		        android:textColor="#FF0000"
+		        android:textColor="@color/red"
 		        android:visibility="gone" />
 		    
 	    </LinearLayout>
@@ -137,7 +137,7 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="@string/title_id"
-		        android:textColor="#FF0000"
+		        android:textColor="@color/red"
 		        android:layout_marginRight="5dp"
 		        android:visibility="gone" />
             
@@ -146,7 +146,7 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="@string/id"
-		        android:textColor="#FF0000"
+		        android:textColor="@color/red"
 		        android:visibility="gone" />
 
 	   	</LinearLayout>
