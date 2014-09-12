@@ -20,22 +20,19 @@ public class LNavDrawerItemClick implements ListView.OnItemClickListener {
         TextView item = (TextView) view;
         String fragmentstr = (String) item.getText();
 
-        // check if its already on the stack
+        // manage fragments
+        // see if fragment is already on the stack by using findByTag, if not then we proceed to replace the old one with it.
         if(mainactivity.getFragmentManager().findFragmentByTag(fragmentstr) == null) {
             if(fragmentstr.equals(Tag.FRAGMENT_OVERVIEW)) {
                 mainactivity.getFragmentManager().beginTransaction()
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null)
                         .replace(R.id.fragment_holder, new FMainOverview(), Tag.FRAGMENT_OVERVIEW)
                         .commit();
-                mainactivity.drawerlayout.closeDrawer(mainactivity.drawerlist);
             } else if (fragmentstr.equals(Tag.FRAGMENT_UPCOMING)) {
                 mainactivity.getFragmentManager().beginTransaction()
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null)
                         .replace(R.id.fragment_holder, new FUpcoming(), Tag.FRAGMENT_UPCOMING)
                         .commit();
-                mainactivity.drawerlayout.closeDrawer(mainactivity.drawerlist);
             }
         }
 

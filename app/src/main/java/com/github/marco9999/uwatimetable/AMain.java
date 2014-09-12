@@ -118,10 +118,6 @@ public class AMain extends Activity {
 	
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		if(!mainoverviewfrag.isVisible()) {
-			menu.findItem(R.id.action_settings).setVisible(false);
-			menu.findItem(R.id.action_help).setVisible(false);
-		}
 		return true;
 	}
 

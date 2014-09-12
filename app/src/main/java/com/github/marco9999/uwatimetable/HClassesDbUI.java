@@ -189,7 +189,7 @@ class HClassesDbUI {
         StringBuilder sqlselbuild = new StringBuilder();
         for (String currenttype : typearray) {
             sqlselbuild.append(ClassesFields.COLUMN_TYPE);
-            sqlselbuild.append(" LIKE '%");
+            sqlselbuild.append(" LIKE '");
             sqlselbuild.append(currenttype);
             sqlselbuild.append("%' OR ");
         }
@@ -210,19 +210,13 @@ class HClassesDbUI {
         // need to iterate to find the earliest... probably very expensive performance wise.
         int earlistclassidx = -1;
 
-        String weekstmp;
-        String daytmp;
+        String weekstmp, daytmp;
         int timetmp;
         boolean alreadypast;
 
-        int earlyweekold = ARB_HIGH_WEEK;
-        int earlyweeknew;
-
-        int earlydayold = ARB_HIGH_DAY;
-        int earlydaynew;
-
-        int earlytimeold = ARB_HIGH_TIME;
-        int earlytimenew;
+        int earlyweekold = ARB_HIGH_WEEK, earlyweeknew;
+        int earlydayold = ARB_HIGH_DAY, earlydaynew;
+        int earlytimeold = ARB_HIGH_TIME, earlytimenew;
 
         for (int i = 0; i < dbcursor.getCount(); i++) {
             // cache values needed to check class
@@ -235,17 +229,23 @@ class HClassesDbUI {
             earlyweeknew = checkAndGetEarliestWeek(weekstmp, currentweek, alreadypast);
             if((earlyweeknew != -1) && (earlyweeknew < earlyweekold)) {
                 earlyweekold = earlyweeknew;
+                earlydayold = HStatic.getIntFromStringDay(daytmp);
+                earlytimeold = timetmp;
                 earlistclassidx = i;
             } else if (earlyweeknew == earlyweekold) {
                 // implement based on day
                 earlydaynew = HStatic.getIntFromStringDay(daytmp);
                 if(earlydaynew < earlydayold) {
+                    earlyweekold = earlyweeknew;
                     earlydayold = earlydaynew;
+                    earlytimeold = timetmp;
                     earlistclassidx = i;
                 } else if (earlydaynew == earlydayold) {
                     // implement based on time
                     earlytimenew = timetmp;
                     if(earlytimenew < earlytimeold) {
+                        earlyweekold = earlyweeknew;
+                        earlydayold = earlydaynew;
                         earlytimeold = earlytimenew;
                         earlistclassidx = i;
                     } else if (earlytimenew == earlytimeold) {

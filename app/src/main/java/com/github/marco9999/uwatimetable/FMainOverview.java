@@ -24,7 +24,7 @@ public class FMainOverview extends Fragment {
 	Button week;
 	private WClassesBaseAdapter classadapter;
 	AMain mainactivity;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -118,9 +118,6 @@ public class FMainOverview extends Fragment {
 		// set title
     	mainactivity.getActionBar().setSubtitle(R.string.title_overview);
 
-    	// show menu items
-		setMenuVisibility(true);
-
         // show the ui
 		initUI();
 	}
@@ -139,9 +136,6 @@ public class FMainOverview extends Fragment {
 	
 	@Override
 	public void onStop() {
-		// hide menu items
-		setMenuVisibility(false);
-
 		super.onStop();
 	}
 
@@ -180,7 +174,6 @@ public class FMainOverview extends Fragment {
 			this.displayallclassesOptionEvent(item);
 			return true;
 		default: 
-			Log.e(LogTag.APP, "MainFragmentOverview: Reached defualt in onOptionsItemSelected! Shouldn't happen.");
 			break;
 		}
 		return false;
