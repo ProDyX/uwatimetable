@@ -166,20 +166,20 @@ class HClassesDbUI {
         return returnedlist;
     }
 
-    HashMap<String, String[]> readAllUpcomingClass(int currentweek, String currentday, int currenthour) {
+    HashMap<String, String[]> readAllUpcomingClass(int currentweek) {
         // Convenience method. Uses the array defined in ClassesFields to return all types.
         // Init hash map with capacity, assuming at least one of each class type
         HashMap<String, String[]> returnedmap = new HashMap<String, String[]>(ClassesFields.NUM_TYPE_CLASSES);
 
         for (String[] typearray : ClassesFields.TYPE_CLASSES_ARRAY) {
             // Put result into hashmap. Always set the hashmap key to the first entry in the array.
-            returnedmap.put(typearray[0], readUpcomingClass(typearray, currentweek, currentday, currenthour));
+            returnedmap.put(typearray[0], readUpcomingClass(typearray, currentweek));
         }
 
         return returnedmap;
     }
 
-    String[] readUpcomingClass(String[] typearray, int currentweek, String currentday, int currenthour) {
+    String[] readUpcomingClass(String[] typearray, int currentweek) {
         // TODO: revise function.
         final int ARB_HIGH_WEEK = 60; // arbitrary high week (see below)
         final int ARB_HIGH_DAY = 10;
@@ -229,12 +229,12 @@ class HClassesDbUI {
             earlyweeknew = checkAndGetEarliestWeek(weekstmp, currentweek, alreadypast);
             if((earlyweeknew != -1) && (earlyweeknew < earlyweekold)) {
                 earlyweekold = earlyweeknew;
-                earlydayold = HStatic.getIntFromStringDay(daytmp);
+                earlydayold = HStatic.getIntFromStringDayAll(daytmp);
                 earlytimeold = timetmp;
                 earlistclassidx = i;
             } else if (earlyweeknew == earlyweekold) {
                 // implement based on day
-                earlydaynew = HStatic.getIntFromStringDay(daytmp);
+                earlydaynew = HStatic.getIntFromStringDayAll(daytmp);
                 if(earlydaynew < earlydayold) {
                     earlyweekold = earlyweeknew;
                     earlydayold = earlydaynew;

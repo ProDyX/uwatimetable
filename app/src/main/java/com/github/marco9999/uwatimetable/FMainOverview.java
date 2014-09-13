@@ -98,7 +98,8 @@ public class FMainOverview extends Fragment {
         } else {
             // otherwise just default to current day and week
             today.setSelection(HStatic.getDayOfWeekInt(), false); // set initially as today. set animate parameter to false to avoid initialising ui twice unnecessarily
-            week.setText(Integer.toString(HStatic.getWeekOfYearInt()));
+            if (HStatic.nextWeek()) week.setText(Integer.toString(HStatic.getWeekOfYearInt() + 1)); // saturday
+            else week.setText(Integer.toString(HStatic.getWeekOfYearInt())); // default
         }
         // try to see if its a config change.. and override anything above
         if (savedInstanceState != null) {

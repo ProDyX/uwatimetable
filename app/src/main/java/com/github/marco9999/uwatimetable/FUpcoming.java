@@ -54,7 +54,7 @@ public class FUpcoming extends Fragment {
         // dynamicly build ui based on number of types returned.
 
         // read upcoming classes into hashmap
-        HashMap<String, String[]> upcoming = mainactivity.dbhelperui.readAllUpcomingClass(HStatic.getWeekOfYearInt(), HStatic.getDayOfWeekString(), HStatic.getHourOfDayInt());
+        HashMap<String, String[]> upcoming = mainactivity.dbhelperui.readAllUpcomingClass(HStatic.getWeekOfYearInt());
 
         // loop through hashmap, based on type array from ClassesFields
         ViewGroup entry;

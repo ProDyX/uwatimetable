@@ -11,13 +11,6 @@ import java.util.Calendar;
 class HStatic {
 
 	static int getWeekOfYearInt() {
-        // special case for if its saturday, as we have set the program to return monday (of next week) if its the weekend...
-        // but whilst sunday is already the start of next week, saturday is still considered as part of the current week.
-        // thus for saturday, just return the current week + 1.
-        if (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
-            return Calendar.getInstance().get(Calendar.WEEK_OF_YEAR) + 1;
-        }
-
         return Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
 	}
 
@@ -31,13 +24,16 @@ class HStatic {
 		return days[Calendar.getInstance().get(Calendar.DAY_OF_WEEK)-1];
 	}
 
-    static String getDayOfWeekString() {
-        final String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
-        final int[] daysint = new int[] {0,0,1,2,3,4,0};
+    static int getDayOfWeekIntAll() {
+        // needed for upcoming fragment (workaround)
+        return Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+    }
 
-        // Return int from array
-        return days[daysint[Calendar.getInstance().get(Calendar.DAY_OF_WEEK)-1]];
-
+    static boolean nextWeek() {
+        // function to return true if day = saturday.
+        // used for determining if the next week should be shown instead of current week (as classes finish on friday)
+        if (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) return true;
+        else return false;
     }
 
     static int getHourOfDayInt() {
@@ -45,8 +41,9 @@ class HStatic {
     }
 
     static boolean hasClassAlreadyPast(String dayidxstring, int timeidx) {
-        int dayidx = getIntFromStringDay(dayidxstring);
-        int day = getDayOfWeekInt();
+        // needed for upcoming fragment (workaround)
+        int dayidx = getIntFromStringDayAll(dayidxstring);
+        int day = getDayOfWeekIntAll();
         int time = getHourOfDayInt();
         Log.d(LogTag.APP, "[hasclassalreadypassed called] " + "dayidxstring: " + dayidxstring + ", dayidx: " + dayidx + ", day: " + day + ", timeidx: " + timeidx + ", time: " + time);
         if (day > dayidx) return true;
@@ -54,9 +51,10 @@ class HStatic {
         else return false;
     }
 
-    static int getIntFromStringDay(String daytocheck) {
-        String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
-        return Arrays.asList(days).indexOf(daytocheck);
+    static int getIntFromStringDayAll(String daytocheck) {
+        // needed for upcoming fragment (workaround)
+        String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+        return (Arrays.asList(days).indexOf(daytocheck) + 1);
     }
 
     static ContentValues createTestEntry() {
