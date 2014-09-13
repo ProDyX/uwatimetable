@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
+import android.support.v4.widget.DrawerLayout;
 import android.widget.Toast;
 
 public class FSettings extends PreferenceFragment implements OnPreferenceClickListener {
@@ -44,6 +45,23 @@ public class FSettings extends PreferenceFragment implements OnPreferenceClickLi
     	
     	// set title
     	mainactivity.getActionBar().setSubtitle(R.string.title_settings);
+
+        // lock drawer closed
+        mainactivity.drawerlayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        mainactivity.drawertoggle.setDrawerIndicatorEnabled(false);
+        mainactivity.getActionBar().setHomeButtonEnabled(false);
+        mainactivity.getActionBar().setDisplayHomeAsUpEnabled(false);
+    }
+
+    @Override
+    public void onStop() {
+        // unlock drawer
+        mainactivity.drawerlayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        mainactivity.drawertoggle.setDrawerIndicatorEnabled(true);
+        mainactivity.getActionBar().setHomeButtonEnabled(true);
+        mainactivity.getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        super.onStop();
     }
     
 	@Override
