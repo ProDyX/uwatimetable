@@ -114,6 +114,7 @@ public class AMain extends Activity {
 		// inflate menu items
 		getMenuInflater().inflate(R.menu.main_activity, menu);
 		return true;
+        //test
 	}
 	
 	@Override
