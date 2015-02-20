@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">UWA Timetable</string>
+    <string name="title_overview">Overview</string>
+    <string name="title_upcoming">Upcoming</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_help">Help</string>
+    <string name="title_manual_entry">Create Manual Entry</string>
+    <string name="title_delete_entry">Delete Selected Entries</string>
+    <string name="title_read_olcr">Read From OLCR</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_help">Help</string>
+    <string name="option_displayallclasses">Display all classes</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="null_">Null</string>
+    <string name="title_day">Day:</string>
+    <string name="title_week">Week:</string>
+    <string name="title_time">Time:</string>
+    <string name="title_unit">Unit:</string>
+    <string name="title_type">Type:</string>
+    <string name="title_stream">Stream:</string>
+    <string name="title_weeks">Weeks:</string>
+    <string name="title_venue">Venue:</string>
+    <string name="title_id">ID:</string>
+    <string name="day">Day</string>
+    <string name="time">Time</string>
+    <string name="unit">Unit</string>
+    <string name="type">Type</string>
+    <string name="stream">Stream</string>
+    <string name="weeks">Weeks</string>
+    <string name="venue">Venue</string>
+    <string name="id">ID</string>
+    <string name="noclasses">No classes found.</string>
+    <string name="noclasses_displayall">Try turning on \"Display all classes\".</string>
+    <string name="resetweek">Reset to\ncurrent week</string>
+    <string name="firstuse"><b>First time using?\nHead over to settings to start importing your classes.\nConsult help for more information.</b></string>
+    <string name="week_noeffect">Warning: This will have no effect as \"Display all classes\" is turned on!</string>
+
+    <string-array name="weekdays_array">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+    </string-array>
+    <string-array name="nav_drawer_items">
+        <item>Overview</item>
+        <item>Upcoming</item>
+    </string-array>
+
+    <string name="drawer_open">Opened Navigation Drawer</string>
+    <string name="drawer_close">Closed Navigation Drawer</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--  Strings for possible PreferenceActivity Back/Next buttons -->
+    <string name="back_button_label">Back</string>
+    <string name="next_button_label">Next</string>
+
+    <!-- Optional button to Skip a PreferenceActivity [CHAR LIMIT=20] -->
+    <string name="skip_button_label">Skip</string>
+</resources>
