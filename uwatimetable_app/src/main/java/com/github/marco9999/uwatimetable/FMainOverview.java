@@ -60,10 +60,9 @@ public class FMainOverview extends Fragment {
 		
 		// classes recyclerview and adapter setup
         classeslist.setLayoutManager(new LinearLayoutManager(mainactivity));
-		classadapter = AdOverviewClassesList.newInstance(mainactivity, (ViewGroup) classeslist.getRootView());
+		classadapter = AdOverviewClassesList.newInstance(mainactivity);
 		classeslist.setAdapter(classadapter);
         // TODO: check if this applies: classeslist.setHasFixedSize(true);
-
 
 		// today spinner and adapter setup
 		ArrayAdapter<CharSequence> dayslistadapter = ArrayAdapter.createFromResource(mainactivity, R.array.weekdays_array, android.R.layout.simple_spinner_item);

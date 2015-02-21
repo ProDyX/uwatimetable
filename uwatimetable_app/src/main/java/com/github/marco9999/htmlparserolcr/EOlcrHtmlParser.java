@@ -105,12 +105,12 @@ public class EOlcrHtmlParser {
 		// Split classes
 		final String classregex = "(?<=\\[Pref\\s\\d{1,2}\\])(?!\\s\\(cont\\))|(?<=\\s\\(cont\\))";
 		String[] seperateclasses = dirtycell.trim().split(classregex);
-		Log.i(LogTag.OLCR, "------");
-		Log.i(LogTag.OLCR, "RAW: " + day + "/" + time + ": " + dirtycell);
+		Log.i(LogTag.htmlparserolcr, "------");
+		Log.i(LogTag.htmlparserolcr, "RAW: " + day + "/" + time + ": " + dirtycell);
 		for(String s : seperateclasses) {
-			Log.i(LogTag.OLCR, "LISTING: " + s);
+			Log.i(LogTag.htmlparserolcr, "LISTING: " + s);
 		}
-		Log.i(LogTag.OLCR, "------");
+		Log.i(LogTag.htmlparserolcr, "------");
 		
 		// Trim invidual fields and add date and time
 		String[] singleclassfields;

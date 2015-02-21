@@ -15,17 +15,15 @@ import java.util.ArrayList;
 public class AdOverviewClassesList extends RecyclerView.Adapter<WrClassViewHolder> {
 
     private AMain mainactivity;
-    private ViewGroup overviewcont;
     private ArrayList<String[]> classeslist;
 
     public AdOverviewClassesList() {
         classeslist = new ArrayList<String[]>();
     }
 
-    public static AdOverviewClassesList newInstance(AMain _mainactivity, ViewGroup _overviewcont) {
+    public static AdOverviewClassesList newInstance(AMain _mainactivity) {
         AdOverviewClassesList adapter = new AdOverviewClassesList();
         adapter.mainactivity = _mainactivity;
-        adapter.overviewcont = _overviewcont;
         return adapter;
     }
 
@@ -79,11 +77,3 @@ public class AdOverviewClassesList extends RecyclerView.Adapter<WrClassViewHolde
     }
 }
 
-class WrClassViewHolder extends RecyclerView.ViewHolder {
-    ViewGroup rootview;
-
-    WrClassViewHolder(View itemview) {
-        super(itemview);
-        rootview = (ViewGroup) itemview;
-    }
-}

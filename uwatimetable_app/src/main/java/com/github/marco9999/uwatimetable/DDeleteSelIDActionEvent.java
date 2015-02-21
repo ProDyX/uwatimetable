@@ -64,7 +64,7 @@ public class DDeleteSelIDActionEvent extends DialogFragment {
                     String toastmsg = "Deleted classes.";
                     Toast.makeText(mainactivity, toastmsg, Toast.LENGTH_LONG).show();
                 }
-                context.initList();
+                context.initUI();
             }
         });
         builder.setNegativeButton(LABEL_NEG, new DialogInterface.OnClickListener() {
@@ -73,7 +73,7 @@ public class DDeleteSelIDActionEvent extends DialogFragment {
                 // display toast notifying success.
                 String toastmsg = "Canceled.";
                 Toast.makeText(mainactivity, toastmsg, Toast.LENGTH_LONG).show();
-                context.initList();
+                context.initUI();
             }
         });
         return builder.create();

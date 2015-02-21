@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    <ListView
-        android:id="@android:id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
-    <include layout="@layout/empty_classes_list"
-        android:id="@android:id/empty"/>
+    <include layout="@layout/empty_classes_list" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/delete_classeslist"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 </LinearLayout>
