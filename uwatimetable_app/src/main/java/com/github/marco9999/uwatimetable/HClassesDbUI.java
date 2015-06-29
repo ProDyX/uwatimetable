@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-class HClassesDbUI {
+public class HClassesDbUI {
 
 	private final static String token = ":";
 
@@ -90,7 +90,7 @@ class HClassesDbUI {
 		}
 	}
 
-	boolean writeClassToDB(ContentValues[] values) {
+	public boolean writeClassToDB(ContentValues[] values) {
 		// Insert the new rows, db must be writable (assumed)
 		long retcode;
 		for (int i = 0; i < values.length; i++) {
@@ -352,7 +352,7 @@ class HClassesDbUI {
         }
     }
 
-    ContentValues createClassesCV(String[] svalues) {
+    public ContentValues createClassesCV(String[] svalues) {
 		// values is an array containing the fields listed in ClassesFields
 		ContentValues cvalues = new ContentValues();
 		cvalues.put(ClassesFields.COLUMN_DAY, svalues[0]);
@@ -380,7 +380,7 @@ class HClassesDbUI {
         return tempstr;
     }
 
-    String[] readEntryFromLine(String line1) {
+    public String[] readEntryFromLine(String line1) {
 		// if we didnt have to mutate the string, we would have a very small function here.
 		// instead, we need to remove the preference tag, AND join up the venue string as it 
 		// may contain a colon(s) in it which will get split by the function below. there may be

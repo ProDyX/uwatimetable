@@ -11,7 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-public class FReadOLCR extends Fragment implements OnClickListener {
+public class FReadOLCRWebView extends Fragment implements OnClickListener {
 
 	private static final String olcrurl = "https://server1.olcr.uwa.edu.au/olcrstudent/";
 

@@ -31,7 +31,7 @@ public class EOlcrHtmlParser {
 		// Clean the html string using Jsoup
 		String html = Jsoup.clean(dirtyhtml, Whitelist.relaxed());
 		
-		// LOOKAT: Too hard to workout dimension dynamically so just allocate more than enough rows
+		// LOOKAT: Too hard (read: lazy) to workout dimension dynamically so just allocate more than enough rows
 		// In theory max rows should be 1 (header) + 24 (hours) = 25 rows, but not urgent.
 		String[][] finaltable = new String[64][]; 		
 		
@@ -78,6 +78,7 @@ public class EOlcrHtmlParser {
 
 	private ArrayList<String> makeListFromTable(String[][] finaltable) {
 		// Turn double array into ArrayList for easier processing
+		// Also append the day and time to the string for linear processing later
 		ArrayList<String> finallist = new ArrayList<String>((finaltable.length * finaltable[0].length)*2);
 		String[] tmparray;
 		for(int i = 1; i<finaltable.length; i++) {
@@ -96,6 +97,9 @@ public class EOlcrHtmlParser {
 	}
 	
 	private String[] makeCleanClassStrings(String day, String time, String dirtycell1) {
+        // A cell may contain 1 or more classes, therefore we need to clean up the text and split the cell into the seperate classes.
+        // Most of the time, there will only be one or two classes per cell.
+
 		// get only the hour
 		String newtime = time.split(":")[0];
 		

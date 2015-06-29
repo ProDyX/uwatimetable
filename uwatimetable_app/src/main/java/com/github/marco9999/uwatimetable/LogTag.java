@@ -5,4 +5,5 @@ package com.github.marco9999.uwatimetable;
  */
 public class LogTag {
     final static String APP = "uwatimetable";
+    final static String OLCR = "OLCR";
 }

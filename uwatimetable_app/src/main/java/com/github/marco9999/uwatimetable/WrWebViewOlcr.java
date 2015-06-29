@@ -15,7 +15,7 @@ class WrWebViewOlcr extends WebView {
 		getSettings().setBuiltInZoomControls(true);
 		getSettings().setDisplayZoomControls(false);
 		getSettings().setJavaScriptEnabled(true);
-		addJavascriptInterface(new HClassesOlcrImporter((AMain)context), "HTMLOUT");
+		addJavascriptInterface(new HClassesWebViewOlcrImporter((AMain)context), "HTMLOUT");
 	}
 	
 	// Anderp bug? Without this no virtual keyboard comes up (https://code.google.com/p/android/issues/detail?id=7189)

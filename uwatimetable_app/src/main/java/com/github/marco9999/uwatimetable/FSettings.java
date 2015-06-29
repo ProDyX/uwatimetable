@@ -89,7 +89,7 @@ public class FSettings extends PreferenceFragment implements OnPreferenceClickLi
 			getFragmentManager().beginTransaction()
 				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 				.addToBackStack(null)
-				.replace(R.id.fragment_holder, new FReadOLCR())
+				.replace(R.id.fragment_holder, new FReadOLCRWebView())
 				.commit();
 		}
 	}
@@ -126,7 +126,7 @@ public class FSettings extends PreferenceFragment implements OnPreferenceClickLi
 
 	void readfromfileActionEvent() {
 		// See the EClassesFileAsyncTask class for more details.
-		new EClassesFileAsyncTask(mainactivity).execute(new Void[] {null});
+		new HClassesFileOLCRImporter(mainactivity, mainactivity.dbhelperui).read();
 		
 		// set first time use to false
         mainactivity.uisharedpref.edit().putBoolean(Key.FIRSTTIMEUSE, false).commit();

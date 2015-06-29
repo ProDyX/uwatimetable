@@ -1,4 +1,4 @@
-package com.github.marco9999.uwatimetable;
+package com.github.marco9999.fileparserolcr;
 
 import android.os.Environment;
 import android.util.Log;
@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-class HClassesFileImporter {
+class HClassesFileReader {
 	
 	private final static String filename = "classes.txt";
 
@@ -23,15 +23,15 @@ class HClassesFileImporter {
 		if (Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
 			classesdbfile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + filename);
 			if(classesdbfile.exists()) {
-				Log.i(LogTag.APP, "Opened file: " + classesdbfile.getPath());
+				Log.i(LogTag.fileparserolcr, "Opened file: " + classesdbfile.getPath());
 				return true;
 			}
 		} else {
 		    // Oops... what went wrong here?
-		    Log.e(LogTag.APP, "Error: Check read from external storage permission!");
+		    Log.e(LogTag.fileparserolcr, "Error: Check read from external storage permission!");
 		    return false;
 		}
-		Log.i(LogTag.APP, "File doesn't exist.");
+		Log.i(LogTag.fileparserolcr, "File doesn't exist.");
 		return false; // file doesn't exist, so don't bother trying to read it.
 	}
 	

@@ -1,21 +1,22 @@
-package com.github.marco9999.uwatimetable;
+package com.github.marco9999.fileparserolcr;
 
 import android.content.ContentValues;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.github.marco9999.uwatimetable.HClassesFileOLCRImporter;
+
 import java.util.ArrayList;
 
-class EClassesFileAsyncTask extends AsyncTask<Void, Integer, Void>
+public class EClassesFileAsyncTask extends AsyncTask<Void, Integer, Void>
 {
-	private final AMain mainactivity;
-	private final HClassesDbUI dbhelperui;
+
+    private final HClassesFileOLCRImporter callback;
 	
-	public EClassesFileAsyncTask(AMain _mainactivity) {
+	public EClassesFileAsyncTask(HClassesFileOLCRImporter _callback) {
 		super();
-		mainactivity = _mainactivity;
-		dbhelperui = mainactivity.dbhelperui;
+		callback = _callback;
 	}
 	
 	@Override
@@ -28,7 +29,7 @@ class EClassesFileAsyncTask extends AsyncTask<Void, Integer, Void>
 		ArrayList<ContentValues> arraycv = new ArrayList<ContentValues>();
 		
 		// open file helper, check for error (also done in class)
-		HClassesFileImporter filehelper = new HClassesFileImporter();
+		HClassesFileReader filehelper = new HClassesFileReader();
 		if(filehelper.openClassesDBFile()) {
 			filehelper.openBufferedReaderFile();
 		} else {
@@ -37,13 +38,13 @@ class EClassesFileAsyncTask extends AsyncTask<Void, Integer, Void>
 		
 		int count = 0;
 		while(filehelper.moveToNextLine()) {
-			arraycv.add(dbhelperui.createClassesCV(dbhelperui.readEntryFromLine(filehelper.getLine())));
+			arraycv.add(callback.dbhelperui.createClassesCV(callback.dbhelperui.readEntryFromLine(filehelper.getLine())));
 			count++;
 		}
 		filehelper.closeFile();
 		
 		// Write to db
-		dbhelperui.writeClassToDB(arraycv.toArray(new ContentValues[arraycv.size()]));
+		callback.dbhelperui.writeClassToDB(arraycv.toArray(new ContentValues[arraycv.size()]));
 		
 		// progress update
 		publishProgress(count);
@@ -53,7 +54,7 @@ class EClassesFileAsyncTask extends AsyncTask<Void, Integer, Void>
 	
 	@Override
 	protected void onPostExecute(Void result) {
-		Log.i(LogTag.APP, "Read from file complete");
+		Log.i(LogTag.fileparserolcr, "Read from file complete");
 	}
 	
 	@Override
@@ -61,7 +62,7 @@ class EClassesFileAsyncTask extends AsyncTask<Void, Integer, Void>
 		// only called one time at end of file read
 		// display toast notifying success.
 		String toastmsg = "Read in " + result[0] + " class entries from file.";
-		Toast.makeText(mainactivity, toastmsg, Toast.LENGTH_LONG).show();
+		Toast.makeText(callback.mainactivity, toastmsg, Toast.LENGTH_LONG).show();
 	}
 	
 }
