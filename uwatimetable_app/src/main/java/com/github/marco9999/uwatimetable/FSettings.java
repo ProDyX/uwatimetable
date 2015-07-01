@@ -13,7 +13,8 @@ public class FSettings extends PreferenceFragment implements OnPreferenceClickLi
 	
 	private AMain mainactivity;
 	
-	private static final String p_action_read_from_olcr = "action_read_from_olcr";
+	private static final String p_action_read_from_webview_olcr = "action_read_from_webview_olcr";
+	private static final String p_action_read_from_https_olcr = "action_read_from_https_olcr";
 	private static final String p_action_read_from_file = "action_read_from_file";
 	private static final String p_action_manual_entry = "action_manual_entry";
 	private static final String p_action_delete_database = "action_delete_database";
@@ -31,8 +32,9 @@ public class FSettings extends PreferenceFragment implements OnPreferenceClickLi
         mainactivity = (AMain) getActivity();
         
         // add listener to preferences
-        this.findPreference(p_action_read_from_olcr).setOnPreferenceClickListener(this);
-        this.findPreference(p_action_read_from_file).setOnPreferenceClickListener(this);
+        this.findPreference(p_action_read_from_webview_olcr).setOnPreferenceClickListener(this);
+		this.findPreference(p_action_read_from_https_olcr).setOnPreferenceClickListener(this);
+		this.findPreference(p_action_read_from_file).setOnPreferenceClickListener(this);
         this.findPreference(p_action_manual_entry).setOnPreferenceClickListener(this);
         this.findPreference(p_action_delete_database).setOnPreferenceClickListener(this);
         this.findPreference(p_action_delete_selected_entries).setOnPreferenceClickListener(this);
@@ -67,8 +69,10 @@ public class FSettings extends PreferenceFragment implements OnPreferenceClickLi
 	@Override
 	public boolean onPreferenceClick(Preference preference) {
 		String key = preference.getKey();
-		if (key.equals(p_action_read_from_olcr)) {
-			readfromolcrActionEvent();
+		if (key.equals(p_action_read_from_webview_olcr)) {
+			readfromwebviewolcrActionEvent();
+		} else if (key.equals(p_action_read_from_https_olcr)) {
+			readfromhttpsolcrActionEvent();
 		} else if (key.equals(p_action_read_from_file)) {
 			readfromfileActionEvent();
 		} else if (key.equals(p_action_manual_entry)) {
@@ -83,9 +87,13 @@ public class FSettings extends PreferenceFragment implements OnPreferenceClickLi
 		return false;
 	}
 
-	void readfromolcrActionEvent() {
-		// launch read from olcr fragment
-		if(getFragmentManager().findFragmentByTag(Tag.FRAGMENT_READ_OLCR) == null) {
+	void readfromhttpsolcrActionEvent() {
+        DHttpsOLCRActionEvent.newInstance(mainactivity).show(mainactivity.getFragmentManager(), null);
+	}
+
+	void readfromwebviewolcrActionEvent() {
+		// launch read from webview olcr fragment
+		if(getFragmentManager().findFragmentByTag(Tag.FRAGMENT_WEBVIEW_OLCR) == null) {
 			getFragmentManager().beginTransaction()
 				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
 				.addToBackStack(null)

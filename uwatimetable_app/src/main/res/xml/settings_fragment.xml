@@ -3,10 +3,14 @@
     <PreferenceCategory 
         android:title="@string/title_actions_import_classes"
         android:key="actions_import_classes">
+        <Preference
+            android:key="action_read_from_https_olcr"
+            android:summary="@string/summary_action_read_from_https_olcr"
+            android:title="@string/title_action_read_from_https_olcr" />
         <Preference 
-            android:key="action_read_from_olcr"
-            android:summary="@string/summary_action_read_from_olcr"
-            android:title="@string/title_action_read_from_olcr" />
+            android:key="action_read_from_webview_olcr"
+            android:summary="@string/summary_action_read_from_webview_olcr"
+            android:title="@string/title_action_read_from_webview_olcr" />
         <Preference
             android:key="action_read_from_file"
             android:summary="@string/summary_action_read_from_file"

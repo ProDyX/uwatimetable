@@ -2,26 +2,37 @@
 <resources>
 
     <string name="title_actions_import_classes">Import Classes</string>
-    <string name="title_action_read_from_olcr">Read from OLCR</string>
-    <string name="summary_action_read_from_olcr">Read classes directly from the UWA OLCR website (recommended for first time use).</string>
+
+    <string name="title_action_read_from_https_olcr">Read from OLCR (direct method)</string>
+    <string name="summary_action_read_from_https_olcr">Read classes directly from the UWA OLCR website (recommended for first time use).</string>
+
+    <string name="title_action_read_from_webview_olcr">Read from OLCR (using browser)</string>
+    <string name="summary_action_read_from_webview_olcr">Read classes from the UWA OLCR website, using a browser.</string>
+
 	<string name="title_action_read_from_file">Read classes from file</string>
     <string name="summary_action_read_from_file">Read classes.txt from the root of the sd card.</string>
+
 	<string name="title_action_manual_entry">Create manual class entry</string>
     <string name="summary_action_manual_entry">Create a class entry manually by specifying data.</string>
     
     <string name="title_actions_adv_db_options">Advanced Database Options</string>
+
     <string name="title_action_delete_database">Wipe the database</string>
     <string name="summary_action_delete_database">Wipe the database of all data. This process is not reversible!</string>
+
     <string name="title_action_delete_selected_entries">Delete selected entries</string>
     <string name="summary_action_delete_selected_entries">Delete selected entries from a list of all classes.</string>
 
     <string name="title_actions_overview_prefs">Overview Preferences</string>
+
     <string name="title_option_save_day_week">Save day and week on exit</string>
     <string name="summary_option_save_day_week">Save the day and week values upon exit of Overview</string>
     
     <string name="title_actions_debug">Debug and Developer Options</string>
+
     <string name="title_action_test_entry">Create test entry</string>
     <string name="summary_action_test_entry">Create a test entry with predefined values.</string>
+
     <string name="title_option_display_id">Display class ID\'s</string>
     <string name="summary_option_display_id">Display unique class ID as stored in the database.</string>
 
@@ -32,10 +43,14 @@
     <string name="hint_stream">\"1\" or \"10\"</string>
     <string name="hint_weeks">\"Sem1\", \"Sem2w2\" or \"25,27–29\"</string>
     <string name="hint_venue">\"Physics: Ross Lecture Theatre\"</string>
+
+    <string name="hint_user">Username</string>
+    <string name="hint_pass">Password</string>
+
     <string name="addclass">Add Class</string>
     <string name="action_clear">Clear fields</string>
-    
     <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
     <string name="click_at_allocs_page">Click here at \"Allocs\" page</string>
     <string name="action_back">Back</string>
     

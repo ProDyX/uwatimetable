@@ -3,6 +3,7 @@ package com.github.marco9999.uwatimetable;
 import android.content.ContentValues;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.github.marco9999.htmlparserolcr.EOlcrHtmlParser;
 
@@ -15,12 +16,14 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
-class HClassesHttpOlcrImporter extends AsyncTask<String, String, Void> {
+class HClassesHttpsOlcrImporter extends AsyncTask<String, String, Void> {
 
 	private final HClassesDbUI dbhelper;
+    private final TextView console;
 
-	HClassesHttpOlcrImporter(AMain _context) {
+	HClassesHttpsOlcrImporter(AMain _context, TextView _console) {
 		dbhelper = _context.dbhelperui;
+        console = _console;
 	}
 
 	@Override
@@ -30,8 +33,9 @@ class HClassesHttpOlcrImporter extends AsyncTask<String, String, Void> {
 	@Override
 	protected Void doInBackground(String... params) {
         // String array: [0] = username, [1] = password
-        // uses server4
-        String urlstring = "https://server4.olcr.uwa.edu.au/olcrstudent/index.jsp";
+        // uses server1
+        String baseserver = "server1.olcr.uwa.edu.au";
+        String urlstring = "https://" + baseserver +"/olcrstudent/index.jsp";
         String postdata = "v_studentid=" + params[0] +"&v_studentpin=" + params[1] + "&b3=Login";
 
         try {
@@ -43,7 +47,7 @@ class HClassesHttpOlcrImporter extends AsyncTask<String, String, Void> {
             initconnection.setInstanceFollowRedirects(false);
             initconnection.setRequestMethod("POST");
             initconnection.setRequestProperty("User-Agent", "curl/7.38.0");
-            initconnection.setRequestProperty("Host", "server4.olcr.uwa.edu.au");
+            initconnection.setRequestProperty("Host", baseserver);
             initconnection.setRequestProperty("Accept", "*/*");
             initconnection.setRequestProperty("Content-Length", Integer.toString(postdata.length()));
             initconnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -83,7 +87,7 @@ class HClassesHttpOlcrImporter extends AsyncTask<String, String, Void> {
             unitsconnection.setInstanceFollowRedirects(false);
             unitsconnection.setRequestMethod("GET");
             unitsconnection.setRequestProperty("User-Agent", "curl/7.38.0");
-            unitsconnection.setRequestProperty("Host", "server4.olcr.uwa.edu.au");
+            unitsconnection.setRequestProperty("Host", baseserver);
             unitsconnection.setRequestProperty("Accept", "*/*");
             unitsconnection.setRequestProperty("Cookie", jsessionid);
 
@@ -97,13 +101,13 @@ class HClassesHttpOlcrImporter extends AsyncTask<String, String, Void> {
 
             // get allocs url
             publishProgress("Get allocs page...");
-            String allocsurl = "https://server4.olcr.uwa.edu.au/olcrstudent/studenttimetable.jsp?v_deptid=null&v_unitid=null&v_studentid=" + params[0] + "&v_groupid=none&v_fontsize=10&v_action=2";
+            String allocsurl = "https://" + baseserver + "/olcrstudent/studenttimetable.jsp?v_deptid=null&v_unitid=null&v_studentid=" + params[0] + "&v_groupid=none&v_fontsize=10&v_action=2";
             URL allocs = new URL(allocsurl);
             HttpsURLConnection allocsconnection = (HttpsURLConnection) allocs.openConnection();
             allocsconnection.setInstanceFollowRedirects(false);
             allocsconnection.setRequestMethod("GET");
             allocsconnection.setRequestProperty("User-Agent", "curl/7.38.0");
-            allocsconnection.setRequestProperty("Host", "server4.olcr.uwa.edu.au");
+            allocsconnection.setRequestProperty("Host", baseserver);
             allocsconnection.setRequestProperty("Accept", "*/*");
             allocsconnection.setRequestProperty("Cookie", jsessionid);
 
@@ -149,7 +153,7 @@ class HClassesHttpOlcrImporter extends AsyncTask<String, String, Void> {
             }
             return null;
         } catch (Exception ex) {
-            publishProgress("Something went wrong, check Username and Password. UWA may also be experiencing issues. Tell the developer this message:");
+            publishProgress("\nSomething went wrong, check Username and Password. UWA may also be experiencing issues. Tell the developer this message:");
             publishProgress(ex.getMessage());
             return null;
         }
@@ -162,6 +166,8 @@ class HClassesHttpOlcrImporter extends AsyncTask<String, String, Void> {
 
 	@Override
 	protected void onProgressUpdate(String... result) {
-
+        String oldtext = console.getText().toString();
+        String newtext = oldtext + System.getProperty("line.separator") + result[0];
+        console.setText(newtext);
 	}
 }
