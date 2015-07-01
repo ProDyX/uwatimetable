@@ -25,6 +25,7 @@ public class DDeleteSelIDActionEvent extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        super.onCreateDialog(savedInstanceState);
         // constants
         final String TITLE = "Please Verify Before Deleting:";
         final String LABEL_POS = "Delete";

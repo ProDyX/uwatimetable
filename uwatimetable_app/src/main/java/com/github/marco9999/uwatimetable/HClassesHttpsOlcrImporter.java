@@ -3,7 +3,6 @@ package com.github.marco9999.uwatimetable;
 import android.content.ContentValues;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.github.marco9999.htmlparserolcr.EOlcrHtmlParser;
 
@@ -18,12 +17,12 @@ import javax.net.ssl.HttpsURLConnection;
 
 class HClassesHttpsOlcrImporter extends AsyncTask<String, String, Void> {
 
-	private final HClassesDbUI dbhelper;
-    private final TextView console;
+	private final HClassesDbUI db;
+    private final DHttpsOLCRStatus callback;
 
-	HClassesHttpsOlcrImporter(AMain _context, TextView _console) {
-		dbhelper = _context.dbhelperui;
-        console = _console;
+	HClassesHttpsOlcrImporter(HClassesDbUI _db, DHttpsOLCRStatus _callback) {
+		db = _db;
+        callback = _callback;
 	}
 
 	@Override
@@ -131,7 +130,7 @@ class HClassesHttpsOlcrImporter extends AsyncTask<String, String, Void> {
             ArrayList<String> classlist = new EOlcrHtmlParser().getClassList(allocshtml.toString());
 
             // put into contentvalues array
-            ArrayList<ContentValues> arraycv = new ArrayList<ContentValues>();
+            ArrayList<ContentValues> arraycv = new ArrayList<>();
             Log.i(LogTag.OLCR, "-------------------Start Classes Listing-------------------");
             for(String str : classlist) {
                 if(str == null) {
@@ -139,12 +138,12 @@ class HClassesHttpsOlcrImporter extends AsyncTask<String, String, Void> {
                 } else {
                     Log.i(LogTag.OLCR, str);
                 }
-                arraycv.add(dbhelper.createClassesCV(dbhelper.readEntryFromLine(str)));
+                arraycv.add(db.createClassesCV(db.readEntryFromLine(str)));
             }
             Log.i(LogTag.OLCR, "-------------------End Classes Listing-------------------");
 
             // write and display db
-            if(dbhelper.writeClassToDB(arraycv.toArray(new ContentValues[arraycv.size()]))) {
+            if(db.writeClassToDB(arraycv.toArray(new ContentValues[arraycv.size()]))) {
                 // display message notifying success.
                 publishProgress("Got classes from OLCR successfully (" + arraycv.size() + " entries).");
             } else {
@@ -161,13 +160,13 @@ class HClassesHttpsOlcrImporter extends AsyncTask<String, String, Void> {
 
 	@Override
 	protected void onPostExecute(Void result) {
-
+        callback.b_ok.setClickable(true);
 	}
 
 	@Override
 	protected void onProgressUpdate(String... result) {
-        String oldtext = console.getText().toString();
+        String oldtext = callback.console.getText().toString();
         String newtext = oldtext + System.getProperty("line.separator") + result[0];
-        console.setText(newtext);
+        callback.console.setText(newtext);
 	}
 }

@@ -1,5 +1,6 @@
 package com.github.marco9999.uwatimetable;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,14 +29,22 @@ public class FMainOverview extends Fragment {
 	private AdOverviewClassesList classadapter;
 	AMain mainactivity;
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        Log.d(LogTag.APP, "%%% onAttach called %%%");
+    }
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        Log.d(LogTag.APP, "%%% onCreate called %%%");
 		setHasOptionsMenu(true);
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d(LogTag.APP, "%%% create view called %%%");
 		// inflate view to use
 		ViewGroup vg = (ViewGroup) inflater.inflate(R.layout.main_overview_fragment, container, false);
 		
@@ -54,6 +63,8 @@ public class FMainOverview extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 	    super.onActivityCreated(savedInstanceState);
+
+        Log.d(LogTag.APP, "%%% activity created called %%%");
 	    
 		// get root activity (set callback)
 		mainactivity = (AMain) this.getActivity();
@@ -85,10 +96,18 @@ public class FMainOverview extends Fragment {
         preinitUI(savedInstanceState);
 
 	}
-	
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(LogTag.APP, "%%% start called %%%");
+    }
+
 	@Override
 	public void onResume() {
 		super.onResume();
+
+        Log.d(LogTag.APP, "%%% resume called %%%");
 
 		// set title
     	mainactivity.getActionBar().setSubtitle(R.string.title_overview);
@@ -97,29 +116,17 @@ public class FMainOverview extends Fragment {
 		initUI();
 	}
 
-    @Override
-    public void onPause() {
-        super.onPause();
 
-        // save day and week if enabled
-        if(mainactivity.uisharedpref.getBoolean(Key.SAVEDAYWEEK, false)) {
-            String savedayweekdata = today.getSelectedItem() + "," + week.getText();
-            mainactivity.uisharedpref.edit().putString(Key.SAVEDAYWEEKDATA, savedayweekdata).apply();
-            Log.i(LogTag.APP, "----- Saved Day and Week: " +  savedayweekdata + " -----");
-        }
-    }
 	
-	@Override
-	public void onStop() {
-		super.onStop();
-	}
+
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
         // save day and week on config change
-        outState.putStringArray(SAVEINSTANCE_DAYWEEK, new String[] {(String)today.getSelectedItem(), (String)week.getText()});
+        outState.putStringArray(SAVEINSTANCE_DAYWEEK, new String[] {(String)today.getSelectedItem(), (String)week.getText()}); //TODO: PROBLEM
         Log.i(LogTag.APP, "----- SI SAVE Day and Week: " + (String)today.getSelectedItem() + "," + (String)week.getText() + " -----");
     }
 	
@@ -138,7 +145,7 @@ public class FMainOverview extends Fragment {
 		   menu.findItem(R.id.option_displayallclasses).setChecked(false);
 	   }
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()) {
@@ -153,6 +160,10 @@ public class FMainOverview extends Fragment {
 		}
 		return false;
 	}
+
+
+
+
 
     void preinitUI(Bundle savedInstanceState) {
         // setup day and week text
@@ -206,7 +217,9 @@ public class FMainOverview extends Fragment {
         // fill details
 		classadapter.setClasseslistAndNotify(clslist);
 	}
-	
+
+
+
 	void refreshActionEvent() {
 		initUI();
 	}
@@ -220,4 +233,46 @@ public class FMainOverview extends Fragment {
 			initUI();
 		}
 	}
+
+
+
+
+
+    @Override
+    public void onPause() {
+        Log.d(LogTag.APP, "%%% pause called %%%");
+
+        // save day and week if enabled
+        if(mainactivity.uisharedpref.getBoolean(Key.SAVEDAYWEEK, false)) {
+            String savedayweekdata = today.getSelectedItem() + "," + week.getText();
+            mainactivity.uisharedpref.edit().putString(Key.SAVEDAYWEEKDATA, savedayweekdata).apply();
+            Log.i(LogTag.APP, "----- Saved Day and Week: " +  savedayweekdata + " -----");
+        }
+
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        Log.d(LogTag.APP, "%%% stop called %%%");
+        super.onStop();
+    }
+
+	@Override
+	public void onDestroyView() {
+		Log.d(LogTag.APP, "%%% destroy view called %%%");
+		super.onDestroyView();
+	}
+
+	@Override
+	public void onDestroy() {
+		Log.d(LogTag.APP, "%%% destroy called %%%");
+		super.onDestroy();
+	}
+
+    @Override
+    public void onDetach() {
+        Log.d(LogTag.APP, "%%% detach called %%%");
+        super.onDetach();
+    }
 }

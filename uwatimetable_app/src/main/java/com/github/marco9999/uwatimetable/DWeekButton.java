@@ -27,6 +27,7 @@ public class DWeekButton extends DialogFragment {
 
     @Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		super.onCreateDialog(savedInstanceState);
         // constants
         final int MIN_WEEKS = 1;
         final int MAX_WEEKS = 52;

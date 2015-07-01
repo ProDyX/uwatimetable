@@ -25,6 +25,7 @@ public class DAddClassButtonEvent extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        super.onCreateDialog(savedInstanceState);
         // setup view to use
         @SuppressLint("InflateParams") // parsing null is fine here as its inflated into an alertdialog
         ViewGroup vg = (ViewGroup) mainactivity.getLayoutInflater().inflate(R.layout.verify_class_entry, null);

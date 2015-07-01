@@ -21,6 +21,7 @@ public class DDeleteIDActionEvent extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        super.onCreateDialog(savedInstanceState);
         // constants
         String LABEL_POS = "Delete";
         String LABEL_NEG = "Cancel";

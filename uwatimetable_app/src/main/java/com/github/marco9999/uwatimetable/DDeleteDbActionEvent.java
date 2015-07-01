@@ -20,6 +20,7 @@ public class DDeleteDbActionEvent extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        super.onCreateDialog(savedInstanceState);
         // constants
         final String title = "Wipe Database?";
         final String msg = "Are you sure you want to delete the database? You can not recover the data after this has been done!";

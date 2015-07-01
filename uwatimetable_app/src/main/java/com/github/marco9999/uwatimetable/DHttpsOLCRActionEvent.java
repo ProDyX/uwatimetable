@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 public class DHttpsOLCRActionEvent extends DialogFragment implements View.OnClickListener {
 
@@ -17,7 +16,6 @@ public class DHttpsOLCRActionEvent extends DialogFragment implements View.OnClic
     private Dialog dialog;
     private String username;
     private String password;
-    private TextView console;
 
     public static DHttpsOLCRActionEvent newInstance(AMain _mainactivity) {
         DHttpsOLCRActionEvent dialog = new DHttpsOLCRActionEvent();
@@ -33,15 +31,13 @@ public class DHttpsOLCRActionEvent extends DialogFragment implements View.OnClic
         } else if (viewid == R.id.login_olcr_ok) {
             username = ((EditText) dialog.findViewById(R.id.login_olcr_user)).getText().toString();
             password = ((EditText) dialog.findViewById(R.id.login_olcr_pass)).getText().toString();
-            changeDialogView();
-            openURLConnection();
-        } else if (viewid == R.id.status_olcr_ok) {
-            dismiss();
+            changeDialogToStatus();
         }
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        super.onCreateDialog(savedInstanceState);
         // setup view to use initially
         @SuppressLint("InflateParams") // parsing null is fine here as its inflated into an alertdialog
         ViewGroup vg = (ViewGroup) mainactivity.getLayoutInflater().inflate(R.layout.login_olcr_dialog, null);
@@ -59,15 +55,10 @@ public class DHttpsOLCRActionEvent extends DialogFragment implements View.OnClic
         return dialog;
     }
 
-    void changeDialogView() {
-        ViewGroup vg = (ViewGroup) mainactivity.getLayoutInflater().inflate(R.layout.status_olcr_dialog, null);
-        dialog.setContentView(vg);
-        console = (TextView) vg.findViewById(R.id.status_olcr_text);
-        vg.findViewById(R.id.status_olcr_ok).setOnClickListener(this);
-        vg.findViewById(R.id.status_olcr_ok).setClickable(false);
+    void changeDialogToStatus() {
+        dismiss();
+        DHttpsOLCRStatus client = DHttpsOLCRStatus.newInstance(new String[] {username, password});
+        client.show(mainactivity.getFragmentManager(), null);
     }
 
-    void openURLConnection() {
-        new HClassesHttpsOlcrImporter(mainactivity, console).execute(username, password); // varargs array... not sure I like this way.
-    }
 }

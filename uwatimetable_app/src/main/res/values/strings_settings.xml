@@ -44,7 +44,7 @@
     <string name="hint_weeks">\"Sem1\", \"Sem2w2\" or \"25,27–29\"</string>
     <string name="hint_venue">\"Physics: Ross Lecture Theatre\"</string>
 
-    <string name="hint_user">Username</string>
+    <string name="hint_studentid">Student ID</string>
     <string name="hint_pass">Password</string>
 
     <string name="addclass">Add Class</string>
