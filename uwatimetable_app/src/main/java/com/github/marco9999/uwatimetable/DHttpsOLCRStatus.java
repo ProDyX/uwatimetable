@@ -57,6 +57,7 @@ public class DHttpsOLCRStatus extends DialogFragment implements View.OnClickList
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
         mainactivity = (AMain) getActivity();
+
         // setup view to use initially
         @SuppressLint("InflateParams") // parsing null is fine here as its inflated into an alertdialog
         ViewGroup vg = (ViewGroup) mainactivity.getLayoutInflater().inflate(R.layout.status_olcr_dialog, null);

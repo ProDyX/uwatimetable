@@ -125,7 +125,7 @@ public class FManualEntry extends Fragment {
 		String[] data = new String[] {day, time, unit, type, stream, weeks, venue};
 		
         // create fragment
-        DAddClassButtonEvent dialog = DAddClassButtonEvent.newInstance(mainactivity, data);
+        DAddClassButtonEvent dialog = DAddClassButtonEvent.newInstance(data);
         dialog.show(mainactivity.getFragmentManager(), null);
 	}
 	

@@ -12,15 +12,15 @@ public class DDeleteDbActionEvent extends DialogFragment {
 
     private AMain mainactivity;
 
-    public static DDeleteDbActionEvent newInstance(AMain _mainactivity) {
+    public static DDeleteDbActionEvent newInstance() {
         DDeleteDbActionEvent dialog = new DDeleteDbActionEvent();
-        dialog.mainactivity = _mainactivity;
         return dialog;
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
+        mainactivity = (AMain) getActivity();
         // constants
         final String title = "Wipe Database?";
         final String msg = "Are you sure you want to delete the database? You can not recover the data after this has been done!";

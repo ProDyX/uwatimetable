@@ -38,6 +38,6 @@ public class AdWeekButton implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        DWeekButton.newInstance(this).show(callback.getActivity().getFragmentManager(), null);
+        DWeekButton.newInstance(this).show(callback.getActivity().getFragmentManager(), Tag.DIALOG_WEEK);
     }
 }

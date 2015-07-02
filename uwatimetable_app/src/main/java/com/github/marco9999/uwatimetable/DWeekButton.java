@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -23,9 +24,15 @@ public class DWeekButton extends DialogFragment {
         return dialog;
     }
 
+    public void setAdapter(AdWeekButton _adapter) {
+        adapter = _adapter;
+    }
+
     @Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		// setup
+        Log.d(LogTag.APP, "%%% on create dialog called %%%");
+
+        // setup
 		super.onCreateDialog(savedInstanceState);
 		AMain context = (AMain) getActivity();
 

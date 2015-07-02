@@ -11,21 +11,37 @@ import android.widget.Toast;
 
 public class DDeleteSelIDActionEvent extends DialogFragment {
 
-    private FDeleteEntry context;
+    private FDeleteEntry callback;
     private String[] data;
     private AMain mainactivity;
 
-    public static DDeleteSelIDActionEvent newInstance(AMain _mainactivity, String[] _data, FDeleteEntry callback) {
+    final static String KEY_DATA = "data";
+
+    public static DDeleteSelIDActionEvent newInstance(String[] _data, FDeleteEntry _callback) {
         DDeleteSelIDActionEvent dialog = new DDeleteSelIDActionEvent();
-        dialog.mainactivity = _mainactivity;
         dialog.data = _data;
-        dialog.context = callback;
+        dialog.callback = _callback;
         return dialog;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putStringArray(KEY_DATA, data);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // handle config change
+        if (savedInstanceState != null) data = savedInstanceState.getStringArray(KEY_DATA);
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
+        mainactivity = (AMain) getActivity();
+
         // constants
         final String TITLE = "Please Verify Before Deleting:";
         final String LABEL_POS = "Delete";
@@ -65,7 +81,7 @@ public class DDeleteSelIDActionEvent extends DialogFragment {
                     String toastmsg = "Deleted classes.";
                     Toast.makeText(mainactivity, toastmsg, Toast.LENGTH_LONG).show();
                 }
-                context.initUI();
+                callback.initUI();
             }
         });
         builder.setNegativeButton(LABEL_NEG, new DialogInterface.OnClickListener() {
@@ -74,9 +90,13 @@ public class DDeleteSelIDActionEvent extends DialogFragment {
                 // display toast notifying success.
                 String toastmsg = "Canceled.";
                 Toast.makeText(mainactivity, toastmsg, Toast.LENGTH_LONG).show();
-                context.initUI();
+                callback.initUI();
             }
         });
         return builder.create();
+    }
+
+    void setCallback(FDeleteEntry _callback) {
+        callback = _callback;
     }
 }

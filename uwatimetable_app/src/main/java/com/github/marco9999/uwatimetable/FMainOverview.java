@@ -83,6 +83,8 @@ public class FMainOverview extends Fragment {
 		weekadapter = AdWeekButton.newInstance(this, weekview);
         weekview.setTextAppearance(mainactivity, android.R.style.TextAppearance_DeviceDefault_Widget_TextView_SpinnerItem);
         weekview.setOnClickListener(weekadapter);
+        DWeekButton weekdialog;
+        if((weekdialog = (DWeekButton) mainactivity.getFragmentManager().findFragmentByTag(Tag.DIALOG_WEEK)) != null) weekdialog.setAdapter(weekadapter); // handle config change... TODO: there must be a better way surely..
 
 		// pre ui setup (misc)
 		preinitUI(savedInstanceState);

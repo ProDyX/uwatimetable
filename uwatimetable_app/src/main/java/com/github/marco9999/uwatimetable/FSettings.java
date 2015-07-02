@@ -88,7 +88,7 @@ public class FSettings extends PreferenceFragment implements OnPreferenceClickLi
 	}
 
 	void readfromhttpsolcrActionEvent() {
-        DHttpsOLCRActionEvent.newInstance(mainactivity).show(mainactivity.getFragmentManager(), null);
+        DHttpsOLCRActionEvent.newInstance().show(mainactivity.getFragmentManager(), null);
 	}
 
 	void readfromwebviewolcrActionEvent() {
@@ -103,7 +103,7 @@ public class FSettings extends PreferenceFragment implements OnPreferenceClickLi
 	}
 	
 	void deletedbActionEvent() {
-        DDeleteDbActionEvent.newInstance(mainactivity).show(mainactivity.getFragmentManager(), null);
+        DDeleteDbActionEvent.newInstance().show(mainactivity.getFragmentManager(), null);
 	}
 	
 	void deleteselectedActionEvent() {

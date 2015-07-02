@@ -70,7 +70,10 @@ public class FDeleteEntry extends Fragment
         classeslist.setLayoutManager(new LinearLayoutManager(mainactivity));
         classadapter = AdDeleteClassesList.newInstance(mainactivity);
         classeslist.setAdapter(classadapter);
-        // TODO: check if this applies: classeslist.setHasFixedSize(true);
+
+        // set callback in dialog for configuration change
+        DDeleteSelIDActionEvent dialog;
+        if((dialog = (DDeleteSelIDActionEvent) mainactivity.getFragmentManager().findFragmentByTag(Tag.DIALOG_DELSELID)) != null) dialog.setCallback(this); // handle config change... TODO: there must be a better way surely..
 	}
 
     @Override
@@ -120,7 +123,7 @@ public class FDeleteEntry extends Fragment
 	}
 
 	void deleteidActionEvent() {
-        DDeleteIDActionEvent.newInstance(mainactivity).show(mainactivity.getFragmentManager(), null);
+        DDeleteIDActionEvent.newInstance().show(mainactivity.getFragmentManager(), null);
 	}
 
     void deleteselectedidsActionEvent() {
@@ -134,10 +137,8 @@ public class FDeleteEntry extends Fragment
         String[] idarray = ids.toArray(new String[ids.size()]);
 
         // create dialog fragment and show
-        DDeleteSelIDActionEvent.newInstance(mainactivity,idarray,this).show(mainactivity.getFragmentManager(), null);
+        DDeleteSelIDActionEvent.newInstance(idarray,this).show(mainactivity.getFragmentManager(), Tag.DIALOG_DELSELID);
 
-        // re init ui
-        //initUI();
     }
 
 }

@@ -13,15 +13,15 @@ public class DDeleteIDActionEvent extends DialogFragment {
 
     private AMain mainactivity;
 
-    public static DDeleteIDActionEvent newInstance(AMain _mainactivity) {
+    public static DDeleteIDActionEvent newInstance() {
         DDeleteIDActionEvent dialog = new DDeleteIDActionEvent();
-        dialog.mainactivity = _mainactivity;
         return dialog;
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
+        mainactivity = (AMain) getActivity();
         // constants
         String LABEL_POS = "Delete";
         String LABEL_NEG = "Cancel";

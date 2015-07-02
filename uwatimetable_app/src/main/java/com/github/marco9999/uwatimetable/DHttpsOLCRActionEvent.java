@@ -17,9 +17,8 @@ public class DHttpsOLCRActionEvent extends DialogFragment implements View.OnClic
     private String username;
     private String password;
 
-    public static DHttpsOLCRActionEvent newInstance(AMain _mainactivity) {
+    public static DHttpsOLCRActionEvent newInstance() {
         DHttpsOLCRActionEvent dialog = new DHttpsOLCRActionEvent();
-        dialog.mainactivity = _mainactivity;
         return dialog;
     }
 
@@ -38,6 +37,8 @@ public class DHttpsOLCRActionEvent extends DialogFragment implements View.OnClic
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
+        mainactivity = (AMain) getActivity();
+
         // setup view to use initially
         @SuppressLint("InflateParams") // parsing null is fine here as its inflated into an alertdialog
         ViewGroup vg = (ViewGroup) mainactivity.getLayoutInflater().inflate(R.layout.login_olcr_dialog, null);

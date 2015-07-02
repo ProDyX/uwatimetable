@@ -11,4 +11,7 @@ public class Tag {
     static final String FRAGMENT_SETTINGS = "Settings";
     static final String FRAGMENT_HELP = "Help";
     static final String FRAGMENT_UPCOMING = "Upcoming";// Linked to string array nav_drawer_items - do not change without propagating changes
+
+    static final String DIALOG_WEEK = "Dialog_week";
+    static final String DIALOG_DELSELID = "Dialog_delselid";
 }
