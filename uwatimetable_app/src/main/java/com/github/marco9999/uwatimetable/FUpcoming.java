@@ -30,6 +30,14 @@ public class FUpcoming extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        // get mainactivity
+        mainactivity = (AMain) getActivity();
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // inflate menu items
         inflater.inflate(R.menu.upcoming, menu);
@@ -38,9 +46,6 @@ public class FUpcoming extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        // get mainactivity
-        mainactivity = (AMain) getActivity();
 
         // set title
         mainactivity.getActionBar().setSubtitle(R.string.title_upcoming);

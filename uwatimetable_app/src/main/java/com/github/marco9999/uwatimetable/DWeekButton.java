@@ -58,10 +58,7 @@ public class DWeekButton extends DialogFragment {
 		resetweek.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-                // check if saturday, and use next weekview.
-                // else just return current weekview
-                if (HStatic.nextWeek()) picker.setValue(HStatic.getWeekOfYearInt() + 1);
-                else picker.setValue(HStatic.getWeekOfYearInt());
+                picker.setValue(HStatic.getWeekOfYearInt());
 			}
 		});
 		

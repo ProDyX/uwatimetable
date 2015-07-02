@@ -11,7 +11,13 @@ import java.util.Calendar;
 class HStatic {
 
 	static int getWeekOfYearInt() {
-        return Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
+        // get week of the year from calendar
+
+        // this is used for determining if the next week should be shown instead of current week (as classes finish on friday)
+        int add1 = 0;
+        if (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) add1 = 1;
+
+        return (Calendar.getInstance().get(Calendar.WEEK_OF_YEAR) + add1);
 	}
 
 	static int getDayOfWeekInt() {
@@ -48,7 +54,7 @@ class HStatic {
         Log.d(LogTag.APP, "[hasclassalreadypassed called] " + "dayidxstring: " + dayidxstring + ", dayidx: " + dayidx + ", day: " + day + ", timeidx: " + timeidx + ", time: " + time);
         if (day > dayidx) return true;
         else if ((day == dayidx) && (time > timeidx)) return true;
-        else return false;
+        return false;
     }
 
     static int getIntFromStringDayAll(String daytocheck) {
