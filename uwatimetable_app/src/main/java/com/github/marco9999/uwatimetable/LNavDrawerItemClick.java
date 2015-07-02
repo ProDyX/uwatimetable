@@ -4,7 +4,6 @@ import android.app.FragmentTransaction;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 public class LNavDrawerItemClick implements ListView.OnItemClickListener {
 
@@ -17,8 +16,7 @@ public class LNavDrawerItemClick implements ListView.OnItemClickListener {
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         // get nav fragment selected
-        TextView item = (TextView) view;
-        String fragmentstr = (String) item.getText();
+        String fragmentstr = (String) parent.getAdapter().getItem(position);
 
         // manage fragments
         // see if fragment is already on the stack by using findByTag, if not then we proceed to replace the old one with it.

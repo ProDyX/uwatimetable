@@ -18,7 +18,7 @@
             android:textSize="24sp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:textColor="@color/blue" />
+            android:textColor="@color/accent_dark" />
 
         <TextView
             android:id="@+id/upcoming_title"
@@ -31,7 +31,7 @@
             android:maxLines="1"
             android:layout_toStartOf="@id/upcoming_day"
             android:layout_toLeftOf="@id/upcoming_day"
-            android:textColor="@color/darkorange"/>
+            android:textColor="@color/accent"/>
 
     </RelativeLayout>
 

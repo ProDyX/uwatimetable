@@ -70,7 +70,6 @@ public class AMain extends Activity {
 
         // dont reinitialise fragment if its a configuration change
 		if (savedInstanceState != null) {
-			//mainoverviewfrag = (FMainOverview) getFragmentManager().findFragmentByTag(Tag.FRAGMENT_OVERVIEW);
 			return;
 		}
 		
