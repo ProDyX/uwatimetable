@@ -56,7 +56,13 @@ public class DHttpsOLCRActionEvent extends DialogFragment implements View.OnClic
     }
 
     void changeDialogToStatus() {
+        // dismiss dialog
         dismiss();
+
+        // set first time use to false
+        mainactivity.uisharedpref.edit().putBoolean(Key.FIRSTTIMEUSE, false).commit();
+
+        // bring up new dialog
         DHttpsOLCRStatus client = DHttpsOLCRStatus.newInstance(new String[] {username, password});
         client.show(mainactivity.getFragmentManager(), null);
     }
