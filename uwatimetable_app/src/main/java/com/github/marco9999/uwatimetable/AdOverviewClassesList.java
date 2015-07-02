@@ -1,5 +1,6 @@
 package com.github.marco9999.uwatimetable;
 
+import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,16 +15,16 @@ import java.util.ArrayList;
 
 public class AdOverviewClassesList extends RecyclerView.Adapter<WrClassViewHolder> {
 
-    private AMain mainactivity;
+    private FMainOverview callback;
     private ArrayList<String[]> classeslist;
 
     public AdOverviewClassesList() {
         classeslist = new ArrayList<String[]>();
     }
 
-    public static AdOverviewClassesList newInstance(AMain _mainactivity) {
+    public static AdOverviewClassesList newInstance(FMainOverview _callback) {
         AdOverviewClassesList adapter = new AdOverviewClassesList();
-        adapter.mainactivity = _mainactivity;
+        adapter.callback = _callback;
         return adapter;
     }
 
@@ -53,7 +54,8 @@ public class AdOverviewClassesList extends RecyclerView.Adapter<WrClassViewHolde
         }
 
         // show weeks if selected
-        if(mainactivity.uisharedpref.getBoolean(Key.DISPLAYALLCLASSES, false)) {
+        SharedPreferences preferences = ((AMain) callback.getActivity()).uisharedpref;
+        if(preferences.getBoolean(Key.DISPLAYALLCLASSES, false)) {
             classview.findViewById(R.id.title_weeks).setVisibility(View.VISIBLE);
             classview.findViewById(R.id.weeks).setVisibility(View.VISIBLE);
         } else {
@@ -62,7 +64,7 @@ public class AdOverviewClassesList extends RecyclerView.Adapter<WrClassViewHolde
         }
 
         // show id if selected
-        if(mainactivity.uisharedpref.getBoolean(Key.DISPLAYID, false)) {
+        if(preferences.getBoolean(Key.DISPLAYID, false)) {
             classview.findViewById(R.id.title_id).setVisibility(View.VISIBLE);
             classview.findViewById(R.id.id_number).setVisibility(View.VISIBLE);
         } else {

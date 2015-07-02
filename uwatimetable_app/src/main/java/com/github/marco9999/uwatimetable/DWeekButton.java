@@ -15,27 +15,25 @@ import android.widget.TextView;
 
 public class DWeekButton extends DialogFragment {
 
-    private FMainOverview fragment;
-    private AMain context;
+    private AdWeekButton adapter;
 
-    public static DWeekButton newInstance(AMain mainactivity, FMainOverview frag) {
+    public static DWeekButton newInstance(AdWeekButton _adapter) {
         DWeekButton dialog = new DWeekButton();
-        dialog.fragment = frag;
-        dialog.context = mainactivity;
+        dialog.adapter = _adapter;
         return dialog;
     }
 
     @Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		// setup
 		super.onCreateDialog(savedInstanceState);
+		AMain context = (AMain) getActivity();
+
         // constants
         final int MIN_WEEKS = 1;
         final int MAX_WEEKS = 52;
         String LABEL_POS = "Set";
         String LABEL_NEG = "Cancel";
-
-        // get required variables
-        final Button week = fragment.week;
 
 		// setup
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -53,35 +51,34 @@ public class DWeekButton extends DialogFragment {
 		// set min, max and current values of the number picker
         picker.setMinValue(MIN_WEEKS);
         picker.setMaxValue(MAX_WEEKS);
-		picker.setValue(Integer.parseInt((String) week.getText()));
+		picker.setValue(adapter.getWeek());
 		picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS); // stop being able to highlight the numbers (aesthetic reasons)
 		
-		// set the action of the reset week button (set to current week)
+		// set the action of the reset weekview button (set to current weekview)
 		resetweek.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-                // check if saturday, and use next week.
-                // else just return current week
+                // check if saturday, and use next weekview.
+                // else just return current weekview
                 if (HStatic.nextWeek()) picker.setValue(HStatic.getWeekOfYearInt() + 1);
                 else picker.setValue(HStatic.getWeekOfYearInt());
 			}
 		});
 		
 		// set title and my custom view
-		builder.setTitle("Set week:").setView(rootvg);
+		builder.setTitle("Set weekview:").setView(rootvg);
 		
 		// set Cancel and Set button labels and behaviour
         builder.setPositiveButton(LABEL_POS, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				week.setText(Integer.toString(picker.getValue()));
-				fragment.initUI();
+				adapter.setWeekAndDisplay(picker.getValue());
 			}
 		});
         builder.setNegativeButton(LABEL_NEG, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				fragment.initUI();
+				adapter.setWeekAndDisplay(adapter.getWeek()); // refresh UI, just in case, but with same value.
 			}
 		});
 		

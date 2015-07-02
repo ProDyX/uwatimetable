@@ -11,9 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
@@ -21,19 +19,21 @@ import java.util.ArrayList;
 
 public class FMainOverview extends Fragment {
 
-    final static String SAVEINSTANCE_DAYWEEK = "SI_DAYWEEK";
+    AMain mainactivity;
 
-	private RecyclerView classeslist;
-	private Spinner today;
-	Button week;
+    private RecyclerView classeslist;
+	private Spinner dayview;
+	private Button weekview;
+
 	private AdOverviewClassesList classadapter;
-	AMain mainactivity;
+	private AdWeekButton weekadapter;
+    private AdDaySpinner dayadapter;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         Log.d(LogTag.APP, "%%% onAttach called %%%");
-    }
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -51,11 +51,11 @@ public class FMainOverview extends Fragment {
 		// classes listview
 		classeslist = (RecyclerView) vg.findViewById(R.id.main_classeslist);
 		
-		// today spinner
-		today = (Spinner) vg.findViewById(R.id.today);
+		// dayview spinner
+		dayview = (Spinner) vg.findViewById(R.id.today);
 
-		// week button
-		week = (Button) vg.findViewById(R.id.week);
+		// weekview button
+		weekview = (Button) vg.findViewById(R.id.week);
 		
 		return vg;
 	}
@@ -63,38 +63,29 @@ public class FMainOverview extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 	    super.onActivityCreated(savedInstanceState);
-
         Log.d(LogTag.APP, "%%% activity created called %%%");
 	    
-		// get root activity (set callback)
+		// get root activity needed for some Android functions
 		mainactivity = (AMain) this.getActivity();
 		
-		// classes recyclerview and adapter setup
+		// classeslist recyclerview setup
         classeslist.setLayoutManager(new LinearLayoutManager(mainactivity));
-		classadapter = AdOverviewClassesList.newInstance(mainactivity);
+		classadapter = AdOverviewClassesList.newInstance(this); // needed for initUI()
 		classeslist.setAdapter(classadapter);
-        // TODO: check if this applies: classeslist.setHasFixedSize(true);
 
-		// today spinner and adapter setup
-		ArrayAdapter<CharSequence> dayslistadapter = ArrayAdapter.createFromResource(mainactivity, R.array.weekdays_array, android.R.layout.simple_spinner_item);
-		dayslistadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		today.setAdapter(dayslistadapter);
-        WrDayAdapterView dayadapter = new WrDayAdapterView(this);
-		today.setOnItemSelectedListener(dayadapter);
+		// dayview spinner setup
+		dayadapter = AdDaySpinner.newInstance(this, dayview, R.array.weekdays_array, android.R.layout.simple_spinner_item);
+		dayadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		dayview.setAdapter(dayadapter);
+		dayview.setOnItemSelectedListener(dayadapter);
 
-		
-		// week setup
-		week.setTextAppearance(mainactivity, android.R.style.TextAppearance_DeviceDefault_Widget_TextView_SpinnerItem);
-		week.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				DWeekButton.newInstance(mainactivity, FMainOverview.this).show(mainactivity.getFragmentManager(), null);
-			}
-		});
+		// weekview button setup
+		weekadapter = AdWeekButton.newInstance(this, weekview);
+        weekview.setTextAppearance(mainactivity, android.R.style.TextAppearance_DeviceDefault_Widget_TextView_SpinnerItem);
+        weekview.setOnClickListener(weekadapter);
 
-        // pre ui setup (misc)
-        preinitUI(savedInstanceState);
-
+		// pre ui setup (misc)
+		preinitUI(savedInstanceState);
 	}
 
     @Override
@@ -125,9 +116,13 @@ public class FMainOverview extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
+        Log.d(LogTag.APP, "%%% on save called %%%");
         // save day and week on config change
-        outState.putStringArray(SAVEINSTANCE_DAYWEEK, new String[] {(String)today.getSelectedItem(), (String)week.getText()}); //TODO: PROBLEM
-        Log.i(LogTag.APP, "----- SI SAVE Day and Week: " + (String)today.getSelectedItem() + "," + (String)week.getText() + " -----");
+        // need to check if its null because of fringe cases involving orientation changes and different fragments
+        if (dayadapter != null && weekadapter != null) {
+            outState.putIntArray(Key.SAVEINSTANCEDATA, new int[]{dayadapter.getDay(), weekadapter.getWeek()});
+            Log.i(LogTag.APP, "----- SI SAVE Day and Week: " + Integer.toString(dayadapter.getDay()) + "," + Integer.toString(weekadapter.getWeek()) + " -----");
+        }
     }
 	
 	@Override
@@ -166,54 +161,56 @@ public class FMainOverview extends Fragment {
 
 
     void preinitUI(Bundle savedInstanceState) {
-        // setup day and week text
-        // see if we can restore saved info from exit
+        // setup day and week values
+        dayadapter.setDay(HStatic.getDayOfWeekInt());
+        weekadapter.setWeek(HStatic.getWeekOfYearInt()); // TODO: check if this is needed HStatic.nextWeek()
+
+        // if save day and week on exit is enabled, overwrite values set above
         if (mainactivity.uisharedpref.getBoolean(Key.SAVEDAYWEEK, false)) {
-            String[] savedayweekdata = mainactivity.uisharedpref.getString(Key.SAVEDAYWEEKDATA, "Monday,1").split(","); // def value shouldn't be used ever except first time use
-            today.setSelection(((ArrayAdapter<CharSequence>) today.getAdapter()).getPosition(savedayweekdata[0]));
-            week.setText(savedayweekdata[1]);
-            Log.i(LogTag.APP, "----- Loaded Day and Week: " + savedayweekdata[0] + "," + savedayweekdata[1] + " -----");
-        } else {
-            // otherwise just default to current day and week
-            today.setSelection(HStatic.getDayOfWeekInt(), false); // set initially as today. set animate parameter to false to avoid initialising ui twice unnecessarily
-            if (HStatic.nextWeek()){
-                week.setText(Integer.toString(HStatic.getWeekOfYearInt() + 1)); // saturday
-            } else {
-                week.setText(Integer.toString(HStatic.getWeekOfYearInt())); // default
-            }
+            int daydata = mainactivity.uisharedpref.getInt(Key.SAVEDAYWEEKDATA_DAY, 0); // def value shouldn't be used ever except first time use
+            int weekdata = mainactivity.uisharedpref.getInt(Key.SAVEDAYWEEKDATA_WEEK, 1); // def value shouldn't be used ever except first time use
+            dayadapter.setDay(daydata);
+            weekadapter.setWeek(weekdata);
+            Log.i(LogTag.APP, "----- Loaded Day and Week: " + Integer.toString(daydata) + "," + Integer.toString(weekdata) + " -----");
         }
+
         // try to see if its a config change.. and override anything above
         if (savedInstanceState != null) {
-            String[] sidayweekdata = savedInstanceState.getStringArray(SAVEINSTANCE_DAYWEEK);
+            int[] sidayweekdata = savedInstanceState.getIntArray(Key.SAVEINSTANCEDATA);
             if (sidayweekdata != null) {
-                today.setSelection(((ArrayAdapter<CharSequence>) today.getAdapter()).getPosition(sidayweekdata[0]));
-                week.setText(sidayweekdata[1]);
-                Log.i(LogTag.APP, "----- SI LOAD Day and Week: " + sidayweekdata[0] + "," + sidayweekdata[1] + " -----");
+                dayadapter.setDay(sidayweekdata[0]);
+                weekadapter.setWeek(sidayweekdata[1]);
+                Log.i(LogTag.APP, "----- SI LOAD Day and Week: " + Integer.toString(sidayweekdata[0]) + "," + Integer.toString(sidayweekdata[1]) + " -----");
             }
         }
     }
 
 	void initUI() {
-		// get week and day
-		String sday = (String)today.getSelectedItem();
-		int iweek = Integer.parseInt((String)week.getText());
+		// get weekview and day
+		String sday = dayadapter.getDayString();
+		int iweek = weekadapter.getWeek();
 
 		// get details
 		Log.i(LogTag.APP, "Grabbing data with parameters { Day: " + sday + ", Week: " + iweek + " }.");
         ArrayList<String[]> clslist = mainactivity.dbhelperui.readRelevantEntries(sday, iweek);
 
         // check if empty and display ui accordingly
-        assert getView() != null; // damn lint warnings... may happen but i cant think of a scenario.
-        ViewGroup vg = (ViewGroup) getView().findViewById(R.id.empty_classes_list);
-        if (clslist.size() == 0) {
-            vg.setVisibility(View.VISIBLE);
-            if(mainactivity.uisharedpref.getBoolean(Key.FIRSTTIMEUSE, true)) {
-                vg.findViewById(R.id.first_time_use).setVisibility(View.VISIBLE);
-            }
+        if (getView() == null) {
+            Log.e(LogTag.APP, "FMainOverview: getView() returned null. Shouldn't ever happen!");
         } else {
-            vg.setVisibility(View.GONE);
+            ViewGroup vgempty = (ViewGroup) getView().findViewById(R.id.empty_classes_list);
+            ViewGroup vglist = (ViewGroup) getView().findViewById(R.id.main_classeslist);
+            if (clslist.size() == 0) {
+                vgempty.setVisibility(View.VISIBLE);
+                vglist.setVisibility(View.GONE);
+                if (mainactivity.uisharedpref.getBoolean(Key.FIRSTTIMEUSE, true)) {
+                    vgempty.findViewById(R.id.first_time_use).setVisibility(View.VISIBLE);
+                }
+            } else {
+                vgempty.setVisibility(View.GONE);
+                vglist.setVisibility(View.VISIBLE);
+            }
         }
-
         // fill details
 		classadapter.setClasseslistAndNotify(clslist);
 	}
@@ -242,11 +239,13 @@ public class FMainOverview extends Fragment {
     public void onPause() {
         Log.d(LogTag.APP, "%%% pause called %%%");
 
-        // save day and week if enabled
+        // save day and weekview if enabled
         if(mainactivity.uisharedpref.getBoolean(Key.SAVEDAYWEEK, false)) {
-            String savedayweekdata = today.getSelectedItem() + "," + week.getText();
-            mainactivity.uisharedpref.edit().putString(Key.SAVEDAYWEEKDATA, savedayweekdata).apply();
-            Log.i(LogTag.APP, "----- Saved Day and Week: " +  savedayweekdata + " -----");
+            int daydata = dayadapter.getDay();
+            int weekdata = weekadapter.getWeek();
+            mainactivity.uisharedpref.edit().putInt(Key.SAVEDAYWEEKDATA_DAY, daydata).apply();
+            mainactivity.uisharedpref.edit().putInt(Key.SAVEDAYWEEKDATA_WEEK, weekdata).apply();
+            Log.i(LogTag.APP, "----- Saved Day and Week: " + Integer.toString(daydata) + "," + Integer.toString(weekdata) + " -----");
         }
 
         super.onPause();

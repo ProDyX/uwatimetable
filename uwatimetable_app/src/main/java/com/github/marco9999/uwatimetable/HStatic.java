@@ -31,7 +31,7 @@ class HStatic {
 
     static boolean nextWeek() {
         // function to return true if day = saturday.
-        // used for determining if the next week should be shown instead of current week (as classes finish on friday)
+        // used for determining if the next weekview should be shown instead of current weekview (as classes finish on friday)
         if (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) return true;
         else return false;
     }

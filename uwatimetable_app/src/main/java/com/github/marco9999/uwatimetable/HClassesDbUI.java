@@ -64,7 +64,7 @@ public class HClassesDbUI {
 				}
 			} else {
 				// what the hell did we run into? return true to be safe.
-				Log.i(LogTag.APP, "Unknown class week encounted, returning true: " + weektocheck);
+				Log.i(LogTag.APP, "Unknown class weekview encounted, returning true: " + weektocheck);
 				return true;
 			}
 		} else {
@@ -181,7 +181,7 @@ public class HClassesDbUI {
 
     String[] readUpcomingClass(String[] typearray, int currentweek) {
         // TODO: revise function.
-        final int ARB_HIGH_WEEK = 60; // arbitrary high week (see below)
+        final int ARB_HIGH_WEEK = 60; // arbitrary high weekview (see below)
         final int ARB_HIGH_DAY = 10;
         final int ARB_HIGH_TIME = 30;
 
@@ -206,7 +206,7 @@ public class HClassesDbUI {
             return null;
         }
 
-        // if not then add earliest result after current week, day and time to hashmap.
+        // if not then add earliest result after current weekview, day and time to hashmap.
         // need to iterate to find the earliest... probably very expensive performance wise.
         int earlistclassidx = -1;
 
@@ -284,7 +284,7 @@ public class HClassesDbUI {
         final int END_SEM2 = 44;
 
         final int NOT_UPCOMING = -1;
-        final int ARB_HIGH_WEEK = 60; // arbitrary high week (see below)
+        final int ARB_HIGH_WEEK = 60; // arbitrary high weekview (see below)
 
         int EXT_WEEK = 0;
         if (ispassedforweek) EXT_WEEK = 1;
@@ -314,14 +314,14 @@ public class HClassesDbUI {
                     return NOT_UPCOMING;
                 }
             } else {
-                // what the hell did we run into? return current week to be safe.
-                Log.i(LogTag.APP, "Unknown class week encounted, returning upcoming week (" + (currentweek + EXT_WEEK) + "): " + weektocheck);
+                // what the hell did we run into? return current weekview to be safe.
+                Log.i(LogTag.APP, "Unknown class weekview encounted, returning upcoming weekview (" + (currentweek + EXT_WEEK) + "): " + weektocheck);
                 return (currentweek + EXT_WEEK);
             }
         } else {
             // Check for ranges or individual weeks: ie: 42-45,47-48 or 10,42 or 11 etc..
             String[] ranges = weektochecklc.split(",");
-            int lowestlimit = ARB_HIGH_WEEK; // start at arbitrary high week to make sure every class will be lower than it initially.
+            int lowestlimit = ARB_HIGH_WEEK; // start at arbitrary high weekview to make sure every class will be lower than it initially.
             for (String indranges : ranges) {
                 if (indranges.contains("-")) {
                     String[] indweeks = indranges.split("-");
