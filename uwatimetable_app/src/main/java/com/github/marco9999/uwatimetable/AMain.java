@@ -23,13 +23,15 @@ public class AMain extends Activity {
     ListView drawerlist;
     DrawerLayout drawerlayout;
 
+    private SQLiteDatabase mDB;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		// create db member and make it writeable
         HClassesDbSQL dbhelpersql = new HClassesDbSQL(this);
-		SQLiteDatabase mDB = dbhelpersql.getWritableDatabase();
+		mDB = dbhelpersql.getWritableDatabase();
 
 		// ui helper class
 		dbhelperui = new HClassesDbUI(mDB, this);
@@ -132,6 +134,13 @@ public class AMain extends Activity {
         super.onConfigurationChanged(newConfig);
         drawertoggle.onConfigurationChanged(newConfig);
     }
+
+    @Override
+    public void onDestroy() {
+        mDB.close(); // stop leaking the reference.
+        super.onDestroy();
+    }
+
 
     /*@Override
     public void onBackPressed() {

@@ -203,6 +203,7 @@ public class HClassesDbUI {
         // check if empty
         if (!dbcursor.moveToFirst()) {
             // no matches were found, return null
+            dbcursor.close();
             return null;
         }
 
@@ -263,13 +264,17 @@ public class HClassesDbUI {
         }
 
         // check if no classes matched
-        if (earlistclassidx == -1) return null;
+        if (earlistclassidx == -1) {
+            dbcursor.close();
+            return null;
+        }
 
         // else move back to earlist position index, and create string array from it
         dbcursor.moveToPosition(earlistclassidx);
         String[] classstr = createClassStrArrayFromCursor(dbcursor);
         Log.i(LogTag.APP, "Returned earliest class for " + typearray[0] + ": " + Arrays.deepToString(classstr));
 
+        dbcursor.close();
         return classstr;
     }
 
