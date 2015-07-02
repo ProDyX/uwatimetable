@@ -35,12 +35,13 @@ class HStatic {
         return Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
     }
 
-    static boolean nextWeek() {
-        // function to return true if day = saturday.
-        // used for determining if the next weekview should be shown instead of current weekview (as classes finish on friday)
-        if (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) return true;
-        else return false;
-    }
+    // NO LONGER NEEDED?
+//    static boolean nextWeek() {
+//        // function to return true if day = saturday.
+//        // used for determining if the next weekview should be shown instead of current weekview (as classes finish on friday)
+//        if (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) return true;
+//        else return false;
+//    }
 
     static int getHourOfDayInt() {
         return Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
