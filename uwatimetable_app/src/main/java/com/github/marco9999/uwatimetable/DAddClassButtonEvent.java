@@ -16,10 +16,25 @@ public class DAddClassButtonEvent extends DialogFragment {
     private String[] data;
     private AMain mainactivity;
 
+    final static String KEY_DATA = "data";
+
     public static DAddClassButtonEvent newInstance(String[] classdata) {
         DAddClassButtonEvent dialog = new DAddClassButtonEvent();
         dialog.data = classdata;
         return dialog;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putStringArray(KEY_DATA, data);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // handle config change
+        if (savedInstanceState != null) data = savedInstanceState.getStringArray(KEY_DATA);
     }
 
     @Override
