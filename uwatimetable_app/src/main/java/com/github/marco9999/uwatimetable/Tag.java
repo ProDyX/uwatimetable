@@ -4,6 +4,7 @@ package com.github.marco9999.uwatimetable;
  * Created by Satti on 2/08/2014.
  */
 public class Tag {
+    static final String H_FRAGMENT_DATA = "H_Fragment_data";
     static final String FRAGMENT_MANUAL_ENTRY = "Manual_entry";
     static final String FRAGMENT_DELETE_ENTRY = "Delete_entry";
     static final String FRAGMENT_WEBVIEW_OLCR = "Webview_olcr";
@@ -14,4 +15,5 @@ public class Tag {
 
     static final String DIALOG_WEEK = "Dialog_week";
     static final String DIALOG_DELSELID = "Dialog_delselid";
+    static final String DIALOG_HTTPSSTATUS = "Dialog_httpsstatus";
 }

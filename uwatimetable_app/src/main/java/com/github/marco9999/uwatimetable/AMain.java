@@ -1,6 +1,7 @@
 package com.github.marco9999.uwatimetable;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -70,14 +71,25 @@ public class AMain extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-        // dont reinitialise fragment if its a configuration change
+        // get fragment manager
+        FragmentManager fm = getFragmentManager();
+
+        // find the data fragment on activity restarts, and create if first time run.
+        HDataFragment dataFragment = (HDataFragment) fm.findFragmentByTag(Tag.H_FRAGMENT_DATA);
+        if (dataFragment == null) {
+            // add the fragment
+            dataFragment = new HDataFragment();
+            fm.beginTransaction().add(dataFragment, Tag.H_FRAGMENT_DATA).commit();
+        }
+
+        // dont reinitialise main fragment if its a configuration change
 		if (savedInstanceState != null) {
 			return;
 		}
 		
 		// add main overview fragment (default screen)
 		FMainOverview mainoverviewfrag = new FMainOverview();
-		getFragmentManager().beginTransaction().add(R.id.fragment_holder, mainoverviewfrag, Tag.FRAGMENT_OVERVIEW).commit();
+		fm.beginTransaction().add(R.id.fragment_holder, mainoverviewfrag, Tag.FRAGMENT_OVERVIEW).commit();
         drawerlist.setItemChecked(0, true); // set the default fragment (overview) to be checked in nav drawer
 	}
 	

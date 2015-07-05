@@ -4,21 +4,25 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class DHttpsOLCRStatus extends DialogFragment implements View.OnClickListener {
-    final private String KEY_ISCLIENTRUNNING = "isClientRunning";
 
     private AMain mainactivity;
     private String username;
     private String password;
-    private boolean isClientRunning = false;
     Button b_ok;
     TextView console;
+    private boolean hasrun = false;
+
+    final static String KEY_HASRUN = "hasrun";
 
     public static DHttpsOLCRStatus newInstance(String[] data) {
         DHttpsOLCRStatus dialog = new DHttpsOLCRStatus();
@@ -27,29 +31,33 @@ public class DHttpsOLCRStatus extends DialogFragment implements View.OnClickList
         return dialog;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState); // Always call the superclass first
 
-        if(savedInstanceState != null) {
-            isClientRunning = savedInstanceState.getBoolean(KEY_ISCLIENTRUNNING);
-        }
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        ((HDataFragment)getFragmentManager().findFragmentByTag(Tag.H_FRAGMENT_DATA)).olcr_https_status = this;
+        if (savedInstanceState != null) hasrun = savedInstanceState.getBoolean(KEY_HASRUN);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (!isClientRunning) {
-            openURLConnection();
-            isClientRunning = true; // only want to run it once anyway.
-        }
-    }
+        HDataFragment data = (HDataFragment)getFragmentManager().findFragmentByTag(Tag.H_FRAGMENT_DATA);
+        if (data.olcr_https_client == null) {
+            if (!hasrun) {
+                data.olcr_https_client = new HClassesHttpsOlcrImporter(mainactivity.dbhelperui, getFragmentManager());
+                data.olcr_https_client.execute(username, password); // varargs array... not sure I like this way.
+                hasrun = true;
+            }
+        } else {
+            // god what a clusterfuck of code this is... race conditions...
+            // if a config changed happened, need to make sure something is displayed on the ui for the user, if all update methods fail from the ASyncTask.
+            if (data.olcr_https_client.isfinished) {
+                Log.d(LogTag.APP, "consoletext: " + data.olcr_https_client.consoletext);
+                console.setText(Html.fromHtml(data.olcr_https_client.consoletext));
+                b_ok.setClickable(true);
+            }
 
-    @Override
-    public void onClick(View v) {
-        int viewid = v.getId();
-        if (viewid == R.id.status_olcr_ok) {
-            dismiss();
         }
     }
 
@@ -74,15 +82,42 @@ public class DHttpsOLCRStatus extends DialogFragment implements View.OnClickList
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putBoolean(KEY_ISCLIENTRUNNING, isClientRunning);
-        // Always call the superclass so it can save the view hierarchy state
-        super.onSaveInstanceState(savedInstanceState);
+    public void onDestroyView() {
+        // reset all once they exit
+        HDataFragment data = (HDataFragment) getFragmentManager().findFragmentByTag(Tag.H_FRAGMENT_DATA);
+        data.olcr_https_status = null;
+        if (!getActivity().isChangingConfigurations()) {
+            if (data.olcr_https_client != null) {
+                if (data.olcr_https_client.isfinished) {
+                    data.olcr_https_client = null;
+                }
+            }
+        }
+        super.onDestroyView();
     }
 
-    void openURLConnection() {
-        new HClassesHttpsOlcrImporter(mainactivity.dbhelperui, this).execute(username, password); // varargs array... not sure I like this way.
+    @Override
+    public void onClick(View v) {
+        int viewid = v.getId();
+        if (viewid == R.id.status_olcr_ok) {
+            dismiss();
+        }
     }
 
+    @Override
+    public void onDismiss(final DialogInterface dialog) {
+        super.onDismiss(dialog);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(KEY_HASRUN, hasrun);
+    }
 
 }

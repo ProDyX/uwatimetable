@@ -65,7 +65,7 @@ public class DHttpsOLCRActionEvent extends DialogFragment implements View.OnClic
 
         // bring up new dialog
         DHttpsOLCRStatus client = DHttpsOLCRStatus.newInstance(new String[] {username, password});
-        client.show(mainactivity.getFragmentManager(), null);
+        client.show(mainactivity.getFragmentManager(), Tag.DIALOG_HTTPSSTATUS);
     }
 
 }

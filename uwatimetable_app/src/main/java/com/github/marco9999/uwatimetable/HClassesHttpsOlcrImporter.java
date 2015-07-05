@@ -1,7 +1,9 @@
 package com.github.marco9999.uwatimetable;
 
+import android.app.FragmentManager;
 import android.content.ContentValues;
 import android.os.AsyncTask;
+import android.text.Html;
 import android.util.Log;
 
 import com.github.marco9999.htmlparserolcr.EOlcrHtmlParser;
@@ -18,11 +20,14 @@ import javax.net.ssl.HttpsURLConnection;
 class HClassesHttpsOlcrImporter extends AsyncTask<String, String, Void> {
 
 	private final HClassesDbUI db;
-    private final DHttpsOLCRStatus callback;
+    private final FragmentManager fmanager;
+    String consoletext = "";
+    final Object lock = new Object();
+    boolean isfinished = false;
 
-	HClassesHttpsOlcrImporter(HClassesDbUI _db, DHttpsOLCRStatus _callback) {
+	HClassesHttpsOlcrImporter(HClassesDbUI _db, FragmentManager _fmanager) {
 		db = _db;
-        callback = _callback;
+        fmanager = _fmanager;
 	}
 
 	@Override
@@ -59,7 +64,12 @@ class HClassesHttpsOlcrImporter extends AsyncTask<String, String, Void> {
 
             // send data and get response code
             int code = initconnection.getResponseCode();
-            publishProgress("Initial Connection Code: " + Integer.toString(code));
+            if (code == 302) {
+                publishProgress("Initial connection code: <font color=\"#00FF00\">" + Integer.toString(code) + "</font>"); // expect 302 - moved
+            } else {
+                publishProgress("Initial connection code: <font color=\"#FF0000\">" + Integer.toString(code) + "</font>");
+                throw new Exception("Connection code returned was: <font color=\"#FF0000\">" + Integer.toString(code) + "</font><br>This is probably caused by UWA.");
+            }
 
             // get response headers
             Map<String, List<String>> initheader = initconnection.getHeaderFields();
@@ -69,7 +79,7 @@ class HClassesHttpsOlcrImporter extends AsyncTask<String, String, Void> {
             String cookiestr = getcookie.get(0);
             String[] cookiearray = cookiestr.split(";");
             String jsessionid = cookiearray[0];
-            publishProgress("Got Session ID!");
+            publishProgress("Got session ID!");
 
             // above should return 302 temp redirect -> get location header
             List<String> getlocation = initheader.get("Location");
@@ -80,7 +90,7 @@ class HClassesHttpsOlcrImporter extends AsyncTask<String, String, Void> {
             Thread.sleep(100);
 
             // get new url
-            publishProgress("Get units page...");
+            publishProgress("Getting units page.");
             URL units = new URL(templocation);
             HttpsURLConnection unitsconnection = (HttpsURLConnection) units.openConnection();
             unitsconnection.setInstanceFollowRedirects(false);
@@ -92,14 +102,19 @@ class HClassesHttpsOlcrImporter extends AsyncTask<String, String, Void> {
 
             // send
             int code1 = unitsconnection.getResponseCode();
-            publishProgress("Units Connection Code: " + Integer.toString(code1));
+            if (code1 == 200) {
+                publishProgress("Units connection code: <font color=\"#00FF00\">" + Integer.toString(code1) + "</font>"); // expect 200 - ok
+            } else {
+                publishProgress("Units connection code: <font color=\"#FF0000\">" + Integer.toString(code1) + "</font>");
+                throw new Exception("Connection code returned was: <font color=\"#FF0000\">" + Integer.toString(code1) + "</font><br>This is probably caused by UWA.");
+            }
 
             // sleep for a bit, too fast for the remote server? (not sure but seems to fix)
             publishProgress("Wait for a bit...");
             Thread.sleep(100);
 
             // get allocs url
-            publishProgress("Get allocs page...");
+            publishProgress("Getting allocations page.");
             String allocsurl = "https://" + baseserver + "/olcrstudent/studenttimetable.jsp?v_deptid=null&v_unitid=null&v_studentid=" + params[0] + "&v_groupid=none&v_fontsize=10&v_action=2";
             URL allocs = new URL(allocsurl);
             HttpsURLConnection allocsconnection = (HttpsURLConnection) allocs.openConnection();
@@ -112,7 +127,12 @@ class HClassesHttpsOlcrImporter extends AsyncTask<String, String, Void> {
 
             // send
             int code2 = allocsconnection.getResponseCode();
-            publishProgress("Allocs Connection Code: " + Integer.toString(code2));
+            if (code2 == 200) {
+                publishProgress("Allocations connection code: <font color=\"#00FF00\">" + Integer.toString(code2) + "</font>"); // expect 200 - ok
+            } else {
+                publishProgress("Allocations connection code: <font color=\"#FF0000\">" + Integer.toString(code2) + "</font>");
+                throw new Exception("Connection code returned was: <font color=\"#FF0000\">" + Integer.toString(code2) + "</font><br>This is probably caused by UWA.");
+            }
 
             // write allocs page to string
             StringBuilder allocshtml = new StringBuilder();
@@ -150,23 +170,41 @@ class HClassesHttpsOlcrImporter extends AsyncTask<String, String, Void> {
                 // failed
                 publishProgress("Failed to add classes. Please notify developer!");
             }
+            isfinished = true;
             return null;
         } catch (Exception ex) {
-            publishProgress("\nSomething went wrong, check Username and Password. UWA may also be experiencing issues. Tell the developer this message:");
+            publishProgress("");
+            publishProgress("Something went wrong, please check Student ID and Password. UWA may also be experiencing issues. Tell the developer this message:");
             publishProgress(ex.getMessage());
+            isfinished = true;
             return null;
         }
 	}
 
 	@Override
 	protected void onPostExecute(Void result) {
-        callback.b_ok.setClickable(true);
+        try {
+            DHttpsOLCRStatus status = ((HDataFragment)fmanager.findFragmentByTag(Tag.H_FRAGMENT_DATA)).olcr_https_status;
+            status.b_ok.setClickable(true);
+            status.console.setText(Html.fromHtml(consoletext));
+        } catch (NullPointerException ex) {
+            Log.d(LogTag.OLCR_HTTPS, "Tried to access status fragment members but was null!");
+        }
 	}
 
 	@Override
 	protected void onProgressUpdate(String... result) {
-        String oldtext = callback.console.getText().toString();
-        String newtext = oldtext + System.getProperty("line.separator") + result[0];
-        callback.console.setText(newtext);
+        // due to race condition with fringe case involving configuration change, need to check to make sure nothing is null first of all. (timing/order is undefined according to docs for onProgUpd)
+        // in case there is a null reference, we will not print the message, but store it locally and try again next time there is a progress update call.
+        // finally, an update will be invoked from the original dialog, in case all else fails.
+        consoletext = consoletext + result[0] + "<br>";
+        Log.d(LogTag.OLCR_HTTPS, "consoletext: " + consoletext);
+
+        try {
+            DHttpsOLCRStatus status = ((HDataFragment)fmanager.findFragmentByTag(Tag.H_FRAGMENT_DATA)).olcr_https_status;
+            status.console.setText(Html.fromHtml(consoletext));
+        } catch (NullPointerException ex) {
+            Log.d(LogTag.OLCR_HTTPS, "Tried to print but console var was null! Try again later.");
+        }
 	}
 }
