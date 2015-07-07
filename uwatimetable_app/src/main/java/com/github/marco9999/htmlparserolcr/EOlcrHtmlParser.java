@@ -10,6 +10,24 @@ import org.jsoup.safety.Whitelist;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**  htmlparserolcr/EOlcrHtmlParser: Engine class responsible for parsing given html into readable strings for the database functions.
+ *    Copyright (C) 2015 Marco Satti
+ *    Contact: marcosatti@gmail.com
+ *
+ *    This program is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU General Public License as published by
+ *    the Free Software Foundation, either version 3 of the License, or
+ *    (at your option) any later version.
+ *
+ *    This program is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ *    You should have received a copy of the GNU General Public License
+ *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 public class EOlcrHtmlParser {
 	
 	// Uses the Jsoup library.
@@ -31,7 +49,7 @@ public class EOlcrHtmlParser {
 		// Clean the html string using Jsoup
 		String html = Jsoup.clean(dirtyhtml, Whitelist.relaxed());
 		
-		// LOOKAT: Too hard (read: lazy) to workout dimension dynamically so just allocate more than enough rows
+		// TODO: Too hard (read: lazy) to workout dimension dynamically so just allocate more than enough rows
 		// In theory max rows should be 1 (header) + 24 (hours) = 25 rows, but not urgent.
 		String[][] finaltable = new String[64][]; 		
 		

@@ -185,6 +185,7 @@ class HClassesHttpsOlcrImporter extends AsyncTask<String, String, Void> {
 
 	@Override
 	protected void onPostExecute(Void result) {
+        // update the dialog with info for a final time, in case something happened.
         try {
             final DHttpsOLCRStatus status = ((HDataFragment)fmanager.findFragmentByTag(Tag.H_FRAGMENT_DATA)).olcr_https_status;
             status.b_ok.setClickable(true);
@@ -202,12 +203,11 @@ class HClassesHttpsOlcrImporter extends AsyncTask<String, String, Void> {
 
 	@Override
 	protected void onProgressUpdate(String... result) {
+        // update the dialog with info for the user.
         // due to race condition with fringe case involving configuration change, need to check to make sure nothing is null first of all. (timing/order is undefined according to docs for onProgUpd)
         // in case there is a null reference, we will not print the message, but store it locally and try again next time there is a progress update call.
         // finally, an update will be invoked from the original dialog, in case all else fails.
         consoletext = consoletext + result[0] + "<br>";
-        Log.d(LogTag.OLCR_HTTPS, "consoletext: " + consoletext);
-
         try {
             final DHttpsOLCRStatus status = ((HDataFragment)fmanager.findFragmentByTag(Tag.H_FRAGMENT_DATA)).olcr_https_status;
             status.console.setText(Html.fromHtml(consoletext));
