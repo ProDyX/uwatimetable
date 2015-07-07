@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.os.AsyncTask;
 import android.text.Html;
 import android.util.Log;
+import android.view.View;
 
 import com.github.marco9999.htmlparserolcr.EOlcrHtmlParser;
 
@@ -170,6 +171,7 @@ class HClassesHttpsOlcrImporter extends AsyncTask<String, String, Void> {
                 // failed
                 publishProgress("Failed to add classes. Please notify developer!");
             }
+
             isfinished = true;
             return null;
         } catch (Exception ex) {
@@ -184,9 +186,15 @@ class HClassesHttpsOlcrImporter extends AsyncTask<String, String, Void> {
 	@Override
 	protected void onPostExecute(Void result) {
         try {
-            DHttpsOLCRStatus status = ((HDataFragment)fmanager.findFragmentByTag(Tag.H_FRAGMENT_DATA)).olcr_https_status;
+            final DHttpsOLCRStatus status = ((HDataFragment)fmanager.findFragmentByTag(Tag.H_FRAGMENT_DATA)).olcr_https_status;
             status.b_ok.setClickable(true);
             status.console.setText(Html.fromHtml(consoletext));
+            status.scroll.post(new Runnable() {
+                @Override
+                public void run() {
+                    status.scroll.fullScroll(View.FOCUS_DOWN);
+                }
+            });
         } catch (NullPointerException ex) {
             Log.d(LogTag.OLCR_HTTPS, "Tried to access status fragment members but was null!");
         }
@@ -201,8 +209,14 @@ class HClassesHttpsOlcrImporter extends AsyncTask<String, String, Void> {
         Log.d(LogTag.OLCR_HTTPS, "consoletext: " + consoletext);
 
         try {
-            DHttpsOLCRStatus status = ((HDataFragment)fmanager.findFragmentByTag(Tag.H_FRAGMENT_DATA)).olcr_https_status;
+            final DHttpsOLCRStatus status = ((HDataFragment)fmanager.findFragmentByTag(Tag.H_FRAGMENT_DATA)).olcr_https_status;
             status.console.setText(Html.fromHtml(consoletext));
+            status.scroll.post(new Runnable() {
+                @Override
+                public void run() {
+                    status.scroll.fullScroll(View.FOCUS_DOWN);
+                }
+            });
         } catch (NullPointerException ex) {
             Log.d(LogTag.OLCR_HTTPS, "Tried to print but console var was null! Try again later.");
         }

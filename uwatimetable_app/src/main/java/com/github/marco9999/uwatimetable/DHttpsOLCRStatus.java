@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class DHttpsOLCRStatus extends DialogFragment implements View.OnClickListener {
@@ -20,6 +21,7 @@ public class DHttpsOLCRStatus extends DialogFragment implements View.OnClickList
     private String password;
     Button b_ok;
     TextView console;
+    ScrollView scroll;
     private boolean hasrun = false;
 
     final static String KEY_HASRUN = "hasrun";
@@ -56,6 +58,12 @@ public class DHttpsOLCRStatus extends DialogFragment implements View.OnClickList
                 Log.d(LogTag.APP, "consoletext: " + data.olcr_https_client.consoletext);
                 console.setText(Html.fromHtml(data.olcr_https_client.consoletext));
                 b_ok.setClickable(true);
+                scroll.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        scroll.fullScroll(View.FOCUS_DOWN);
+                    }
+                });
             }
 
         }
@@ -71,6 +79,7 @@ public class DHttpsOLCRStatus extends DialogFragment implements View.OnClickList
         ViewGroup vg = (ViewGroup) mainactivity.getLayoutInflater().inflate(R.layout.status_olcr_dialog, null);
         b_ok = (Button) vg.findViewById(R.id.status_olcr_ok);
         console = (TextView) vg.findViewById(R.id.status_olcr_text);
+        scroll = (ScrollView) vg.findViewById(R.id.status_olcr_scoll);
         b_ok.setOnClickListener(this);
 
         // build alert to verify

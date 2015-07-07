@@ -26,7 +26,7 @@
     <string name="title_actions_overview_prefs">Overview Preferences</string>
 
     <string name="title_option_save_day_week">Save day and week on exit</string>
-    <string name="summary_option_save_day_week">Save the day and week values upon exit of Overview</string>
+    <string name="summary_option_save_day_week">Save the day and week values upon exit of Overview.</string>
     
     <string name="title_actions_debug">Debug and Developer Options</string>
 

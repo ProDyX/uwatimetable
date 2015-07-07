@@ -5,14 +5,15 @@
     android:layout_height="match_parent">
 
     <ScrollView
+        android:id="@+id/status_olcr_scoll"
         android:layout_width="match_parent"
-        android:layout_height="150dp" >
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true" >
 
         <TextView android:id="@+id/status_olcr_text"
             android:layout_width="match_parent"
-            android:minLines="11"
-            android:layout_height="wrap_content"
-            android:freezesText="true" />
+            android:layout_height="wrap_content" />
 
     </ScrollView>
 
@@ -24,8 +25,7 @@
 
         <Button
             android:id="@+id/status_olcr_ok"
-            android:layout_weight="1"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/ok"
             style="?android:attr/buttonBarButtonStyle"
