@@ -8,7 +8,7 @@ This project is still largely a WIP, and I have also used it as a learning platf
 
 License:
 
-GNU GPL v3
+GNU GPL v3 (SEE "LICENSE")
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
