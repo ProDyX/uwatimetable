@@ -46,35 +46,32 @@ public class HClassesDbUI {
 		if (mainactivity.uisharedpref.getBoolean(Key.DISPLAYALLCLASSES, false)) {
 			return true;
 		}
-		
-		// Constants
-		// TODO: hardcoded values... need to see if we can pull from website (probably too much code to bother with)
-		final int START_SEM1 = 9;
-		final int END_SEM1 = 22;
-		final int START_SEM2 = 31;
-		final int END_SEM2 = 44;
-		
+
 		String weektochecklc = weektocheck.toLowerCase(); 
 		if (weektochecklc.contains("sem")) {
 			// which semester?
 			String semester = weektochecklc.substring(3, 4);
 			if (semester.equals("1")) {
-				if (currentweek >= START_SEM1 && currentweek <= END_SEM1) {
+				if (currentweek >= ClassesFields.START_SEM1_WEEK && currentweek <= ClassesFields.END_SEM1_WEEK) {
                     //noinspection SimplifiableIfStatement
                     if (weektochecklc.contains("w2")) {
-                        return !(currentweek == START_SEM1);
-					} else {
+                        return !(currentweek == ClassesFields.START_SEM1_WEEK);
+					} else if (weektochecklc.contains("w3")) {
+                        return !((currentweek == (ClassesFields.START_SEM1_WEEK+1)) || (currentweek == ClassesFields.START_SEM1_WEEK));
+                    } else {
 						return true;
 					}
 				} else {
 					return false;
 				}
 			} else if (semester.equals("2")) {
-				if (currentweek >= START_SEM2 && currentweek <= END_SEM2) {
+				if (currentweek >= ClassesFields.START_SEM2_WEEK && currentweek <= ClassesFields.END_SEM2_WEEK) {
                     //noinspection SimplifiableIfStatement
                     if (weektochecklc.contains("w2")) {
-						return !(currentweek == START_SEM2);
-					} else {
+						return !(currentweek == ClassesFields.START_SEM2_WEEK);
+					} else if (weektochecklc.contains("w3")) {
+                        return !((currentweek == (ClassesFields.START_SEM2_WEEK+1)) || (currentweek == ClassesFields.START_SEM2_WEEK));
+                    } else {
 						return true;
 					}
 				} else {
@@ -82,7 +79,7 @@ public class HClassesDbUI {
 				}
 			} else {
 				// what the hell did we run into? return true to be safe.
-				Log.i(LogTag.APP, "Unknown class weekview encounted, returning true: " + weektocheck);
+				Log.i(LogTag.APP, "Unknown class week encountered, returning true: " + weektocheck);
 				return true;
 			}
 		} else {

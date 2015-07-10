@@ -135,6 +135,9 @@ public class AMain extends Activity {
 					.commit();
 			}
 			return true;
+        case android.R.id.home:
+            onBackPressed();
+            return true;
 		default: 
 			return false;
 		}

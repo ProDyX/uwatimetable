@@ -50,8 +50,8 @@ public class FHelp extends Fragment
         AMain mainactivity = (AMain) getActivity();
         mainactivity.drawerlayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         mainactivity.drawertoggle.setDrawerIndicatorEnabled(false);
-        mainactivity.getActionBar().setHomeButtonEnabled(false);
-        mainactivity.getActionBar().setDisplayHomeAsUpEnabled(false);
+        //mainactivity.getActionBar().setHomeButtonEnabled(false);
+        //mainactivity.getActionBar().setDisplayHomeAsUpEnabled(false);
     	
 		// load help
 		helpview.setWebViewClient(new WebViewClient() {
@@ -71,8 +71,8 @@ public class FHelp extends Fragment
         AMain mainactivity = (AMain) getActivity();
         mainactivity.drawerlayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         mainactivity.drawertoggle.setDrawerIndicatorEnabled(true);
-        mainactivity.getActionBar().setHomeButtonEnabled(true);
-        mainactivity.getActionBar().setDisplayHomeAsUpEnabled(true);
+        //mainactivity.getActionBar().setHomeButtonEnabled(true);
+        //mainactivity.getActionBar().setDisplayHomeAsUpEnabled(true);
         super.onStop();
     }
 }

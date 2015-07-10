@@ -82,4 +82,11 @@ final class ClassesFields implements BaseColumns {
 
     final static String[][] TYPE_CLASSES_ARRAY = {TYPE_LECTURES, TYPE_LABORATORYS, TYPE_TUTORIALS, TYPE_PRACTICALS, TYPE_SEMINARS, TYPE_WORKSHOPS, TYPE_OTHERS};
 
+    // Week constants
+    // TODO: hardcoded values... need to see if we can pull from website (probably too much code to bother with)
+    final static int START_SEM1_WEEK = 9;
+    final static int END_SEM1_WEEK = 22;
+    final static int START_SEM2_WEEK = 31;
+    final static int END_SEM2_WEEK = 44;
+
 }
