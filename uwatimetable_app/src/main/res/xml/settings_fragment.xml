@@ -63,10 +63,13 @@
     <PreferenceCategory 
         android:title="@string/title_actions_debug"
         android:key="actions_debug" >
+        <!--
         <Preference 
             android:key="action_test_entry"
             android:summary="@string/summary_action_test_entry"
-            android:title="@string/title_action_test_entry" />
+            android:title="@string/title_action_test_entry"
+            android:enabled="false" />
+        -->
         <CheckBoxPreference 
             android:key="option_display_id"
             android:defaultValue="false"

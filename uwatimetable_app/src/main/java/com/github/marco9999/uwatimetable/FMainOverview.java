@@ -50,19 +50,19 @@ public class FMainOverview extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        Log.d(LogTag.APP, "%%% onAttach called %%%");
+        //Log.d(LogTag.APP, "%%% onAttach called %%%");
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        Log.d(LogTag.APP, "%%% onCreate called %%%");
+        //Log.d(LogTag.APP, "%%% onCreate called %%%");
 		setHasOptionsMenu(true);
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(LogTag.APP, "%%% create view called %%%");
+        //Log.d(LogTag.APP, "%%% create view called %%%");
 		// inflate view to use
 		ViewGroup vg = (ViewGroup) inflater.inflate(R.layout.main_overview_fragment, container, false);
 		
@@ -81,7 +81,7 @@ public class FMainOverview extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 	    super.onActivityCreated(savedInstanceState);
-        Log.d(LogTag.APP, "%%% activity created called %%%");
+        //Log.d(LogTag.APP, "%%% activity created called %%%");
 	    
 		// get root activity needed for some Android functions
 		mainactivity = (AMain) this.getActivity();
@@ -111,14 +111,14 @@ public class FMainOverview extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Log.d(LogTag.APP, "%%% start called %%%");
+        //Log.d(LogTag.APP, "%%% start called %%%");
     }
 
 	@Override
 	public void onResume() {
 		super.onResume();
 
-        Log.d(LogTag.APP, "%%% resume called %%%");
+        //Log.d(LogTag.APP, "%%% resume called %%%");
 
 		// set title
     	mainactivity.getActionBar().setSubtitle(R.string.title_overview);
@@ -136,7 +136,7 @@ public class FMainOverview extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        Log.d(LogTag.APP, "%%% on save called %%%");
+        //Log.d(LogTag.APP, "%%% on save called %%%");
         // save day and week on config change
         // need to check if its null because of fringe cases involving orientation changes and different fragments
         if (dayadapter != null && weekadapter != null) {
@@ -257,7 +257,7 @@ public class FMainOverview extends Fragment {
 
     @Override
     public void onPause() {
-        Log.d(LogTag.APP, "%%% pause called %%%");
+        //Log.d(LogTag.APP, "%%% pause called %%%");
 
         // save day and weekview if enabled
         if(mainactivity.uisharedpref.getBoolean(Key.SAVEDAYWEEK, false)) {
@@ -273,25 +273,25 @@ public class FMainOverview extends Fragment {
 
     @Override
     public void onStop() {
-        Log.d(LogTag.APP, "%%% stop called %%%");
+        //Log.d(LogTag.APP, "%%% stop called %%%");
         super.onStop();
     }
 
 	@Override
 	public void onDestroyView() {
-		Log.d(LogTag.APP, "%%% destroy view called %%%");
+		//Log.d(LogTag.APP, "%%% destroy view called %%%");
 		super.onDestroyView();
 	}
 
 	@Override
 	public void onDestroy() {
-		Log.d(LogTag.APP, "%%% destroy called %%%");
+		//Log.d(LogTag.APP, "%%% destroy called %%%");
 		super.onDestroy();
 	}
 
     @Override
     public void onDetach() {
-        Log.d(LogTag.APP, "%%% detach called %%%");
+        //Log.d(LogTag.APP, "%%% detach called %%%");
         super.onDetach();
     }
 }

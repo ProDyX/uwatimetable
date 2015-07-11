@@ -56,7 +56,7 @@ public class FSettings extends PreferenceFragment implements OnPreferenceClickLi
         this.findPreference(p_action_manual_entry).setOnPreferenceClickListener(this);
         this.findPreference(p_action_delete_database).setOnPreferenceClickListener(this);
         this.findPreference(p_action_delete_selected_entries).setOnPreferenceClickListener(this);
-        this.findPreference(p_action_test_entry).setOnPreferenceClickListener(this);
+        //this.findPreference(p_action_test_entry).setOnPreferenceClickListener(this);
     }
     
     @Override
